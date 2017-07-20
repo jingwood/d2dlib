@@ -16,7 +16,7 @@ Direct2D wrapper library for .NET applications.
 1. Compile every projects or use the DLLs from the binary folder directly
 2. Add `d2dlibexport.dll` and `d2dlibwinform.dll` as your project references
 3. Put `d2dlib.dll` in the `Debug`, `Release` or folder where your application runs
-4. Inhert your windows form or control from `D2DForm` or `D2DControl` class
+4. Make your windows form or control inherited from `D2DForm` or `D2DControl` class
 5. Override `OnRender(D2DGraphics g)` method (do not override .NET `OnPaint` method)
 6. Draw anything inside `OnRender` method via the `g` context
 
