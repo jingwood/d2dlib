@@ -203,7 +203,7 @@ void DrawBitmapRenderTarget(HANDLE ctx, HANDLE bitmapRenderTargetHandle, D2D1_RE
 		bitmapRenderTargetContext->bitmapRenderTarget->GetBitmap(&bitmapRenderTargetContext->bitmap);
 	}
 
-	context->renderTarget->DrawBitmap(bitmapRenderTargetContext->bitmap, rect);
+	context->renderTarget->DrawBitmap(bitmapRenderTargetContext->bitmap, rect, opacity, interpolationMode);
 }
 
 HANDLE GetBitmapRenderTargetBitmap(HANDLE bitmapRenderTargetHandle)
