@@ -37,3 +37,7 @@ protected override void OnRender(D2DGraphics g)
 ```csharp
 g.DrawText("Hello World", D2DColor.Yellow, this.Font, 100, 200);
 ```
+
+# Snapshots
+
+![Used for software 3D Engine rendering](http://necotech.org/wp-content/uploads/2017/07/d2dlib_s1.png)
