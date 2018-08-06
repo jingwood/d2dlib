@@ -84,8 +84,7 @@
       <AdditionalDependencies>d2d1.lib;dwrite.lib;windowscodecs.lib;dxgi.lib;d3d10_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy $(TargetPath) $(SolutionDir)..\binary\x86-build\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

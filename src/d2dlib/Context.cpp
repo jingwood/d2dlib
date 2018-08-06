@@ -110,16 +110,20 @@ void SetContextProperties(HANDLE ctx, D2D1_ANTIALIAS_MODE antialiasMode)
 	context->renderTarget->SetAntialiasMode(antialiasMode);
 }
 
-void BeginRender(HANDLE ctx, D2D1_COLOR_F backColor)
+void BeginRender(HANDLE ctx)
+{
+	RetrieveContext(ctx);
+
+	context->renderTarget->BeginDraw();
+}
+
+void BeginRenderWithBackgroundColor(HANDLE ctx, D2D1_COLOR_F backColor)
 {
 	RetrieveContext(ctx);
 
 	context->renderTarget->BeginDraw();
 
-	if (backColor.a > 0)
-	{
-		context->renderTarget->Clear(backColor);
-	}
+	context->renderTarget->Clear(backColor);
 }
 
 void BeginRenderWithBackgroundBitmap(HANDLE ctx, HANDLE bitmap)
@@ -133,6 +137,13 @@ void BeginRenderWithBackgroundBitmap(HANDLE ctx, HANDLE bitmap)
 	D2D1_RECT_F destRect = {0, 0, size.width, size.height};
 
 	context->renderTarget->DrawBitmap(d2dbitmap, &destRect);
+}
+
+void Clear(HANDLE ctx, D2D1_COLOR_F color)
+{
+	RetrieveContext(ctx);
+
+	context->renderTarget->Clear(color);
 }
 
 void EndRender(HANDLE ctx)

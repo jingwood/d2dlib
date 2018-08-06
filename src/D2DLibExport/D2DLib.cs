@@ -28,16 +28,18 @@ namespace unvell.D2DLib
 		[DllImport("d2dlib.dll")]
 		public static extern void SetContextProperties([In] HANDLE context, D2DAntialiasMode antialiasMode = D2DAntialiasMode.PerPrimitive);
 
-		public static void BeginRender([In] HANDLE context) { BeginRender(context, D2DColor.White); }
-
 		[DllImport("d2dlib.dll")]
-		public static extern HANDLE BeginRender([In] HANDLE context, D2DColor backColor);
+		public static extern HANDLE BeginRender([In] HANDLE context);
+		[DllImport("d2dlib.dll")]
+		public static extern HANDLE BeginRenderWithBackgroundColor([In] HANDLE context, D2DColor backColor);
 		[DllImport("d2dlib.dll")]
 		public static extern HANDLE BeginRenderWithBackgroundBitmap(HANDLE context, HANDLE bitmap);
 		[DllImport("d2dlib.dll")]
 		public static extern void EndRender([In] HANDLE context);
 		[DllImport("d2dlib.dll")]
 		public static extern void Flush([In] HANDLE context);
+		[DllImport("d2dlib.dll")]
+		public static extern void Clear([In] HANDLE context, D2DColor color);
 
 		[DllImport("d2dlib.dll")]
 		public static extern HANDLE CreateBitmapRenderTarget([In] HANDLE context, D2DSize size);
@@ -368,7 +370,7 @@ namespace unvell.D2DLib
 
 		public void BeginRender(D2DColor color)
 		{
-			D2D.BeginRender(this.DeviceHandle, color);
+			D2D.BeginRenderWithBackgroundColor(this.DeviceHandle, color);
 		}
 
 		public void BeginRender(D2DBitmap bitmap)

@@ -91,10 +91,12 @@ extern "C"
 	D2DLIB_API void SetContextProperties(HANDLE ctx,
 		D2D1_ANTIALIAS_MODE antialiasMode = D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	
-	D2DLIB_API void BeginRender(HANDLE context, D2D1_COLOR_F color = D2D1::ColorF(D2D1::ColorF::White));
+	D2DLIB_API void BeginRender(HANDLE context);
+	D2DLIB_API void BeginRenderWithBackgroundColor(HANDLE ctx, D2D1_COLOR_F color);
 	D2DLIB_API void BeginRenderWithBackgroundBitmap(HANDLE ctx, HANDLE bitmap);
 	D2DLIB_API void EndRender(HANDLE context);
 	D2DLIB_API void Flush(HANDLE context);
+	D2DLIB_API void Clear(HANDLE context, D2D1_COLOR_F color);
 
 	D2DLIB_API HANDLE CreateBitmapRenderTarget(HANDLE context, D2D_SIZE_F size = D2D1::SizeF());
 	D2DLIB_API void DrawBitmapRenderTarget(HANDLE context, HANDLE bitmapRenderTargetHandle, D2D1_RECT_F* rect = NULL,
