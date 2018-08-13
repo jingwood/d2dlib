@@ -56,7 +56,7 @@ bmpGraphics.EndRender();
 g.DrawBitmap(bmpGraphics, this.ClientRectangle);
 ```
 
-Learn more about [Bitmap](wiki/Bitmap).
+Learn more about [Bitmap](https://github.com/jingwood/d2dlib/wiki/Bitmap).
 
 # Examples
 
