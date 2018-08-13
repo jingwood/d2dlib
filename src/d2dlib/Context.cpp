@@ -1,3 +1,27 @@
+/*
+* MIT License
+*
+* Copyright (c) 2009-2018 Jingwood, unvell.com. All right reserved.
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 // D2DLib.cpp : Defines the exported functions for the DLL application.
 //
 
@@ -19,45 +43,51 @@ HANDLE CreateContext(HWND hwnd)
 {
 	D2DContext* context = new D2DContext();
 	ZeroMemory(context, sizeof(context));
-	HRESULT hr = S_OK;
+	HRESULT hr;
 
 	context->hwnd = hwnd;
 
 	//context->solidBrushes = new map<UINT32, ID2D1SolidColorBrush*>();
 	context->matrixStack = new std::stack<D2D1_MATRIX_3X2_F>();
 
-	context->lastResult = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &context->factory);
+	hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &context->factory);
+	
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
+	}
 
-	if (SUCCEEDED(hr))
-	{
-		context->lastResult = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED,
+	hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED,
 			__uuidof(context->writeFactory), reinterpret_cast<IUnknown **>(&context->writeFactory));
+
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
 	}
 
-	if (SUCCEEDED(hr))
-	{
-		CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER,
+	hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER,
 			IID_IWICImagingFactory, (LPVOID*)&context->imageFactory);
+	
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
 	}
 
-	if (SUCCEEDED(hr))
-	{
-		//RECT rc;
-		//GetClientRect(context->hwnd, &rc);
+	//D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
+	D2D1_SIZE_U size = D2D1::SizeU(1024, 768);
 
-		//D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
-		D2D1_SIZE_U size = D2D1::SizeU(1024, 768);
-
-		context->lastResult = context->factory->CreateHwndRenderTarget(
+	hr = context->factory->CreateHwndRenderTarget(
 			D2D1::RenderTargetProperties(),
 			D2D1::HwndRenderTargetProperties(context->hwnd, size),
 			&context->renderTarget);
 
-		//context->renderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_ALIASED);
-		context->renderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
 	}
 
-	context->lastResult = hr;
+	//context->renderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_ALIASED);
+	context->renderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 
 	return (HANDLE)context;
 }
@@ -189,15 +219,22 @@ HANDLE CreateBitmapRenderTarget(HANDLE ctx, D2D1_SIZE_F size)
 	bitmapRenderTargetContext->imageFactory = context->imageFactory;
 	bitmapRenderTargetContext->writeFactory = context->writeFactory;
 	
+	HRESULT hr;
+
 	if (size.width <= 0 && size.height <= 0) 
 	{
-		context->lastResult = context->renderTarget->CreateCompatibleRenderTarget(
+		hr = context->renderTarget->CreateCompatibleRenderTarget(
 			&bitmapRenderTargetContext->bitmapRenderTarget);
 	}
 	else
 	{
-		context->lastResult = context->renderTarget->CreateCompatibleRenderTarget(
+		hr = context->renderTarget->CreateCompatibleRenderTarget(
 			size, &bitmapRenderTargetContext->bitmapRenderTarget);
+	}
+
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
 	}
 
 	return (HANDLE)bitmapRenderTargetContext;
@@ -343,10 +380,10 @@ void ReleaseObject(HANDLE handle)
 	SafeRelease(&object);
 }
 
-HRESULT GetLastResult(HANDLE handle)
+HRESULT GetLastErrorCode(HANDLE handle)
 {
 	D2DContext* context = reinterpret_cast<D2DContext*>(handle);
-	return context->lastResult;
+	return context->lastErrorCode;
 }
 
 HANDLE CreateLayer(HANDLE ctx)

@@ -1,10 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*
+* MIT License
+*
+* Copyright (c) 2009-2018 Jingwood, unvell.com. All right reserved.
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
+using System;
 using System.Runtime.InteropServices;
-using System.Text;
 
 using FLOAT = System.Single;
-using UINT32 = System.UInt32;
 
 namespace unvell.D2DLib
 {
@@ -37,6 +58,16 @@ namespace unvell.D2DLib
 			this.r = color.r;
 			this.g = color.g;
 			this.b = color.b;
+		}
+
+		public static bool operator ==(D2DColor c1, D2DColor c2)
+		{
+			return c1.r == c2.r && c1.g == c2.g && c1.b == c2.b && c1.a == c2.a;
+		}
+
+		public static bool operator !=(D2DColor c1, D2DColor c2)
+		{
+			return c1.r != c2.r || c1.g != c2.g || c1.b != c2.b || c1.a != c2.a;
 		}
 
 		public static D2DColor FromGDIColor(System.Drawing.Color gdiColor)
@@ -115,13 +146,9 @@ namespace unvell.D2DLib
 			this.bottom = top + height;
 		}
 
-		public D2DRect(System.Drawing.Rectangle rect)
-		{
-			this.left = rect.Left;
-			this.top = rect.Top;
-			this.right = rect.Right;
-			this.bottom = rect.Bottom;
-		}
+		public D2DRect(D2DPoint origin, D2DSize size)
+			: this(origin.x - size.width * 0.5f, origin.y - size.height * 0.5f, size.width, size.height)
+		{ }
 
 		public D2DPoint Location
 		{
@@ -178,6 +205,21 @@ namespace unvell.D2DLib
 				this.bottom = value + height;
 			}
 		}
+
+		public static implicit operator D2DRect(System.Drawing.Rectangle rect)
+		{
+			return new D2DRect(rect.X, rect.Y, rect.Width, rect.Height);
+		}
+
+		public static implicit operator D2DRect(System.Drawing.RectangleF rect)
+		{
+			return new D2DRect(rect.X, rect.Y, rect.Width, rect.Height);
+		}
+
+		public static implicit operator System.Drawing.RectangleF(D2DRect rect)
+		{
+			return new System.Drawing.RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+		}
 	}
 	#endregion
 
@@ -202,11 +244,7 @@ namespace unvell.D2DLib
 		}
 
 		public static readonly D2DPoint Zero = new D2DPoint(0, 0);
-
-		public static implicit operator D2DPoint(System.Drawing.Point wp)
-		{
-			return new D2DPoint(wp.X, wp.Y);
-		}
+		public static readonly D2DPoint One = new D2DPoint(1, 1);
 
 		public override bool Equals(object obj)
 		{
@@ -219,12 +257,27 @@ namespace unvell.D2DLib
 
 		public static bool operator==(D2DPoint p1, D2DPoint p2)
 		{
-			return p1.Equals(p2);
+			return p1.x == p2.x && p1.y == p2.y;
 		}
 
 		public static bool operator !=(D2DPoint p1, D2DPoint p2)
 		{
-			return !p1.Equals(p2);
+			return p1.x != p2.x || p1.y != p2.y;
+		}
+
+		public static implicit operator D2DPoint(System.Drawing.Point p)
+		{
+			return new D2DPoint(p.X, p.Y);
+		}
+
+		public static implicit operator D2DPoint(System.Drawing.PointF p)
+		{
+			return new D2DPoint(p.X, p.Y);
+		}
+
+		public static implicit operator System.Drawing.PointF(D2DPoint p)
+		{
+			return new System.Drawing.PointF(p.x, p.y);
 		}
 
 		public override int GetHashCode()
@@ -248,7 +301,22 @@ namespace unvell.D2DLib
 			this.height = height;
 		}
 
-		public static readonly D2DSize Empty = new D2DSize(-1, -1);
+		public static readonly D2DSize Empty = new D2DSize(0, 0);
+
+		public static implicit operator D2DSize(System.Drawing.Size wsize)
+		{
+			return new D2DSize(wsize.Width, wsize.Height);
+		}
+
+		public static implicit operator D2DSize(System.Drawing.SizeF wsize)
+		{
+			return new D2DSize(wsize.Width, wsize.Height);
+		}
+
+		public static implicit operator System.Drawing.SizeF(D2DSize s)
+		{
+			return new System.Drawing.SizeF(s.width, s.height);
+		}
 	}
 	#endregion // Size
 
@@ -257,21 +325,30 @@ namespace unvell.D2DLib
 	[StructLayout(LayoutKind.Sequential)]
 	public struct D2DEllipse
 	{
-		public D2DPoint point;
+		public D2DPoint origin;
 		public FLOAT radiusX;
 		public FLOAT radiusY;
 
 		public D2DEllipse(D2DPoint center, FLOAT rx, FLOAT ry)
 		{
-			this.point = center;
+			this.origin = center;
 			this.radiusX = rx;
 			this.radiusY = ry;
+		}
+
+
+		public D2DEllipse(D2DPoint center, D2DSize radius)
+			: this(center, radius.width, radius.height)
+		{
 		}
 
 		public D2DEllipse(FLOAT x, FLOAT y, FLOAT rx, FLOAT ry)
 			: this(new D2DPoint(x, y), rx, ry)
 		{
 		}
+
+		public FLOAT X { get { return origin.x; } set { origin.x = value; } }
+		public FLOAT Y { get { return origin.y; } set { origin.y = value; } }
 	}
 	#endregion
 

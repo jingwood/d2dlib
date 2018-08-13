@@ -1,3 +1,26 @@
+/*
+* MIT License
+*
+* Copyright (c) 2009-2018 Jingwood, unvell.com. All right reserved.
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
 
 #include <Windows.h>
 #include <d2d1.h>
@@ -35,7 +58,7 @@ typedef struct D2DContext
 
 	std::stack<D2D1_MATRIX_3X2_F>* matrixStack;
 
-	HRESULT lastResult;
+	HRESULT lastErrorCode;
 	
 } D2DContext;
 
@@ -60,13 +83,6 @@ typedef struct D2DContext
 #define D2DLIB_API __declspec(dllimport)
 #endif
 
-// This class is exported from the D2DLib.dll
-//class D2DLIB_API CD2DLib {
-//public:
-//	CD2DLib(void);
-//	// TODO: add your methods here.
-//};
-
 template<class Interface>
 inline void SafeRelease(Interface **ppInterfaceToRelease)
 {
@@ -78,6 +94,7 @@ inline void SafeRelease(Interface **ppInterfaceToRelease)
 }
 
 #define RetrieveContext(ctx) D2DContext* context = reinterpret_cast<D2DContext*>(ctx)
+#define RetrieveD2DBitmap(ctx) ID2D1Bitmap* d2dbitmap = reinterpret_cast<ID2D1Bitmap*>(d2dbitmapHandle)
 //#define RetrieveContext(ctx) D2DContext* context = (D2DContext*)(ctx)
 
 //extern D2DLIB_API HRESULT LastResultCode;

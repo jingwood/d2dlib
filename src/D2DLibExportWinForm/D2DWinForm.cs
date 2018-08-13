@@ -1,14 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/*
+* MIT License
+*
+* Copyright (c) 2009-2018 Jingwood, unvell.com. All right reserved.
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
 
-using FLOAT = System.Single;
-using UINT = System.UInt32;
-using UINT32 = System.UInt32;
-using HWND = System.IntPtr;
-using HANDLE = System.IntPtr;
-using HRESULT = System.Int64;
+using System;
 using System.Windows.Forms;
 
 namespace unvell.D2DLib.WinForm
@@ -55,7 +69,8 @@ namespace unvell.D2DLib.WinForm
 		public bool ShowFPS { get; set; }
 		private DateTime lastFpsUpdate = DateTime.Now;
 
-		private Timer timer = new Timer() { Interval = 15 };
+		private Timer timer = new Timer() { Interval = 10 };
+		public bool EscapeKeyToClose { get; set; } = true;
 
 		private bool animationDraw;
 		public bool AnimationDraw
@@ -95,7 +110,11 @@ namespace unvell.D2DLib.WinForm
 			this.graphics = new D2DGraphics(this.device);
 			this.timer.Tick += (ss, ee) =>
 			{
-				if (!SceneAnimation || SceneChanged) { Invalidate(); SceneChanged = false; }
+				if (!SceneAnimation || SceneChanged)
+				{
+					OnFrame();
+					Invalidate(); SceneChanged = false;
+				}
 			};
 		}
 
@@ -103,41 +122,49 @@ namespace unvell.D2DLib.WinForm
 		
 		protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
 		{
-			if (this.backgroundImage != null)
+			if (this.DesignMode)
 			{
-				this.graphics.BeginRender(this.backgroundImage);
+				e.Graphics.Clear(System.Drawing.Color.Black);
+				e.Graphics.DrawString("D2DLib windows form cannot render in design time.", this.Font, System.Drawing.Brushes.White, 10, 10);
 			}
 			else
 			{
-				this.graphics.BeginRender(D2DColor.FromGDIColor(this.BackColor));
-			}
-
-			OnRender(this.graphics);
-			
-			if (ShowFPS)
-			{
-				if (this.lastFpsUpdate.Second != DateTime.Now.Second)
+				if (this.backgroundImage != null)
 				{
-					this.lastFps = this.currentFps;
-					this.currentFps = 0;
-					this.lastFpsUpdate = DateTime.Now;
+					this.graphics.BeginRender(this.backgroundImage);
 				}
 				else
 				{
-					this.currentFps++;
+					this.graphics.BeginRender(D2DColor.FromGDIColor(this.BackColor));
 				}
 
-				string fpsInfo = string.Format("{0} fps", lastFps);
-				System.Drawing.SizeF size = e.Graphics.MeasureString(fpsInfo, Font, Width);
-				this.graphics.DrawText(fpsInfo, unvell.D2DLib.D2DColor.Silver, Font, 
-					new System.Drawing.PointF(ClientRectangle.Right - size.Width - 10, 5));
-			}
+				OnRender(this.graphics);
 
-			this.graphics.EndRender();
+				if (ShowFPS)
+				{
+					if (this.lastFpsUpdate.Second != DateTime.Now.Second)
+					{
+						this.lastFps = this.currentFps;
+						this.currentFps = 0;
+						this.lastFpsUpdate = DateTime.Now;
+					}
+					else
+					{
+						this.currentFps++;
+					}
 
-			if ((this.animationDraw || this.sceneAnimation) && !this.timer.Enabled)
-			{
-				this.timer.Start();
+					string fpsInfo = string.Format("{0} fps", lastFps);
+					System.Drawing.SizeF size = e.Graphics.MeasureString(fpsInfo, Font, Width);
+					this.graphics.DrawText(fpsInfo, unvell.D2DLib.D2DColor.Silver, Font,
+						new System.Drawing.PointF(ClientRectangle.Right - size.Width - 10, 5));
+				}
+
+				this.graphics.EndRender();
+
+				if ((this.animationDraw || this.sceneAnimation) && !this.timer.Enabled)
+				{
+					this.timer.Start();
+				}
 			}
 		}
 
@@ -145,14 +172,6 @@ namespace unvell.D2DLib.WinForm
 		{
 			switch (m.Msg)
 			{
-				//case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_PAINT:
-				//	base.WndProc(ref m);
-				//	break;
-				//case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_SHOWWINDOW:
-				//	//if (AnimationDraw) timer.Start();
-				//	base.WndProc(ref m);
-				//	break;
-
 				case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_ERASEBKGND:
 					break;
 
@@ -179,9 +198,23 @@ namespace unvell.D2DLib.WinForm
 
 		protected virtual void OnRender(D2DGraphics g) { }
 
+		protected virtual void OnFrame() { }
+
 		public new void Invalidate()
 		{
 			base.Invalidate(false);
+		}
+
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			base.OnKeyDown(e);
+
+			switch (e.KeyCode)
+			{
+				case Keys.Escape:
+					if (EscapeKeyToClose) Close();
+					break;
+			}
 		}
 	}
 

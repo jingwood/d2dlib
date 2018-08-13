@@ -1,8 +1,31 @@
-﻿using System;
+﻿/*
+ * MIT License
+ * 
+ * Copyright (c) 2009-2018 Jingwood, unvell.com. All right reserved.
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+ 
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
-//using System.Threading.Tasks;
 
 using FLOAT = System.Single;
 using UINT = System.UInt32;
@@ -10,6 +33,7 @@ using UINT32 = System.UInt32;
 using HWND = System.IntPtr;
 using HANDLE = System.IntPtr;
 using HRESULT = System.Int64;
+using BOOL = System.Int32;
 
 namespace unvell.D2DLib
 {
@@ -205,7 +229,7 @@ namespace unvell.D2DLib
 
 		#region Bitmap
 		[DllImport("d2dlib.dll")]
-		public static extern HANDLE CreateBitmapFromHBitmap(HANDLE context, HANDLE hBitmap, bool alpha = false);
+		public static extern HANDLE CreateBitmapFromHBitmap(HANDLE context, HANDLE hBitmap, bool useAlphaChannel);
 
 		[DllImport("d2dlib.dll")]
 		public static extern HANDLE CreateBitmapFromBytes(HANDLE context, byte[] buffer, UINT offset, UINT length);
@@ -218,8 +242,14 @@ namespace unvell.D2DLib
 		public static extern HANDLE CreateBitmapFromFile(HANDLE context, string filepath);
 
 		[DllImport("d2dlib.dll")]
-		public static extern void DrawD2DBitmap(HANDLE context, HANDLE bitmap, ref D2DRect rect, FLOAT opacity = 1, bool alpha = false,
-			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear);
+		public static extern void DrawD2DBitmap(HANDLE context, HANDLE bitmap);
+
+		[DllImport("d2dlib.dll")]
+		public static extern void DrawD2DBitmap(HANDLE context, HANDLE bitmap, ref D2DRect destRect);
+
+		[DllImport("d2dlib.dll")]
+		public static extern void DrawD2DBitmap(HANDLE context, HANDLE bitmap, ref D2DRect destRect, ref D2DRect srcRect,
+			FLOAT opacity = 1, D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear);
 
 		[DllImport("d2dlib.dll")]
 		public static extern void DrawGDIBitmap(HANDLE context, HANDLE bitmap, FLOAT opacity = 1,
@@ -227,7 +257,7 @@ namespace unvell.D2DLib
 
 		[DllImport("d2dlib.dll")]
 		public static extern void DrawGDIBitmapRect(HANDLE context, HANDLE bitmap,
-			ref D2DRect rect, ref D2DRect sourceRectangle, FLOAT opacity = 1, bool alpha = false,
+			ref D2DRect destRect, ref D2DRect srcRect, FLOAT opacity = 1, bool alpha = false,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear);
 
 		[DllImport("d2dlib.dll")]
@@ -255,19 +285,19 @@ namespace unvell.D2DLib
 
 		public void Resize()
 		{
-			if (this.Handle != IntPtr.Zero) D2D.ResizeContext(this.Handle);
+			if (Handle != HANDLE.Zero) D2D.ResizeContext(this.Handle);
 		}
 
 		public D2DPen CreatePen(D2DColor color, D2DDashStyle dashStyle)
 		{
 			HANDLE handle = D2D.CreatePen(this.Handle, color, dashStyle);
-			return handle == IntPtr.Zero ? null : new D2DPen(handle, color, dashStyle);
+			return handle == HANDLE.Zero ? null : new D2DPen(handle, color, dashStyle);
 		}
 
 		public D2DSolidColorBrush CreateSolidColorBrush(D2DColor color)
 		{
 			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
-			return handle == IntPtr.Zero ? null : new D2DSolidColorBrush(handle, color);
+			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
 		}
 
 		public D2DRadialGradientBrush CreateRadialGradientBrush(D2DPoint origin, D2DPoint offset,
@@ -306,25 +336,33 @@ namespace unvell.D2DLib
 		public D2DBitmap LoadBitmap(byte[] buffer, UINT offset, UINT length)
 		{
 			var bitmapHandle = D2D.CreateBitmapFromBytes(this.Handle, buffer, offset, length);
-			return (bitmapHandle != IntPtr.Zero) ? new D2DBitmap(bitmapHandle) : null;
+			return (bitmapHandle != HWND.Zero) ? new D2DBitmap(bitmapHandle) : null;
 		}
 
 		public D2DBitmap LoadBitmap(string filepath)
 		{
 			var bitmapHandle = D2D.CreateBitmapFromFile(this.Handle, filepath);
-			return (bitmapHandle != IntPtr.Zero) ? new D2DBitmap(bitmapHandle) : null;
+			return (bitmapHandle != HWND.Zero) ? new D2DBitmap(bitmapHandle) : null;
 		}
 
 		public D2DBitmap CreateBitmapFromMemory(UINT width, UINT height, UINT stride, IntPtr buffer, UINT offset, UINT length)
 		{
 			HANDLE d2dbmp = D2D.CreateBitmapFromMemory(this.Handle, width, height, stride, buffer, offset, length);
-			return new D2DBitmap(d2dbmp);
+			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
 		}
 
 		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp)
 		{
-			HANDLE d2dbmp = D2D.CreateBitmapFromHBitmap(this.Handle, bmp.GetHbitmap());
-			return new D2DBitmap(d2dbmp);
+			bool useAlphaChannel =
+				(bmp.PixelFormat & System.Drawing.Imaging.PixelFormat.Alpha) == System.Drawing.Imaging.PixelFormat.Alpha;
+
+			return this.CreateBitmapFromGDIBitmap(bmp, useAlphaChannel);
+		}
+
+		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp, bool useAlphaChannel)
+		{
+			HANDLE d2dbmp = D2D.CreateBitmapFromHBitmap(this.Handle, bmp.GetHbitmap(), useAlphaChannel);
+			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
 		}
 
 		public D2DBitmapGraphics CreateBitmapGraphics()
@@ -332,10 +370,15 @@ namespace unvell.D2DLib
 			return CreateBitmapGraphics(D2DSize.Empty);
 		}
 
+		public D2DBitmapGraphics CreateBitmapGraphics(float width, float height)
+		{
+			return CreateBitmapGraphics(new D2DSize(width, height));
+		}
+
 		public D2DBitmapGraphics CreateBitmapGraphics(D2DSize size)
 		{
 			HANDLE bitmapRenderTargetHandle = D2D.CreateBitmapRenderTarget(this.Handle, size);
-			return bitmapRenderTargetHandle == IntPtr.Zero ? null 
+			return bitmapRenderTargetHandle == HANDLE.Zero ? null 
 				: new D2DBitmapGraphics(bitmapRenderTargetHandle);
 		}
 
@@ -426,20 +469,27 @@ namespace unvell.D2DLib
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
 			var ellipse = new D2DEllipse(x, y, width / 2f, height / 2f);
-			ellipse.point.x += ellipse.radiusX;
-			ellipse.point.y += ellipse.radiusY;
+			ellipse.origin.x += ellipse.radiusX;
+			ellipse.origin.y += ellipse.radiusY;
 
-			DrawEllipse(ref ellipse, color);
+			this.DrawEllipse(ellipse, color, weight, dashStyle);
+		}
+
+		public void DrawEllipse(D2DPoint origin, D2DSize radial, D2DColor color,
+			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
+		{
+			var ellipse = new D2DEllipse(origin, radial);
+			this.DrawEllipse(ellipse, color, weight, dashStyle);
 		}
 
 		public void DrawEllipse(D2DPoint origin, FLOAT radialX, FLOAT radialY, D2DColor color,
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
 			var ellipse = new D2DEllipse(origin, radialX, radialY);
-			DrawEllipse(ref ellipse, color);
+			this.DrawEllipse(ellipse, color, weight, dashStyle);
 		}
 
-		public void DrawEllipse(ref D2DEllipse ellipse, D2DColor color, FLOAT weight = 1,
+		public void DrawEllipse(D2DEllipse ellipse, D2DColor color, FLOAT weight = 1,
 			D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
 			D2D.DrawEllipse(this.DeviceHandle, ref ellipse, color, weight, dashStyle);
@@ -453,10 +503,10 @@ namespace unvell.D2DLib
 		public void FillEllipse(D2DPoint p, FLOAT w, FLOAT h, D2DColor color)
 		{
 			D2DEllipse ellipse = new D2DEllipse(p, w / 2, h / 2);
-			ellipse.point.x += ellipse.radiusX;
-			ellipse.point.y += ellipse.radiusY;
+			ellipse.origin.x += ellipse.radiusX;
+			ellipse.origin.y += ellipse.radiusY;
 
-			this.FillEllipse(ref ellipse, color);
+			this.FillEllipse(ellipse, color);
 		}
 
 		public void FillEllipse(FLOAT x, FLOAT y, FLOAT radial, D2DColor color)
@@ -469,12 +519,12 @@ namespace unvell.D2DLib
 			this.FillEllipse(new D2DPoint(x, y), w, h, color);
 		}
 
-		public void FillEllipse(ref D2DEllipse ellipse, D2DColor color)
+		public void FillEllipse(D2DEllipse ellipse, D2DColor color)
 		{
 			D2D.FillEllipse(this.DeviceHandle, ref ellipse, color);
 		}
 
-		public void FillEllipse(ref D2DEllipse ellipse, D2DBrush brush)
+		public void FillEllipse(D2DEllipse ellipse, D2DBrush brush)
 		{
 			D2D.FillEllipseWithBrush(this.DeviceHandle, ref ellipse, brush.Handle);
 		}
@@ -565,33 +615,63 @@ namespace unvell.D2DLib
 			D2D.DrawRectangle(this.DeviceHandle, ref rect, color, strokeWidth, dashStyle);
 		}
 
-		public void DrawRectangle(ref D2DRect rect, D2DColor color, FLOAT strokeWidth = 1, 
+		public void DrawRectangle(D2DRect rect, D2DColor color, FLOAT strokeWidth = 1, 
 			D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
 			D2D.DrawRectangle(this.DeviceHandle, ref rect, color, strokeWidth, dashStyle);
 		}
 
-		public void FillRectangle(ref D2DRect rect, D2DColor color)
+		public void DrawRectangle(D2DPoint origin, D2DSize size, D2DColor color, FLOAT strokeWidth = 1,
+			D2DDashStyle dashStyle = D2DDashStyle.Solid)
+		{
+			this.DrawRectangle(new D2DRect(origin, size), color, strokeWidth, dashStyle);
+		}
+
+		public void FillRectangle(float x, float y, float width, float height, D2DColor color)
+		{
+			var rect = new D2DRect(x, y, width, height);
+			this.FillRectangle(rect, color);
+		}
+
+		public void FillRectangle(D2DPoint origin, D2DSize size, D2DColor color)
+		{
+			this.FillRectangle(new D2DRect(origin, size), color);
+		}
+
+		public void FillRectangle(D2DRect rect, D2DColor color)
 		{
 			D2D.FillRectangle(this.DeviceHandle, ref rect, color);
 		}
 
-		public void DrawBitmap(D2DBitmap bitmap, ref D2DRect rect, FLOAT opacity = 1, bool alpha = false,
+		public void DrawBitmap(D2DBitmap bitmap, D2DRect destRect, FLOAT opacity = 1,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
 		{
-			D2D.DrawD2DBitmap(this.DeviceHandle, bitmap.Handle, ref rect, opacity, alpha, interpolationMode);
+			var srcRect = new D2DRect(0, 0, bitmap.Width, bitmap.Height);
+			this.DrawBitmap(bitmap, destRect, srcRect, opacity, interpolationMode);
 		}
 
-		public void DrawGDIBitmap(HANDLE hbitmap, ref D2DRect rect, ref D2DRect srcRect, FLOAT opacity = 1, bool alpha = false,
+		public void DrawBitmap(D2DBitmap bitmap, D2DRect destRect, D2DRect srcRect, FLOAT opacity = 1,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
 		{
-			D2D.DrawGDIBitmapRect(this.DeviceHandle, hbitmap, ref rect, ref srcRect, opacity, alpha, interpolationMode);
+			D2D.DrawD2DBitmap(this.DeviceHandle, bitmap.Handle, ref destRect, ref srcRect, opacity, interpolationMode);
 		}
 
-		public void DrawBitmap(D2DBitmapGraphics bg, ref D2DRect rect, FLOAT opacity = 1,
+		public void DrawBitmap(D2DBitmapGraphics bg, D2DRect rect, FLOAT opacity = 1,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
 		{
 			D2D.DrawBitmapRenderTarget(this.DeviceHandle, bg.DeviceHandle, ref rect, opacity, interpolationMode);
+		}
+
+		public void DrawBitmap(D2DBitmapGraphics bg, FLOAT width, FLOAT height, FLOAT opacity = 1,
+			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
+		{
+			this.DrawBitmap(bg, new D2DRect(0, 0, width, height), opacity, interpolationMode);
+		}
+
+		public void DrawGDIBitmap(HANDLE hbitmap, D2DRect rect, D2DRect srcRect, FLOAT opacity = 1, bool alpha = false,
+			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
+		{
+			D2D.DrawGDIBitmapRect(this.DeviceHandle, hbitmap, ref rect, ref srcRect, opacity, alpha, interpolationMode);
 		}
 
 		public void DrawText(string text, D2DColor color, string fontName, float fontSize, ref D2DRect rect, 
@@ -623,7 +703,7 @@ namespace unvell.D2DLib
 		public D2DBitmap GetBitmap()
 		{
 			HANDLE bitmapHandle = D2D.GetBitmapRenderTargetBitmap(this.DeviceHandle);
-			return bitmapHandle == IntPtr.Zero ? null : new D2DBitmap(bitmapHandle);
+			return bitmapHandle == HANDLE.Zero ? null : new D2DBitmap(bitmapHandle);
 		}
 
 		public void Dispose()
