@@ -1,16 +1,14 @@
 # d2dlib
 
-Direct2D wrapper library for .NET applications. This library uses Direct2D graphics API to provide the high performance hardware accelerated instant rendering ability. 
+A .NET library that provides the hardware-accelerated high performance immediate drawing functionality via Direct2D API.
 
-The graphics context class is designed like normal Windows Form GDI+ graphics API, easily use and user friendly.
-
-# About the projects
+By using the graphics context to draw anything on windows form, control or even in memory. The interface of graphics context is designed like standard Windows Form GDI+ graphics interface, it's easily use and user friendly.
 
 | Project | Language | Description | Output DLL | 
 | --- | --- | --- | --- |
-| d2dlib | VC++ | Direct2D wrapper host side library, calling Windows SDK and Direct2D API | d2dlib.dll | 
-| d2dlibexport | C# | Direct2D client side interface between .NET and VC++ library, calling d2dlib.dll | d2dlibexport.dll |
-| d2dlibexportwinform | C# | Provides the .NET classes like D2DWinForm and D2DControl that use Direct2D hardware-acceleration rendering | d2dlibwinform.dll |
+| d2dlib | VC++ | Wrapper host side library, calling Windows SDK and Direct2D API | d2dlib.dll | 
+| d2dlibexport | C# | Wrapper client side library, export the interface provided from d2dlib | d2dlibexport.dll |
+| d2dlibexportwinform | C# | Provides the .NET classes used in windows form development, like D2DWinForm and D2DControl that use Direct2D hardware-acceleration rendering | d2dlibwinform.dll |
 
 # How to use
 
@@ -30,17 +28,17 @@ The platform target of application project must be set to x86 when using default
 ## Draw text
 
 ```csharp
-g.DrawText("Hello World", D2DColor.Yellow, this.Font, 100, 200);
+protected override void OnRender(D2DGraphics g)
+{
+  g.DrawText("Hello World", D2DColor.Yellow, this.Font, 100, 200);
+}
 ```
 
 ## Draw ellipse
 
 ```csharp
-protected override void OnRender(D2DGraphics g)
-{
-  var ellipse = new D2DEllipse(0, 0, 10, 10);
-  g.DrawEllipse(ref ellipse, D2DColor.Gray);
-}
+var ellipse = new D2DEllipse(0, 0, 10, 10);
+g.DrawEllipse(ref ellipse, D2DColor.Gray);
 ```
 
 ## Memory device bitmap
