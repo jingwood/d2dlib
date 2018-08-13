@@ -85,30 +85,37 @@ HANDLE CreateBitmapFromHBitmap(HANDLE ctx, HBITMAP hBitmap, BOOL alpha)
 		return NULL;
 	}
 
-	IWICFormatConverter *pConverter = NULL;
-	hr = context->imageFactory->CreateFormatConverter(&pConverter);
-
-	if (!SUCCEEDED(hr)) {
-		context->lastErrorCode = hr;
-		return NULL;
-	}
-
-	hr = pConverter->Initialize(wicBitmap, GUID_WICPixelFormat32bppPRGBA, WICBitmapDitherTypeNone,
-		NULL, 0.f, WICBitmapPaletteTypeMedianCut);
-
-	if (!SUCCEEDED(hr)) {
-		SafeRelease(&wicBitmap);
-		context->lastErrorCode = hr;
-		return NULL;
-	}
-
-	D2D1_BITMAP_PROPERTIES props = { DXGI_FORMAT_R8G8B8A8_UINT, D2D1_ALPHA_MODE_PREMULTIPLIED, 96.f, 96.f };
-
+	IWICFormatConverter *wicConverter = NULL;
 	ID2D1Bitmap* d2dBitmap = NULL;
-	hr = context->renderTarget->CreateBitmapFromWicBitmap(pConverter, NULL, &d2dBitmap);
+	IWICBitmapSource* wicBitmapSource = NULL;
+
+	if (alpha) {
+		hr = context->imageFactory->CreateFormatConverter(&wicConverter);
+
+		if (!SUCCEEDED(hr)) {
+			context->lastErrorCode = hr;
+			return NULL;
+		}
+
+		hr = wicConverter->Initialize(wicBitmap, GUID_WICPixelFormat32bppPRGBA, WICBitmapDitherTypeNone,
+			NULL, 0.f, WICBitmapPaletteTypeMedianCut);
+
+		if (!SUCCEEDED(hr)) {
+			SafeRelease(&wicBitmap);
+			context->lastErrorCode = hr;
+			return NULL;
+		}
+
+		wicBitmapSource = wicConverter;
+	}
+	else {
+		wicBitmapSource = wicBitmap;
+	}
+
+	hr = context->renderTarget->CreateBitmapFromWicBitmap(wicBitmapSource, NULL, &d2dBitmap);
 
 	SafeRelease(&wicBitmap);
-	SafeRelease(&pConverter);
+	SafeRelease(&wicConverter);
 
 	if (!SUCCEEDED(hr)) {
 		context->lastErrorCode = hr;

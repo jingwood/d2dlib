@@ -13,8 +13,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "Examples\Exampl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF3FC267-D558-4556-8E8E-16BA7C52BDA3}"
 	ProjectSection(SolutionItems) = preProject
+		..\snapshots\bitmap_rendering.png = ..\snapshots\bitmap_rendering.png
+		..\snapshots\imagetest.png = ..\snapshots\imagetest.png
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
+		..\snapshots\starspace.png = ..\snapshots\starspace.png
+		..\snapshots\subtitle.png = ..\snapshots\subtitle.png
+		..\snapshots\whiteboard.png = ..\snapshots\whiteboard.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "snapshots", "snapshots", "{F362F889-0287-4377-A211-440C9871FDA6}"
+	ProjectSection(SolutionItems) = preProject
+		..\snapshots\bitmap_rendering.png = ..\snapshots\bitmap_rendering.png
+		..\snapshots\imagetest.png = ..\snapshots\imagetest.png
+		..\snapshots\starspace.png = ..\snapshots\starspace.png
+		..\snapshots\subtitle.png = ..\snapshots\subtitle.png
+		..\snapshots\whiteboard.png = ..\snapshots\whiteboard.png
 	EndProjectSection
 EndProject
 Global
@@ -115,5 +129,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F362F889-0287-4377-A211-440C9871FDA6} = {EF3FC267-D558-4556-8E8E-16BA7C52BDA3}
 	EndGlobalSection
 EndGlobal
