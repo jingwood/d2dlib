@@ -34,8 +34,11 @@ namespace unvell.D2DLib.Examples.Demos
 		{
 			InitializeComponent();
 
+			AnimationDraw = true;
+			ShowFPS = true;
+
 			// create two dummy GDI bitmaps and convert them to Direct2D device bitmap
-			
+
 			// to create transparent bitmap, specify the pixel format to 32bppPArgb
 			gdiBmp1 = new Bitmap(1024, 1024, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 			using (Graphics g = Graphics.FromImage(gdiBmp1))
@@ -74,6 +77,7 @@ namespace unvell.D2DLib.Examples.Demos
 			bmpGraphics.FillRectangle(170, 790, 670, 80, new D2DColor(0.4f, D2DColor.Black));
 			bmpGraphics.DrawText("This is Direct2D device bitmap", D2DColor.Goldenrod, new Font(this.Font.FontFamily, 36), 180, 800);
 			bmpGraphics.EndRender();
+
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -86,19 +90,16 @@ namespace unvell.D2DLib.Examples.Demos
 		private Bitmap gdiBmp1, gdiBmp2;
 		private D2DBitmap d2dbmp1, d2dbmp2;
 		private D2DBitmapGraphics bmpGraphics;
-		private static readonly Random rand = new Random();
 
 		protected override void OnRender(D2DGraphics g)
 		{
 			base.OnRender(g);
 
-			// draw some random rectangles using hardware acceleration
-			for (int i = 0; i < 100; i++)
+			// draw random rectangles
+			for (int i = 0; i < rectCount; i++)
 			{
-				g.FillRectangle(rand.Next(ClientRectangle.Width), rand.Next(ClientRectangle.Height),
-					rand.Next(400) + 50, rand.Next(200) + 50,
-					new D2DColor((float)rand.NextDouble() * 0.5f + 0.5f, (float)rand.NextDouble() * 0.5f + 0.5f, 
-					(float)rand.NextDouble() * 0.5f + 0.5f, (float)rand.NextDouble() * 0.5f + 0.5f));
+				var r = rects[i];
+				if (r != null) g.FillRectangle(r.x, r.y, r.w, r.h, r.color);
 			}
 
 			// draw GDI+ bitmaps using hardware acceleration
@@ -108,5 +109,56 @@ namespace unvell.D2DLib.Examples.Demos
 			// draw Direct2D bitmap
 			g.DrawBitmap(bmpGraphics, this.ClientRectangle);
 		}
+
+		#region Rect animation
+		class Rect
+		{
+			public float x, y, w, h;
+			public D2DColor color;
+			public float step;
+			public float speed;
+		}
+
+		public const int rectCount = 100;
+		private Rect[] rects = new Rect[rectCount];
+		private static readonly Random rand = new Random();
+
+		protected override void OnFrame()
+		{
+			for (int i = 0; i < rectCount; i++)
+			{
+				var r = rects[i];
+
+				if (r == null)
+				{
+					rects[i] = r = new Rect();
+				}
+
+				if (r.step >= 2)	r.step = 0;
+
+				if (r.step <= 0)
+				{
+					r.x = rand.Next(ClientRectangle.Width);
+					r.y = rand.Next(ClientRectangle.Height);
+					r.w = rand.Next(400) + 50;
+					r.h = rand.Next(200) + 50;
+					r.color = new D2DColor((float)(rand.NextDouble() * 0.5f + 0.5f),
+						(float)(rand.NextDouble() * 0.5f + 0.5f), (float)(rand.NextDouble() * 0.5f + 0.5f));
+					r.speed = (float)(rand.NextDouble() * 0.3f + 0.01f) * 0.1f;
+					r.step = r.speed;
+				}
+				else
+				{
+					r.step += r.speed;
+				}
+
+				r.color.a = 1 - Math.Abs(1 - r.step);
+			}
+
+			this.SceneChanged = true;
+		}
+
+		#endregion Rect animation
+
 	}
 }

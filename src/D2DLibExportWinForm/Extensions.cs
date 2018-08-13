@@ -53,6 +53,11 @@ namespace unvell.D2DLib.WinForm
 			}
 		}
 
+		public static void DrawText(this D2DGraphics g, string text, D2DColor color, float x, float y)
+		{
+			g.DrawText(text, color, SystemFonts.DefaultFont, x, y);
+		}
+
 		public static void DrawText(this D2DGraphics g, string text, D2DColor color, Font font, float x, float y)
 		{
 			var rect = new D2DRect(x, y, 9999999, 9999999);
