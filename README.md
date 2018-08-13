@@ -51,16 +51,31 @@ bmpGraphics.BeginRender();
 bmpGraphics.FillRectangle(170, 790, 670, 80, new D2DColor(0.4f, D2DColor.Black));
 bmpGraphics.DrawText("This is Direct2D device bitmap", D2DColor.Goldenrod, this.Font, 180, 800);
 bmpGraphics.EndRender();
+
+// draw this device bitmap on screen
+g.DrawBitmap(bmpGraphics, this.ClientRectangle);
 ```
+
+Learn more about [Bitmap](wiki/Bitmap).
 
 # Examples
 
+Fast images rendering
 ![Image Drawing Test](snapshots/imagetest.png)
+See [source code](src/Examples/Demos/ImageTest.cs)
 
+Custom draw on memory bitmap
 ![Bitmap Custom Draw](snapshots/bitmap_rendering.png)
+See [source code](src/Examples/Demos/BitmapCustomDraw.cs)
 
+Star space simulation
 ![Star Space](snapshots/starspace.png)
+See [source code](src/Examples/Demos/StarSpace.cs)
 
+Subtitle rendering
 ![Subtitle](snapshots/subtitle.png)
+See [source code](src/Examples/Demos/Subtitle.cs)
 
-![whiteboard](snapshots/whiteboard.png)
+Whiteboard App
+![whiteboard](snapshots/whiteboard.png)\
+See [source code](src/Examples/Demos/Whiteboard.cs)
