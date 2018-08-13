@@ -96,7 +96,7 @@ namespace unvell.D2DLib.Examples.Demos
 
 			if (showGettingStart)
 			{
-				g.DrawText("Draw something...", D2DColor.Goldenrod, new Font(this.Font.FontFamily, 36, FontStyle.Italic), ClientRectangle.Width / 2 - 200, ClientRectangle.Height / 2 - 50);
+				g.DrawTextCenter("Draw something...", D2DColor.Goldenrod, SystemFonts.DefaultFont.Name, 36, ClientRectangle);
 			}
 
 			// draw cursor

@@ -72,10 +72,11 @@ namespace unvell.D2DLib.Examples.Demos
 
 
 			// create one Direct2D device bitmap
+			var rect = new D2DRect(170, 790, 670, 80);
 			bmpGraphics = this.Device.CreateBitmapGraphics(1024, 1024);
 			bmpGraphics.BeginRender();
-			bmpGraphics.FillRectangle(170, 790, 670, 80, new D2DColor(0.4f, D2DColor.Black));
-			bmpGraphics.DrawText("This is Direct2D device bitmap", D2DColor.Goldenrod, new Font(this.Font.FontFamily, 36), 180, 800);
+			bmpGraphics.FillRectangle(rect, new D2DColor(0.4f, D2DColor.Black));
+			bmpGraphics.DrawTextCenter("This is Direct2D device bitmap layer", D2DColor.Goldenrod, this.Font.Name, 36, rect);
 			bmpGraphics.EndRender();
 
 		}

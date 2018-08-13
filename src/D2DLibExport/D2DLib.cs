@@ -674,7 +674,13 @@ namespace unvell.D2DLib
 			D2D.DrawGDIBitmapRect(this.DeviceHandle, hbitmap, ref rect, ref srcRect, opacity, alpha, interpolationMode);
 		}
 
-		public void DrawText(string text, D2DColor color, string fontName, float fontSize, ref D2DRect rect, 
+		public void DrawTextCenter(string text, D2DColor color, string fontName, float fontSize, D2DRect rect)
+		{
+			this.DrawText(text, color, fontName, fontSize, rect, 
+				DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_CENTER, DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+		}
+
+		public void DrawText(string text, D2DColor color, string fontName, float fontSize, D2DRect rect, 
 			DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_LEADING,
 			DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_NEAR)
 		{

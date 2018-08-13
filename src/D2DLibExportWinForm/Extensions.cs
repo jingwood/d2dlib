@@ -61,19 +61,19 @@ namespace unvell.D2DLib.WinForm
 		public static void DrawText(this D2DGraphics g, string text, D2DColor color, Font font, float x, float y)
 		{
 			var rect = new D2DRect(x, y, 9999999, 9999999);
-			g.DrawText(text, color, font.Name, font.Size * 96f / 72f, ref rect);
+			g.DrawText(text, color, font.Name, font.Size * 96f / 72f, rect);
 		}
 
 		public static void DrawText(this D2DGraphics g, string text, D2DColor color, Font font, Point location)
 		{
 			var rect = new D2DRect(location.X, location.Y, 9999999, 9999999);
-			g.DrawText(text, color, font.Name, font.Size * 96f / 72f, ref rect);
+			g.DrawText(text, color, font.Name, font.Size * 96f / 72f, rect);
 		}
 
 		public static void DrawText(this D2DGraphics g, string text, D2DColor color, Font font, PointF location)
 		{
 			var rect = new D2DRect(location.X, location.Y, 9999999, 9999999);
-			g.DrawText(text, color, font.Name, font.Size * 96f / 72f, ref rect);
+			g.DrawText(text, color, font.Name, font.Size * 96f / 72f, rect);
 		}
 	}
 }
