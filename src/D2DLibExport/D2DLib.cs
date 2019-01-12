@@ -158,6 +158,11 @@ namespace unvell.D2DLib
 		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawPolygon(HANDLE ctx, D2DPoint[] points, UINT count,
 			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, D2DColor fillColor);
+
+		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawPolygonWithBrush(HANDLE ctx, D2DPoint[] points, UINT count,
+			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, HANDLE brushHandler);
+		
 		#endregion // Geometry
 
 		#region Path
@@ -536,21 +541,32 @@ namespace unvell.D2DLib
 			D2D.DrawBeziers(DeviceHandle, bezierSegments, (uint)bezierSegments.Length, strokeColor, strokeWidth, dashStyle);
 		}
 
-		public void DrawPolygon(D2DPoint[] points, UINT count,
+		public void DrawPolygon(D2DPoint[] points,
 			D2DColor strokeColor, FLOAT strokeWidth  = 1f, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			this.DrawPolygon(points, count, D2DColor.Transparent, 0, D2DDashStyle.Solid, D2DColor.Transparent);
+			this.DrawPolygon(points, D2DColor.Transparent, 0, D2DDashStyle.Solid, D2DColor.Transparent);
 		}
 
-		public void FillPolygon(D2DPoint[] points, UINT count, D2DColor fillColor)
-		{
-			this.DrawPolygon(points, count, D2DColor.Transparent, 0, D2DDashStyle.Solid, fillColor);
-		}
-		
-		public void DrawPolygon(D2DPoint[] points, UINT count,
+		public void DrawPolygon(D2DPoint[] points, 
 			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, D2DColor fillColor)
 		{
-			D2D.DrawPolygon(DeviceHandle, points, count, strokeColor, strokeWidth, dashStyle, fillColor);
+			D2D.DrawPolygon(DeviceHandle, points, (uint)points.Length, strokeColor, strokeWidth, dashStyle, fillColor);
+		}
+
+		public void DrawPolygon(D2DPoint[] points,
+			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, D2DBrush fillBrush)
+		{
+			D2D.DrawPolygonWithBrush(DeviceHandle, points, (uint)points.Length, strokeColor, strokeWidth, dashStyle, fillBrush.Handle);
+		}
+
+		public void FillPolygon(D2DPoint[] points, D2DColor fillColor)
+		{
+			this.DrawPolygon(points, D2DColor.Transparent, 0, D2DDashStyle.Solid, fillColor);
+		}
+
+		public void FillPolygon(D2DPoint[] points, D2DBrush brush)
+		{
+			D2D.DrawPolygonWithBrush(this.DeviceHandle, points, (uint)points.Length, D2DColor.Transparent, 0,  D2DDashStyle.Solid, brush.Handle);
 		}
 
 		public void TestDraw()

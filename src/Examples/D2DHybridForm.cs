@@ -395,7 +395,7 @@ namespace unvell.D2DLib.Examples
 				pt[i] = new D2DPoint(ps[i].X, ps[i].Y);
 			}
 
-			this.g.DrawPolygon(pt, (uint)pt.Length, D2DColor.FromGDIColor(strokeColor), weight, D2DDashStyle.Solid, D2DColor.FromGDIColor(fillColor));
+			this.g.DrawPolygon(pt, D2DColor.FromGDIColor(strokeColor), weight, D2DDashStyle.Solid, D2DColor.FromGDIColor(fillColor));
 		}
 
 		public void DrawString(string text, Font font, Color c, float x, float y)

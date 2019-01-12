@@ -247,6 +247,25 @@ void DrawPolygon(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 	D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle, D2D1_COLOR_F fillColor)
 {
 	RetrieveContext(ctx);
+	ID2D1SolidColorBrush* fillBrush = NULL;
+
+	if (fillColor.a > 0)
+	{
+		ID2D1RenderTarget* renderTarget = context->renderTarget;
+		renderTarget->CreateSolidColorBrush(fillColor, &fillBrush);
+	}
+
+	DrawPolygonWithBrush(ctx, points, count, strokeColor, strokeWidth, dashStyle, fillBrush);
+		
+	if (fillBrush != NULL) {
+		SafeRelease(&fillBrush);
+	}
+}
+
+void DrawPolygonWithBrush(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
+	D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle, HANDLE brushHandle)
+{
+	RetrieveContext(ctx);
 	HRESULT hr;
 
 	ID2D1PathGeometry* path = NULL;
@@ -264,14 +283,10 @@ void DrawPolygon(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 	ID2D1Factory* factory = context->factory;
 	ID2D1RenderTarget* renderTarget = context->renderTarget;
 
-	if (fillColor.a > 0)
-	{
-		ID2D1SolidColorBrush* fillBrush = NULL;
-		hr = renderTarget->CreateSolidColorBrush(fillColor, &fillBrush);
-
-		renderTarget->FillGeometry(path, fillBrush);
-
-		SafeRelease(&fillBrush);
+	ID2D1Brush* brush = NULL;
+	if (brushHandle != INVALID_HANDLE_VALUE) {
+		brush = reinterpret_cast<ID2D1Brush*>(brushHandle);
+		renderTarget->FillGeometry(path, brush);
 	}
 
 	if (strokeColor.a > 0 && strokeWidth > 0)
