@@ -284,7 +284,7 @@ void DrawPolygonWithBrush(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 	ID2D1RenderTarget* renderTarget = context->renderTarget;
 
 	ID2D1Brush* brush = NULL;
-	if (brushHandle != INVALID_HANDLE_VALUE) {
+	if (brushHandle != NULL) {
 		brush = reinterpret_cast<ID2D1Brush*>(brushHandle);
 		renderTarget->FillGeometry(path, brush);
 	}
