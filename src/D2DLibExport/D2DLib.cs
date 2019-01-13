@@ -542,9 +542,9 @@ namespace unvell.D2DLib
 		}
 
 		public void DrawPolygon(D2DPoint[] points,
-			D2DColor strokeColor, FLOAT strokeWidth  = 1f, D2DDashStyle dashStyle = D2DDashStyle.Solid)
+			D2DColor strokeColor, FLOAT strokeWidth = 1f, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			this.DrawPolygon(points, D2DColor.Transparent, 0, D2DDashStyle.Solid, D2DColor.Transparent);
+			this.DrawPolygon(points, strokeColor, strokeWidth, dashStyle, D2DColor.Transparent);
 		}
 
 		public void DrawPolygon(D2DPoint[] points, 
