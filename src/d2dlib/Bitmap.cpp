@@ -283,22 +283,36 @@ void DrawGDIBitmapRect(HANDLE hContext, HBITMAP hBitmap, D2D1_RECT_F* rect,
 {
 	D2DContext* context = reinterpret_cast<D2DContext*>(hContext);
 
-	IWICBitmap* bitmap = NULL;
+	IWICBitmap* wicBmp = NULL;
 
 	context->imageFactory->CreateBitmapFromHBITMAP(hBitmap, 0, 
 		alpha ? WICBitmapAlphaChannelOption::WICBitmapUseAlpha
-		: WICBitmapAlphaChannelOption::WICBitmapIgnoreAlpha, &bitmap);
+		: WICBitmapAlphaChannelOption::WICBitmapIgnoreAlpha, &wicBmp);
 
 	ID2D1Bitmap* d2dBitmap = NULL;
 
-	HRESULT hr = context->renderTarget->CreateBitmapFromWicBitmap(bitmap, NULL, &d2dBitmap);
+	HRESULT hr = context->renderTarget->CreateBitmapFromWicBitmap(wicBmp, NULL, &d2dBitmap);
 	
-	_ASSERT(d2dBitmap != NULL);
+	if (!SUCCEEDED(hr) || d2dBitmap == NULL && alpha)
+	{
+		// if convert is failed, try create d2d bitmap from 32bppPBGRA format
+		IWICFormatConverter* converter = 0;
+		context->imageFactory->CreateFormatConverter(&converter);
 
-	context->renderTarget->DrawBitmap(d2dBitmap, rect, opacity, interpolationMode, sourceRectangle);
+		if (converter != NULL)
+		{
+			converter->Initialize(wicBmp, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, NULL, 0.f, WICBitmapPaletteTypeMedianCut);
+			hr = context->renderTarget->CreateBitmapFromWicBitmap(converter, 0, &d2dBitmap);
+			converter->Release();
+		}
+	}
+
+	if (SUCCEEDED(hr) && d2dBitmap != NULL) {
+		context->renderTarget->DrawBitmap(d2dBitmap, rect, opacity, interpolationMode, sourceRectangle);
+	}
 
 	SafeRelease(&d2dBitmap);
-	SafeRelease(&bitmap);
+	SafeRelease(&wicBmp);
 }
 
 void DrawD2DBitmap(HANDLE ctx, HANDLE d2dbitmap, D2D1_RECT_F* destRect, D2D1_RECT_F* srcRect,
