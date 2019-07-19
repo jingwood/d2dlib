@@ -194,6 +194,17 @@ void FillRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color)
 	SafeRelease(&brush);
 }
 
+void FillRectangleWithBrush(HANDLE ctx, D2D1_RECT_F* rect, HANDLE brushHandle)
+{
+	RetrieveContext(ctx);
+
+	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brushHandle);
+
+	if (brush != NULL) {
+		context->renderTarget->FillRectangle(rect, brush);
+	}
+}
+
 void DrawEllipse(HANDLE handle, D2D1_ELLIPSE* ellipse, D2D1_COLOR_F color,
 								 FLOAT width, D2D1_DASH_STYLE dashStyle)
 {

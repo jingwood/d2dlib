@@ -127,6 +127,9 @@ namespace unvell.D2DLib
 		public static extern void FillRectangle(HANDLE context, ref D2DRect rect, D2DColor color);
 
 		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FillRectangleWithBrush(HANDLE context, ref D2DRect rect, HANDLE brush);
+
+		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawEllipse(HANDLE context, ref D2DEllipse rect, D2DColor color,
 			FLOAT width = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
@@ -668,6 +671,11 @@ namespace unvell.D2DLib
 		public void FillRectangle(D2DRect rect, D2DColor color)
 		{
 			D2D.FillRectangle(this.DeviceHandle, ref rect, color);
+		}
+
+		public void FillRectangle(D2DRect rect, D2DBrush brush)
+		{
+			D2D.FillRectangleWithBrush(this.DeviceHandle, ref rect, brush.Handle);
 		}
 
 		public void DrawBitmap(D2DBitmap bitmap, D2DRect destRect, FLOAT opacity = 1,
