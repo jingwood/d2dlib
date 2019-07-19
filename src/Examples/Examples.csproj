@@ -90,6 +90,9 @@
     <Compile Include="DemoSelectionForm.designer.cs">
       <DependentUpon>DemoSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demos\TransparentIconDraw.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Demos\Whiteboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +164,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\IMGP6873.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-home-page-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-car-production-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-uwu-emoji-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-music-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-himeji-castle-96.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

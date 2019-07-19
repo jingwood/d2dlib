@@ -60,6 +60,10 @@ namespace unvell.D2DLib
 			this.b = color.b;
 		}
 
+		public static D2DColor operator *(D2DColor c, float s) {
+			return new D2DColor(c.a, c.r * s, c.g * s, c.b * s);
+		}
+
 		public static bool operator ==(D2DColor c1, D2DColor c2)
 		{
 			return c1.r == c2.r && c1.g == c2.g && c1.b == c2.b && c1.a == c2.a;
@@ -70,6 +74,19 @@ namespace unvell.D2DLib
 			return c1.r != c2.r || c1.g != c2.g || c1.b != c2.b || c1.a != c2.a;
 		}
 
+		public override bool Equals(object obj)
+		{
+			if (!(obj is D2DColor)) return false;
+			var c2 = (D2DColor)obj;
+
+			return this.r == c2.r && this.g == c2.g && this.b == c2.b && this.a == c2.a;
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+
 		public static D2DColor FromGDIColor(System.Drawing.Color gdiColor)
 		{
 			return new D2DColor(gdiColor.A / 255f, gdiColor.R / 255f, 
@@ -78,17 +95,19 @@ namespace unvell.D2DLib
 
 		public static System.Drawing.Color ToGDIColor(D2DColor d2color)
 		{
-			int a = (int)(d2color.a * 255);
-			int r = (int)(d2color.r * 255);
-			int g = (int)(d2color.g * 255);
-			int b = (int)(d2color.b * 255);
+			var c = MathFunctions.Clamp(d2color * 255);
+			return System.Drawing.Color.FromArgb((int)c.a, (int)c.r, (int)c.g, (int)c.b);
+		}
 
-			if (a > 255) a = 255; else if (a < 0) a = 0;
-			if (r > 255) r = 255; else if (r < 0) r = 0;
-			if (g > 255) g = 255; else if (g < 0) g = 0;
-			if (b > 255) b = 255; else if (b < 0) b = 0;
+		private static readonly Random rand = new Random();
 
-			return System.Drawing.Color.FromArgb(a, r, g, b);
+		/// <summary>
+		/// Create color by randomly color components.
+		/// </summary>
+		/// <returns></returns>
+		public static D2DColor Randomly() {
+			return new D2DColor(1, (float)rand.NextDouble(), (float)rand.NextDouble(),
+				(float)rand.NextDouble());
 		}
 
 		public static readonly D2DColor Transparent = new D2DColor(0, 0, 0, 0);

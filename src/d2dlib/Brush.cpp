@@ -59,6 +59,28 @@ void SetSolidColorBrushColor(HANDLE brushHandle, D2D1_COLOR_F color)
 	brush->SetColor(color);
 }
 
+HANDLE CreateLinearGradientBrush(HANDLE ctx, D2D1_POINT_2F startPoint, D2D1_POINT_2F endPoint,
+	D2D1_GRADIENT_STOP* gradientStops, UINT gradientStopCount)
+{
+	RetrieveContext(ctx);
+	ID2D1RenderTarget* renderTarget = context->renderTarget;
+	HRESULT hr;
+
+	ID2D1GradientStopCollection* gradientStopCollection = NULL;
+
+	hr = renderTarget->CreateGradientStopCollection(gradientStops, gradientStopCount, &gradientStopCollection);
+
+	ID2D1LinearGradientBrush* brush = NULL;
+
+	if (SUCCEEDED(hr))
+	{
+		hr = renderTarget->CreateLinearGradientBrush(
+			D2D1::LinearGradientBrushProperties(startPoint, endPoint), gradientStopCollection, &brush);
+	}
+
+	return (HANDLE)brush;
+}
+
 HANDLE CreateRadialGradientBrush(HANDLE ctx, D2D1_POINT_2F origin, D2D1_POINT_2F offset,
 																 FLOAT radiusX, FLOAT radiusY, D2D1_GRADIENT_STOP* gradientStops, 
 																 UINT gradientStopCount)

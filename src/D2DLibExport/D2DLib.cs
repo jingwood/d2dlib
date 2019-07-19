@@ -127,6 +127,9 @@ namespace unvell.D2DLib
 		public static extern void FillRectangle(HANDLE context, ref D2DRect rect, D2DColor color);
 
 		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FillRectangleWithBrush(HANDLE context, ref D2DRect rect, HANDLE brush);
+
+		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawEllipse(HANDLE context, ref D2DEllipse rect, D2DColor color,
 			FLOAT width = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
@@ -223,6 +226,10 @@ namespace unvell.D2DLib
 		public static extern void SetSolidColorBrushColor(HANDLE brush, D2DColor color);
 
 		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateLinearGradientBrush(HANDLE ctx, D2DPoint startPoint, D2DPoint endPoint,
+																											D2DGradientStop[] gradientStops, UINT gradientStopCount);
+
+		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateRadialGradientBrush(HANDLE ctx, D2DPoint origin, D2DPoint offset,
 																												  FLOAT radiusX, FLOAT radiusY, D2DGradientStop[] gradientStops, 
 																													UINT gradientStopCount);
@@ -303,6 +310,13 @@ namespace unvell.D2DLib
 		{
 			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
 			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
+		}
+
+		public D2DLinearGradientBrush CreateLinearGradientBrush(D2DPoint startPoint, D2DPoint endPoint,
+																														D2DGradientStop[] gradientStops)
+		{
+			HANDLE handle = D2D.CreateLinearGradientBrush(this.Handle, startPoint, endPoint, gradientStops, (uint)gradientStops.Length);
+			return new D2DLinearGradientBrush(handle, gradientStops);
 		}
 
 		public D2DRadialGradientBrush CreateRadialGradientBrush(D2DPoint origin, D2DPoint offset,
@@ -659,6 +673,11 @@ namespace unvell.D2DLib
 			D2D.FillRectangle(this.DeviceHandle, ref rect, color);
 		}
 
+		public void FillRectangle(D2DRect rect, D2DBrush brush)
+		{
+			D2D.FillRectangleWithBrush(this.DeviceHandle, ref rect, brush.Handle);
+		}
+
 		public void DrawBitmap(D2DBitmap bitmap, D2DRect destRect, FLOAT opacity = 1,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
 		{
@@ -798,6 +817,17 @@ namespace unvell.D2DLib
 			: base(handle)
 		{
 			this.color = color;
+		}
+	}
+	
+	public class D2DLinearGradientBrush : D2DBrush
+	{
+		public D2DGradientStop[] GradientStops { get; private set; }
+
+		internal D2DLinearGradientBrush(HANDLE handle, D2DGradientStop[] gradientStops)
+			: base(handle)
+		{
+			this.GradientStops = gradientStops;
 		}
 	}
 
