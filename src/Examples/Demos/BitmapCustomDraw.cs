@@ -39,8 +39,7 @@ namespace unvell.D2DLib.Examples.Demos
 
 			// create two dummy GDI bitmaps and convert them to Direct2D device bitmap
 
-			// to create transparent bitmap, specify the pixel format to 32bppPArgb
-			gdiBmp1 = new Bitmap(1024, 1024, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+			gdiBmp1 = new Bitmap(1024, 1024);
 			using (Graphics g = Graphics.FromImage(gdiBmp1))
 			{
 				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -49,9 +48,7 @@ namespace unvell.D2DLib.Examples.Demos
 			}
 			d2dbmp1 = this.Device.CreateBitmapFromGDIBitmap(gdiBmp1);
 
-
-			// to create transparent bitmap, specify the pixel format to 32bppPArgb
-			gdiBmp2 = new Bitmap(1024, 1024, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+			gdiBmp2 = new Bitmap(1024, 1024);
 			using (Graphics g = Graphics.FromImage(gdiBmp2))
 			{
 				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -72,6 +69,7 @@ namespace unvell.D2DLib.Examples.Demos
 
 
 			// create one Direct2D device bitmap
+
 			var rect = new D2DRect(170, 790, 670, 80);
 			bmpGraphics = this.Device.CreateBitmapGraphics(1024, 1024);
 			bmpGraphics.BeginRender();
