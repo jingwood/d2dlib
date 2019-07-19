@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d2dlib", "d2dlib\d2dlib.vcxproj", "{E0A71FCE-69DD-40A6-87FB-2D63AB5D25C9}"
 EndProject
@@ -13,13 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "Examples\Exampl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF3FC267-D558-4556-8E8E-16BA7C52BDA3}"
 	ProjectSection(SolutionItems) = preProject
-		..\snapshots\bitmap_rendering.png = ..\snapshots\bitmap_rendering.png
-		..\snapshots\imagetest.png = ..\snapshots\imagetest.png
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
-		..\snapshots\starspace.png = ..\snapshots\starspace.png
-		..\snapshots\subtitle.png = ..\snapshots\subtitle.png
-		..\snapshots\whiteboard.png = ..\snapshots\whiteboard.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "snapshots", "snapshots", "{F362F889-0287-4377-A211-440C9871FDA6}"
@@ -132,5 +127,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F362F889-0287-4377-A211-440C9871FDA6} = {EF3FC267-D558-4556-8E8E-16BA7C52BDA3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7BAB2A3D-55C4-4645-8E81-459E60AAC2CD}
 	EndGlobalSection
 EndGlobal
