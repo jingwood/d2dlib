@@ -248,10 +248,12 @@ void DrawBitmapRenderTarget(HANDLE ctx, HANDLE bitmapRenderTargetHandle, D2D1_RE
 
 	if (bitmapRenderTargetContext->bitmap == NULL) 
 	{
-		bitmapRenderTargetContext->bitmapRenderTarget->GetBitmap(&bitmapRenderTargetContext->bitmap);
+		HRESULT hr = bitmapRenderTargetContext->bitmapRenderTarget->GetBitmap(&bitmapRenderTargetContext->bitmap);
 	}
 
-	context->renderTarget->DrawBitmap(bitmapRenderTargetContext->bitmap, rect, opacity, interpolationMode);
+	if (bitmapRenderTargetContext->bitmap != NULL) {
+		context->renderTarget->DrawBitmap(bitmapRenderTargetContext->bitmap, rect, opacity, interpolationMode);
+	}
 }
 
 HANDLE GetBitmapRenderTargetBitmap(HANDLE bitmapRenderTargetHandle)

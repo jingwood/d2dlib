@@ -328,7 +328,7 @@ void FillPathWithBrush(HANDLE ctx, HANDLE brushHandle)
 	context->renderTarget->FillGeometry(pathContext->path, brush);
 }
 
-void FillGeometryWithBrush(HANDLE ctx, HANDLE geoHandle, HANDLE brushHandle, HANDLE opacityBrushHandle)
+void FillGeometryWithBrush(HANDLE ctx, HANDLE geoHandle, _In_ HANDLE brushHandle, _In_opt_ HANDLE opacityBrushHandle)
 {
 	RetrieveContext(ctx);
 
