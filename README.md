@@ -2,7 +2,7 @@
 
 A .NET library that provides the hardware-accelerated high performance immediate drawing functionality via Direct2D API.
 
-By using the graphics context to draw anything on windows form, control or even in memory. The interface of graphics context is designed like standard Windows Form GDI+ graphics interface, it's easily use and user friendly.
+By using the graphics context to draw anything on windows form, control or draw in memory. The interface of graphics context is designed like standard Windows Form GDI+ graphics interface, it's easily use and user friendly.
 
 | Project | Language | Description | Output DLL | 
 | --- | --- | --- | --- |
@@ -19,11 +19,23 @@ By using the graphics context to draw anything on windows form, control or even 
 5. Override `OnRender(D2DGraphics g)` method (do not override .NET `OnPaint` method)
 6. Draw anything inside `OnRender` method via the `g` context
 
-*Notice*
+*Notice*: The platform target of application project must be set to x86 when using default build configuration.
 
-The platform target of application project must be set to x86 when using default build configuration.
+# Basic rendering
 
-# Hello World
+## Draw rectangle
+
+```csharp
+var rect = new D2DRect(0, 0, 10, 10);
+g.DrawEllipse(rect, D2DColor.Red);
+```
+
+## Draw ellipse
+
+```csharp
+var ellipse = new D2DEllipse(0, 0, 10, 10);
+g.DrawEllipse(ellipse, D2DColor.Gray);
+```
 
 ## Draw text
 
@@ -34,14 +46,62 @@ protected override void OnRender(D2DGraphics g)
 }
 ```
 
-## Draw ellipse
+## Using brush object
+
+### Solid color brush
 
 ```csharp
-var ellipse = new D2DEllipse(0, 0, 10, 10);
-g.DrawEllipse(ref ellipse, D2DColor.Gray);
+var brush = Device.CreateSolidColorBrush(new D2DColor(1, 0, 0.5));
+g.DrawEllipse(rect, brush);
 ```
 
-## Memory device bitmap
+### Linear and radio gradient brush
+
+```csharp
+var brush = Device.CreateLinearGradientBrush(new D2DPoint(0, 0), new D2DPoint(200, 100),
+	new D2DGradientStop[] {
+		new D2DGradientStop(0, D2DColor.White),
+		new D2DGradientStop(0.5, D2DColor.Green),
+		new D2DGradientStop(1, D2DColor.Black),
+	});
+```
+
+## Draw bitmap
+
+```csharp
+g.DrawBitmap(bmp, this.ClientRectangle);
+```
+
+## Convert GDI+ bitmap to Direct2D bitmap for getting high performance rendering
+
+```csharp
+// conver to Direct2D bitmap
+var d2dbmp = Device.CreateBitmapFromGDIBitmap(gdiBitmap);
+
+// draw Direct2D bitmap
+g.DrawBitmap(d2dbmp, this.ClientRectangle);
+```
+
+# Drawing on memory bitmap
+
+## Drawing on GDI+ bitmap
+
+```csharp
+// create and draw on GDI+ bitmap
+var gdiBmp = new Bitmap(1024, 1024);
+using (Graphics g = Graphics.FromImage(gdiBmp))
+{
+	g.DrawString("This is GDI+ bitmap layer", new Font(this.Font.FontFamily, 48), Brushes.Black, 10, 10);
+}
+
+// draw memory bitmap on screen
+g.DrawBitmap(gdiBmp, this.ClientRectangle);
+```
+
+Learn more about [Bitmap](https://github.com/jingwood/d2dlib/wiki/Bitmap).
+See [Example code](src/Examples/Demos/BitmapCustomDraw.cs)
+
+## Drawing on Direct2D memory bitmap
 
 ```csharp
 var bmpGraphics = this.Device.CreateBitmapGraphics(1024, 1024);
@@ -54,7 +114,21 @@ bmpGraphics.EndRender();
 g.DrawBitmap(bmpGraphics, this.ClientRectangle);
 ```
 
-Learn more about [Bitmap](https://github.com/jingwood/d2dlib/wiki/Bitmap).
+Note: When create a Direct2D Device bitmap, do not forget call `BeginRender` and `EndRender` method.
+
+# Using transform
+
+By calling `PushTransform` and `PopTransform` to make a transform session.
+
+```csharp
+g.PushTransform();
+
+// rotate 45 degree
+g.RotateTransform(45, centerPoint);
+
+g.DrawBitmap(mybmp, rect);
+g.PopTransform();
+```
 
 # Examples
 
