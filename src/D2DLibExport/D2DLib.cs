@@ -223,6 +223,10 @@ namespace unvell.D2DLib
 		public static extern void SetSolidColorBrushColor(HANDLE brush, D2DColor color);
 
 		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateLinearGradientBrush(HANDLE ctx, D2DPoint startPoint, D2DPoint endPoint,
+																											D2DGradientStop[] gradientStops, UINT gradientStopCount);
+
+		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateRadialGradientBrush(HANDLE ctx, D2DPoint origin, D2DPoint offset,
 																												  FLOAT radiusX, FLOAT radiusY, D2DGradientStop[] gradientStops, 
 																													UINT gradientStopCount);
@@ -303,6 +307,13 @@ namespace unvell.D2DLib
 		{
 			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
 			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
+		}
+
+		public D2DLinearGradientBrush CreateLinearGradientBrush(D2DPoint startPoint, D2DPoint endPoint,
+																														D2DGradientStop[] gradientStops)
+		{
+			HANDLE handle = D2D.CreateLinearGradientBrush(this.Handle, startPoint, endPoint, gradientStops, (uint)gradientStops.Length);
+			return new D2DLinearGradientBrush(handle, gradientStops);
 		}
 
 		public D2DRadialGradientBrush CreateRadialGradientBrush(D2DPoint origin, D2DPoint offset,
@@ -798,6 +809,17 @@ namespace unvell.D2DLib
 			: base(handle)
 		{
 			this.color = color;
+		}
+	}
+	
+	public class D2DLinearGradientBrush : D2DBrush
+	{
+		public D2DGradientStop[] GradientStops { get; private set; }
+
+		internal D2DLinearGradientBrush(HANDLE handle, D2DGradientStop[] gradientStops)
+			: base(handle)
+		{
+			this.GradientStops = gradientStops;
 		}
 	}
 
