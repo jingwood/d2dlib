@@ -67,6 +67,7 @@
     <Compile Include="D2DEnums.cs" />
     <Compile Include="D2DLib.cs" />
     <Compile Include="D2DStructs.cs" />
+    <Compile Include="MathFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
