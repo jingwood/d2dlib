@@ -29,6 +29,14 @@ using unvell.D2DLib.WinForm;
 
 namespace unvell.D2DLib.Examples
 {
+	/// <summary>
+	/// Windows Form supports both GDI+ rendering and Direct2D hardware accelerated rendering.
+	/// </summary>
+	/// <remarks>
+	/// Usage:
+	/// 1. Override the method <code>void OnDraw(IAccelerationGraphics ag)</code> to draw anything on windows form.
+	/// 2. Toggle property <code>HardwardAcceleration</code> to switch between GDI+ and Direct2D rendering.
+	/// </remarks>
 	class D2DHybridForm : Form
 	{
 		private D2DDevice device;
@@ -139,6 +147,10 @@ namespace unvell.D2DLib.Examples
 			}
 		}
 
+		/// <summary>
+		/// User drawing method. Override this method to draw anything on your form.
+		/// </summary>
+		/// <param name="ag">Graphics context supports both GDI+ and Direct2D rendering.</param>
 		protected virtual void OnDraw(IAccelerationGraphics ag)
 		{
 			ag.DrawString("Hello World", Font, Color.Black, 
