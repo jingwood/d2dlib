@@ -59,11 +59,11 @@ g.DrawEllipse(rect, brush);
 
 ```csharp
 var brush = Device.CreateLinearGradientBrush(new D2DPoint(0, 0), new D2DPoint(200, 100),
-	new D2DGradientStop[] {
-		new D2DGradientStop(0, D2DColor.White),
-		new D2DGradientStop(0.5, D2DColor.Green),
-		new D2DGradientStop(1, D2DColor.Black),
-	});
+  new D2DGradientStop[] {
+    new D2DGradientStop(0, D2DColor.White),
+    new D2DGradientStop(0.5, D2DColor.Green),
+    new D2DGradientStop(1, D2DColor.Black),
+  });
 ```
 
 ## Draw bitmap
@@ -75,7 +75,7 @@ g.DrawBitmap(bmp, this.ClientRectangle);
 ## Convert GDI+ bitmap to Direct2D bitmap for getting high performance rendering
 
 ```csharp
-// conver to Direct2D bitmap
+// convert to Direct2D bitmap
 var d2dbmp = Device.CreateBitmapFromGDIBitmap(gdiBitmap);
 
 // draw Direct2D bitmap
@@ -91,7 +91,7 @@ g.DrawBitmap(d2dbmp, this.ClientRectangle);
 var gdiBmp = new Bitmap(1024, 1024);
 using (Graphics g = Graphics.FromImage(gdiBmp))
 {
-	g.DrawString("This is GDI+ bitmap layer", new Font(this.Font.FontFamily, 48), Brushes.Black, 10, 10);
+  g.DrawString("This is GDI+ bitmap layer", new Font(this.Font.FontFamily, 48), Brushes.Black, 10, 10);
 }
 
 // draw memory bitmap on screen
@@ -114,7 +114,7 @@ bmpGraphics.EndRender();
 g.DrawBitmap(bmpGraphics, this.ClientRectangle);
 ```
 
-Note: When create a Direct2D Device bitmap, do not forget call `BeginRender` and `EndRender` method.
+*Note:* When create a Direct2D Device bitmap, do not forget call `BeginRender` and `EndRender` method.
 
 # Using transform
 
