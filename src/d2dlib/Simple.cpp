@@ -31,24 +31,27 @@ void DrawLine(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLOR_F c
 {
 	RetrieveContext(ctx);
 
-	ID2D1SolidColorBrush* brush;
-	(context->renderTarget)->CreateSolidColorBrush(color, &brush);
-
+	ID2D1SolidColorBrush* brush = NULL;
 	ID2D1StrokeStyle* strokeStyle = NULL;
 
-	if (dashStyle != D2D1_DASH_STYLE_SOLID)
-	{
-		context->factory->CreateStrokeStyle(D2D1::StrokeStyleProperties(
-          D2D1_CAP_STYLE_FLAT,
-          D2D1_CAP_STYLE_FLAT,
-          D2D1_CAP_STYLE_ROUND,
-          D2D1_LINE_JOIN_MITER,
-          10.0f,
-					dashStyle,
-          0.0f), NULL, 0, &strokeStyle);
-	}
+	context->renderTarget->CreateSolidColorBrush(color, &brush);
 
-	context->renderTarget->DrawLine(start, end, brush, width, strokeStyle);
+	if (brush != NULL) {
+
+		if (dashStyle != D2D1_DASH_STYLE_SOLID)
+		{
+			context->factory->CreateStrokeStyle(D2D1::StrokeStyleProperties(
+				D2D1_CAP_STYLE_FLAT,
+				D2D1_CAP_STYLE_FLAT,
+				D2D1_CAP_STYLE_ROUND,
+				D2D1_LINE_JOIN_MITER,
+				10.0f,
+				dashStyle,
+				0.0f), NULL, 0, &strokeStyle);
+		}
+
+		context->renderTarget->DrawLine(start, end, brush, width, strokeStyle);
+	}
 
 	SafeRelease(&strokeStyle);
 	SafeRelease(&brush);
@@ -158,11 +161,11 @@ void DrawRectangle(HANDLE handle, D2D1_RECT_F* rect, D2D1_COLOR_F color,
 	ID2D1SolidColorBrush* brush = NULL;
 	ID2D1StrokeStyle* strokeStyle = NULL;
 
-	if (brush != NULL) {
-		context->renderTarget->CreateSolidColorBrush(color, &brush);
+	context->renderTarget->CreateSolidColorBrush(color, &brush);
 
-		if (dashStyle != D2D1_DASH_STYLE_SOLID)
-		{
+	if (brush != NULL) {
+
+		if (dashStyle != D2D1_DASH_STYLE_SOLID) {
 			context->factory->CreateStrokeStyle(D2D1::StrokeStyleProperties(
 				D2D1_CAP_STYLE_FLAT,
 				D2D1_CAP_STYLE_FLAT,
@@ -176,8 +179,8 @@ void DrawRectangle(HANDLE handle, D2D1_RECT_F* rect, D2D1_COLOR_F color,
 		context->renderTarget->DrawRectangle(rect, brush, width, strokeStyle);
 	}
 
-	SafeRelease(&strokeStyle);
 	SafeRelease(&brush);
+	SafeRelease(&strokeStyle);
 }
 
 void FillRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color)
