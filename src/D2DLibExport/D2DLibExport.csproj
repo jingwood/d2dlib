@@ -64,7 +64,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="D2DBitmapGraphics.cs" />
     <Compile Include="D2DEnums.cs" />
+    <Compile Include="D2DGraphics.cs" />
     <Compile Include="D2DLib.cs" />
     <Compile Include="D2DStructs.cs" />
     <Compile Include="MathFunctions.cs" />
