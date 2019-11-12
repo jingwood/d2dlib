@@ -52,17 +52,23 @@ namespace unvell.D2DLib.Examples.Demos
 			switch (e.KeyCode)
 			{
 				case Keys.E:
+					this.lastPenColor = D2DColor.White;
 					this.penColor = D2DColor.White; Invalidate(); break;
 
 				case Keys.D1:
+					this.lastPenColor = D2DColor.Blue;
 					this.penColor = D2DColor.Blue; Invalidate(); break;
 				case Keys.D2:
+					this.lastPenColor = D2DColor.Red;
 					this.penColor = D2DColor.Red; Invalidate(); break;
 				case Keys.D3:
+					this.lastPenColor = D2DColor.Green;
 					this.penColor = D2DColor.Green; Invalidate(); break;
 				case Keys.D4:
+					this.lastPenColor = D2DColor.Yellow;
 					this.penColor = D2DColor.Yellow; Invalidate(); break;
 				case Keys.D5:
+					this.lastPenColor = D2DColor.Pink;
 					this.penColor = D2DColor.Pink; Invalidate(); break;
 			}
 		}
@@ -83,7 +89,8 @@ namespace unvell.D2DLib.Examples.Demos
 		private Point lastPoint, cursorPoint;
 		private bool isDrawing;
 		private Size penSize = new Size(5, 5);
-		private D2DColor penColor = D2DColor.Blue;
+		private D2DColor penColor = D2DColor.Blue;  // use white as eraser, other else as normal pen
+		private D2DColor lastPenColor = D2DColor.Blue;  // backup pen color before switch to eraser
 		private bool showGettingStart = true;
 
 		protected override void OnRender(D2DGraphics g)
@@ -105,6 +112,20 @@ namespace unvell.D2DLib.Examples.Demos
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
+			if (e.Button == MouseButtons.Left)
+			{
+				this.penColor = this.lastPenColor;
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				// switch to eraser
+				// backup last pen color
+				if (this.penColor != D2DColor.White) {
+					this.lastPenColor = this.penColor;
+				}
+				this.penColor = D2DColor.White;
+			}
+			
 			this.isDrawing = true;
 			this.lastPoint = e.Location;
 			this.cursorPoint = e.Location;
@@ -149,7 +170,7 @@ namespace unvell.D2DLib.Examples.Demos
 		{
 			base.OnMouseWheel(e);
 
-			int diff = (int)((float)e.Delta / 120.0f);
+			int diff = (int)((float)e.Delta / 60.0f);
 			this.penSize.Width += diff;
 			this.penSize.Height += diff;
 
