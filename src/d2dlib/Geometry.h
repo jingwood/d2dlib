@@ -35,7 +35,7 @@ extern "C"
 	D2DLIB_API void AddPathLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count);
 	D2DLIB_API void AddPathBeziers(HANDLE ctx, D2D1_BEZIER_SEGMENT* bezierSegments, UINT count);
 	D2DLIB_API void AddPathEllipse(HANDLE ctx, const D2D1_ELLIPSE* ellipse);
-	D2DLIB_API void AddPathArc(HANDLE ctx, FLOAT w, FLOAT h, D2D1_POINT_2F endPoint, FLOAT sweepAngle,
+	D2DLIB_API void AddPathArc(HANDLE ctx, D2D1_SIZE_F size, D2D1_POINT_2F endPoint, FLOAT sweepAngle,
 		D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION::D2D1_SWEEP_DIRECTION_CLOCKWISE);
 
 	D2DLIB_API void DrawBeziers(HANDLE ctx, D2D1_BEZIER_SEGMENT* bezierSegments, UINT count, 

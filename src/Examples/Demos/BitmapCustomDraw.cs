@@ -37,7 +37,7 @@ namespace unvell.D2DLib.Examples.Demos
 			AnimationDraw = true;
 			ShowFPS = true;
 
-			// create two dummy GDI bitmaps and convert them to Direct2D device bitmap
+			// test1: create two dummy GDI bitmaps and convert them to Direct2D device bitmap
 
 			gdiBmp1 = new Bitmap(1024, 1024);
 			using (Graphics g = Graphics.FromImage(gdiBmp1))
@@ -68,7 +68,7 @@ namespace unvell.D2DLib.Examples.Demos
 			d2dbmp2 = this.Device.CreateBitmapFromGDIBitmap(gdiBmp2);
 
 
-			// create one Direct2D device bitmap
+			// test2: create one Direct2D device bitmap
 
 			var rect = new D2DRect(170, 790, 670, 80);
 			bmpGraphics = this.Device.CreateBitmapGraphics(1024, 1024);
@@ -107,6 +107,28 @@ namespace unvell.D2DLib.Examples.Demos
 
 			// draw Direct2D bitmap
 			g.DrawBitmap(bmpGraphics, this.ClientRectangle);
+
+			// direct draw using D2DGraphics
+			g.DrawRoundedRectangle(new D2DRoundedRect
+			{
+				rect = new D2DRect(100, 200, 200, 150),
+				radiusX = 10,
+				radiusY = 10
+			}, D2DColor.LightSeaGreen, D2DColor.GreenYellow, 5);
+	 
+			g.DrawRoundedRectangle(new D2DRoundedRect
+			{
+				rect = new D2DRect(150, 250, 100, 200),
+				radiusX = 10,
+				radiusY = 5
+			}, D2DColor.Red, D2DColor.Transparent, 1);
+			
+			g.DrawRoundedRectangle(new D2DRoundedRect
+			{
+				rect = new D2DRect(50, 100, 100, 50),
+				radiusX = 20,
+				radiusY = 20
+			}, D2DColor.Transparent, D2DColor.LightBlue, 2);
 		}
 
 		#region Rect animation

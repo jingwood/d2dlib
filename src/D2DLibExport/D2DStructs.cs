@@ -31,7 +31,7 @@ namespace unvell.D2DLib
 {
 	#region Color
 	[Serializable]
-	//[StructLayout(LayoutKind.Sequential)]
+	[StructLayout(LayoutKind.Sequential)]
 	public struct D2DColor
 	{
 		public FLOAT r;
@@ -89,7 +89,7 @@ namespace unvell.D2DLib
 
 		public static D2DColor FromGDIColor(System.Drawing.Color gdiColor)
 		{
-			return new D2DColor(gdiColor.A / 255f, gdiColor.R / 255f, 
+			return new D2DColor(gdiColor.A / 255f, gdiColor.R / 255f,
 				gdiColor.G / 255f, gdiColor.B / 255f);
 		}
 
@@ -120,9 +120,15 @@ namespace unvell.D2DLib
 		public static readonly D2DColor GhostWhite = D2DColor.FromGDIColor(System.Drawing.Color.GhostWhite);
 		public static readonly D2DColor LightGray = D2DColor.FromGDIColor(System.Drawing.Color.LightGray);
 		public static readonly D2DColor White = D2DColor.FromGDIColor(System.Drawing.Color.White);
+		public static readonly D2DColor SlateGray = D2DColor.FromGDIColor(System.Drawing.Color.SlateGray);
+		public static readonly D2DColor DarkSlateGray = D2DColor.FromGDIColor(System.Drawing.Color.DarkSlateGray);
 
 		public static readonly D2DColor Red = D2DColor.FromGDIColor(System.Drawing.Color.Red);
 		public static readonly D2DColor DarkRed = D2DColor.FromGDIColor(System.Drawing.Color.DarkRed);
+		public static readonly D2DColor PaleVioletRed = D2DColor.FromGDIColor(System.Drawing.Color.PaleVioletRed);
+		public static readonly D2DColor OrangeRed = D2DColor.FromGDIColor(System.Drawing.Color.OrangeRed);
+		public static readonly D2DColor IndianRed = D2DColor.FromGDIColor(System.Drawing.Color.IndianRed);
+		public static readonly D2DColor MediumVioletRed = D2DColor.FromGDIColor(System.Drawing.Color.MediumVioletRed);
 		public static readonly D2DColor Coral = D2DColor.FromGDIColor(System.Drawing.Color.Coral);
 		public static readonly D2DColor LightCoral = D2DColor.FromGDIColor(System.Drawing.Color.LightCoral);
 
@@ -139,8 +145,14 @@ namespace unvell.D2DLib
 
 		public static readonly D2DColor LawnGreen = D2DColor.FromGDIColor(System.Drawing.Color.LawnGreen);
 		public static readonly D2DColor LightGreen = D2DColor.FromGDIColor(System.Drawing.Color.LightGreen);
+		public static readonly D2DColor LightSeaGreen = D2DColor.FromGDIColor(System.Drawing.Color.LightSeaGreen);
+		public static readonly D2DColor MediumSeaGreen = D2DColor.FromGDIColor(System.Drawing.Color.MediumSeaGreen);
+		public static readonly D2DColor DarkSeaGreen = D2DColor.FromGDIColor(System.Drawing.Color.DarkSeaGreen);
 		public static readonly D2DColor Green = D2DColor.FromGDIColor(System.Drawing.Color.Green);
 		public static readonly D2DColor DarkGreen = D2DColor.FromGDIColor(System.Drawing.Color.DarkGreen);
+		public static readonly D2DColor DarkOliveGreen = D2DColor.FromGDIColor(System.Drawing.Color.DarkOliveGreen);
+		public static readonly D2DColor ForestGreen = D2DColor.FromGDIColor(System.Drawing.Color.ForestGreen);
+		public static readonly D2DColor GreenYellow = D2DColor.FromGDIColor(System.Drawing.Color.GreenYellow);
 
 		public static readonly D2DColor AliceBlue = D2DColor.FromGDIColor(System.Drawing.Color.AliceBlue);
 		public static readonly D2DColor LightBlue = D2DColor.FromGDIColor(System.Drawing.Color.LightBlue);
@@ -148,6 +160,11 @@ namespace unvell.D2DLib
 		public static readonly D2DColor DarkBlue = D2DColor.FromGDIColor(System.Drawing.Color.DarkBlue);
 		public static readonly D2DColor SkyBlue = D2DColor.FromGDIColor(System.Drawing.Color.SkyBlue);
 		public static readonly D2DColor SteelBlue = D2DColor.FromGDIColor(System.Drawing.Color.SteelBlue);
+		public static readonly D2DColor BlueViolet = D2DColor.FromGDIColor(System.Drawing.Color.BlueViolet);
+		public static readonly D2DColor CadetBlue = D2DColor.FromGDIColor(System.Drawing.Color.CadetBlue);
+		public static readonly D2DColor BlanchedAlmond = D2DColor.FromGDIColor(System.Drawing.Color.BlanchedAlmond);
+		public static readonly D2DColor PowderBlue = D2DColor.FromGDIColor(System.Drawing.Color.PowderBlue);
+		public static readonly D2DColor CornflowerBlue = D2DColor.FromGDIColor(System.Drawing.Color.CornflowerBlue);
 
 		public static readonly D2DColor Pink = D2DColor.FromGDIColor(System.Drawing.Color.Pink);
 	}
@@ -245,8 +262,25 @@ namespace unvell.D2DLib
 		{
 			return new System.Drawing.RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 		}
+
+		public static explicit operator System.Drawing.Rectangle(D2DRect rect)
+		{
+			return System.Drawing.Rectangle.Round(rect);
+		}
 	}
-	#endregion
+	#endregion Rect
+
+	#region Rounded Rect
+
+	[Serializable]
+	[StructLayout(LayoutKind.Sequential)]
+	public struct D2DRoundedRect
+	{
+		public D2DRect rect;
+		public FLOAT radiusX;
+		public FLOAT radiusY;
+	}
+	#endregion Rounded Rect
 
 	#region Point
 	[Serializable]
@@ -305,6 +339,11 @@ namespace unvell.D2DLib
 			return new System.Drawing.PointF(p.x, p.y);
 		}
 
+		public static explicit operator System.Drawing.Point(D2DPoint p)
+		{
+			return System.Drawing.Point.Round(p);
+		}
+
 		public override int GetHashCode()
 		{
 			return (int)((this.x * 0xff) + this.y);
@@ -342,8 +381,13 @@ namespace unvell.D2DLib
 		{
 			return new System.Drawing.SizeF(s.width, s.height);
 		}
+
+		public static explicit operator System.Drawing.Size(D2DSize s)
+		{
+			return System.Drawing.Size.Round(s);
+		}
 	}
-	#endregion // Size
+	#endregion Size
 
 	#region Ellipse
 	[Serializable]

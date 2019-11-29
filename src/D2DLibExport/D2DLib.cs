@@ -130,6 +130,15 @@ namespace unvell.D2DLib
 		public static extern void FillRectangleWithBrush(HANDLE context, ref D2DRect rect, HANDLE brush);
 
 		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawRoundedRect(HANDLE ctx, ref D2DRoundedRect roundedRect, 
+			D2DColor strokeColor, D2DColor fillColor,
+			FLOAT strokeWidth = 1, D2DDashStyle strokeStyle = D2DDashStyle.Solid);
+
+		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawRoundedRectWithBrush(HANDLE ctx, ref D2DRoundedRect roundedRect,
+			HANDLE strokePen, HANDLE fillBrush, float strokeWidth = 1);
+
+		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawEllipse(HANDLE context, ref D2DEllipse rect, D2DColor color,
 			FLOAT width = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
