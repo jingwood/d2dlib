@@ -221,14 +221,15 @@ namespace unvell.D2DLib.Examples.Demos
 					// this will get better performance
 					if (Math.Abs(s.angle) < 0.01)
 					{
-						g.DrawBitmap(s.bmp, new D2DRect(s.x, s.y, s.width, s.height));
+						// add 0.5 for width and height to avoid edge line between image sprites
+						g.DrawBitmap(s.bmp, new D2DRect(s.x, s.y, s.width + 0.5f, s.height + 0.5f));
 					}
 					else
 					{
 						// else when angle is specified, push a rotate matrix
 						g.PushTransform();
 						g.RotateTransform(s.angle, new D2DPoint(s.x + s.width * 0.5f, s.y + s.height * 0.5f));
-						g.DrawBitmap(s.bmp, new D2DRect(s.x, s.y, s.width, s.height));
+						g.DrawBitmap(s.bmp, new D2DRect(s.x, s.y, s.width + 0.5f, s.height + 0.5f));
 						g.PopTransform();
 					}
 				}
