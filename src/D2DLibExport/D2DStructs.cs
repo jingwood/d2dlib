@@ -262,8 +262,15 @@ namespace unvell.D2DLib
 		{
 			return new System.Drawing.RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 		}
+
+		public static explicit operator System.Drawing.Rectangle(D2DRect rect)
+		{
+			return System.Drawing.Rectangle.Round(rect);
+		}
 	}
-	#endregion
+	#endregion Rect
+
+	#region Rounded Rect
 
 	[Serializable]
 	[StructLayout(LayoutKind.Sequential)]
@@ -273,6 +280,7 @@ namespace unvell.D2DLib
 		public FLOAT radiusX;
 		public FLOAT radiusY;
 	}
+	#endregion Rounded Rect
 
 	#region Point
 	[Serializable]
@@ -331,6 +339,11 @@ namespace unvell.D2DLib
 			return new System.Drawing.PointF(p.x, p.y);
 		}
 
+		public static explicit operator System.Drawing.Point(D2DPoint p)
+		{
+			return System.Drawing.Point.Round(p);
+		}
+
 		public override int GetHashCode()
 		{
 			return (int)((this.x * 0xff) + this.y);
@@ -368,8 +381,13 @@ namespace unvell.D2DLib
 		{
 			return new System.Drawing.SizeF(s.width, s.height);
 		}
+
+		public static explicit operator System.Drawing.Size(D2DSize s)
+		{
+			return System.Drawing.Size.Round(s);
+		}
 	}
-	#endregion // Size
+	#endregion Size
 
 	#region Ellipse
 	[Serializable]
