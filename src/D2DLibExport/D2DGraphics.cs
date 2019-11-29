@@ -283,6 +283,17 @@ namespace unvell.D2DLib
 			D2D.FillRectangleWithBrush(this.DeviceHandle, ref rect, brush.Handle);
 		}
 
+		public void DrawRoundedRectangle(D2DRoundedRect roundedRect, D2DColor strokeColor, D2DColor fillColor, 
+			FLOAT strokeWidth = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
+		{
+			D2D.DrawRoundedRect(this.DeviceHandle, ref roundedRect, strokeColor, fillColor, strokeWidth, dashStyle);
+		}
+
+		public void DrawRoundedRectangle(D2DRoundedRect roundedRect, D2DPen strokePen, D2DBrush fillBrush, FLOAT strokeWidth = 1)
+		{
+			D2D.DrawRoundedRectWithBrush(this.DeviceHandle, ref roundedRect, strokePen.Handle, fillBrush.Handle, strokeWidth);
+		}
+
 		public void DrawBitmap(D2DBitmap bitmap, D2DRect destRect, FLOAT opacity = 1,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
 		{
@@ -337,7 +348,6 @@ namespace unvell.D2DLib
 		{
 			D2D.FillPathD(path.Handle, fillColor);
 		}
-
 
 		public void Clear(D2DColor color)
 		{

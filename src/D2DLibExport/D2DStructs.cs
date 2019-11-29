@@ -248,6 +248,15 @@ namespace unvell.D2DLib
 	}
 	#endregion
 
+	[Serializable]
+	[StructLayout(LayoutKind.Sequential)]
+	public struct D2DRoundedRect
+	{
+		public D2DRect rect;
+		public FLOAT radiusX;
+		public FLOAT radiusY;
+	}
+
 	#region Point
 	[Serializable]
 	[StructLayout(LayoutKind.Sequential)]
