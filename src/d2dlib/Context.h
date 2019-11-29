@@ -27,7 +27,6 @@
 #include <dwrite.h>
 #include "Wincodec.h"
 
-#include <map>
 #include <stack>
 
 using namespace std;
@@ -115,7 +114,7 @@ extern "C"
 	D2DLIB_API void Flush(HANDLE context);
 	D2DLIB_API void Clear(HANDLE context, D2D1_COLOR_F color);
 
-	D2DLIB_API HANDLE CreateBitmapRenderTarget(HANDLE context, D2D_SIZE_F size = D2D1::SizeF());
+	D2DLIB_API HANDLE CreateBitmapRenderTarget(HANDLE context, D2D1_SIZE_F size = D2D1::SizeF());
 	D2DLIB_API void DrawBitmapRenderTarget(HANDLE context, HANDLE bitmapRenderTargetHandle, D2D1_RECT_F* rect = NULL,
 		FLOAT opacity = 1, D2D1_BITMAP_INTERPOLATION_MODE interpolationMode = D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	D2DLIB_API HANDLE GetBitmapRenderTargetBitmap(HANDLE bitmapRenderTargetHandle);
@@ -125,19 +124,10 @@ extern "C"
 												   D2D1_ANTIALIAS_MODE antiAliasMode = D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	D2DLIB_API void PopClip(HANDLE context);
 
-	D2DLIB_API void PushTransform(HANDLE context);
-	D2DLIB_API void PopTransform(HANDLE context);
-	D2DLIB_API void TranslateTransform(HANDLE context, FLOAT x, FLOAT y);
-	D2DLIB_API void ScaleTransform(HANDLE context, FLOAT scaleX, FLOAT scaleY, D2D1_POINT_2F center = D2D1::Point2F());
-	D2DLIB_API void RotateTransform(HANDLE context, FLOAT angle, D2D_POINT_2F point = D2D1::Point2F());
-	D2DLIB_API void SkewTransform(HANDLE ctx, FLOAT angleX, FLOAT angleY, D2D1_POINT_2F center = D2D1::Point2F());
-	D2DLIB_API void SetTransform(HANDLE context, FLOAT angle, D2D_POINT_2F center);
-	D2DLIB_API void ResetTransform(HANDLE context);
-
 	D2DLIB_API HANDLE CreateLayer(HANDLE context);
-	D2DLIB_API void PushLayer(HANDLE context, HANDLE layerHandle, D2D1_RECT_F& contentBounds = D2D1::InfiniteRect(),
+	D2DLIB_API void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds = D2D1::InfiniteRect(),
 		 __in_opt ID2D1Brush *opacityBrush = NULL, D2D1_LAYER_OPTIONS layerOptions = D2D1_LAYER_OPTIONS_NONE);
-	D2DLIB_API void PopLayer(HANDLE context, HANDLE layerHandle);
+	D2DLIB_API void PopLayer(HANDLE ctx);
 
 	D2DLIB_API HRESULT GetLastResult();
 	D2DLIB_API void ReleaseObject(HANDLE context);

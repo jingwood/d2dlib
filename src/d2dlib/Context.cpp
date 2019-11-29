@@ -297,85 +297,6 @@ void PopClip(HANDLE ctx)
 	context->renderTarget->PopAxisAlignedClip();
 }
 
-void PushTransform(HANDLE ctx)
-{
-	RetrieveContext(ctx);
-
-	D2D1_MATRIX_3X2_F matrix;
-
-	context->renderTarget->GetTransform(&matrix);
-	context->matrixStack->push(matrix);
-}
-
-void PopTransform(HANDLE ctx)
-{
-	RetrieveContext(ctx);
-
-	D2D1_MATRIX_3X2_F matrix = context->matrixStack->top();
-	context->matrixStack->pop();
-	
-	context->renderTarget->SetTransform(&matrix);
-}
-
-
-void TranslateTransform(HANDLE ctx, FLOAT x, FLOAT y)
-{
-	RetrieveContext(ctx);
-
-	D2D1_MATRIX_3X2_F matrix;
-	context->renderTarget->GetTransform(&matrix);
-
-	D2D1_MATRIX_3X2_F translateMatrix = D2D1::Matrix3x2F::Translation(x, y);
-	context->renderTarget->SetTransform(matrix * translateMatrix);
-}
-
-void ScaleTransform(HANDLE ctx, FLOAT scaleX, FLOAT scaleY, D2D1_POINT_2F center)
-{
-	RetrieveContext(ctx);
-
-	D2D1_MATRIX_3X2_F matrix;
-	context->renderTarget->GetTransform(&matrix);
-
-	D2D1_MATRIX_3X2_F scaleMatrix = D2D1::Matrix3x2F::Scale(scaleX, scaleY, center);
-
-	context->renderTarget->SetTransform(scaleMatrix * matrix);
-}
-
-void RotateTransform(HANDLE ctx, FLOAT angle, D2D_POINT_2F point)
-{
-	RetrieveContext(ctx);
-	
-	D2D1_MATRIX_3X2_F matrix;
-	context->renderTarget->GetTransform(&matrix);
-
-	D2D1_MATRIX_3X2_F rotateMatrix = D2D1::Matrix3x2F::Rotation(angle, point);
-	context->renderTarget->SetTransform(rotateMatrix * matrix);
-}
-
-void SkewTransform(HANDLE ctx, FLOAT angleX, FLOAT angleY, D2D1_POINT_2F center)
-{
-	RetrieveContext(ctx);
-
-	D2D1_MATRIX_3X2_F matrix = D2D1::Matrix3x2F::Skew(angleX, angleY, center);
-	context->renderTarget->SetTransform(matrix);
-}
-
-void SetTransform(HANDLE ctx, FLOAT angle, D2D_POINT_2F center)
-{
-	RetrieveContext(ctx);
-
-	D2D1::Matrix3x2F mr = D2D1::Matrix3x2F::Rotation(angle, D2D1::Point2F(0, 0));
-	D2D1::Matrix3x2F mt = D2D1::Matrix3x2F::Translation(center.x, center.y);
-
-	context->renderTarget->SetTransform(mr * mt);
-}
-
-void ResetTransform(HANDLE ctx)
-{
-	RetrieveContext(ctx);
-	context->renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
-}
-
 void ReleaseObject(HANDLE handle)
 {
 	ID2D1Resource* object = reinterpret_cast<ID2D1Resource*>(handle);
@@ -398,12 +319,19 @@ HANDLE CreateLayer(HANDLE ctx)
 	return (HANDLE)layer;
 }
 
-void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds, ID2D1Brush* opacityBrush,
+void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds, __in_opt ID2D1Brush* opacityBrush,
 							 D2D1_LAYER_OPTIONS layerOptions)
 {
 	RetrieveContext(ctx);
+
 	ID2D1Layer* layer = reinterpret_cast<ID2D1Layer*>(layerHandle);
 	context->renderTarget->PushLayer(
 		D2D1::LayerParameters(contentBounds, NULL, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
 		D2D1::IdentityMatrix(), 1, opacityBrush, layerOptions), layer);
+}
+
+void PopLayer(HANDLE ctx) 
+{
+	RetrieveContext(ctx);
+	context->renderTarget->PopLayer();
 }
