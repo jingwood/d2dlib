@@ -55,7 +55,7 @@ D2DLIB_API HANDLE CreatePenStroke(HANDLE ctx, D2D1_COLOR_F color, D2D1_DASH_STYL
 
 D2DLIB_API void DestoryPenStroke(HANDLE penHandle)
 {
-	D2DPen* pen = (D2DPen*)penHandle;
+	D2DPen* pen = reinterpret_cast<D2DPen*>(penHandle);
 
 	SafeRelease(&pen->strokeStyle);
 	SafeRelease(&pen->brush);

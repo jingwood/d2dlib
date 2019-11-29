@@ -31,7 +31,7 @@ namespace unvell.D2DLib
 {
 	#region Color
 	[Serializable]
-	//[StructLayout(LayoutKind.Sequential)]
+	[StructLayout(LayoutKind.Sequential)]
 	public struct D2DColor
 	{
 		public FLOAT r;
@@ -89,7 +89,7 @@ namespace unvell.D2DLib
 
 		public static D2DColor FromGDIColor(System.Drawing.Color gdiColor)
 		{
-			return new D2DColor(gdiColor.A / 255f, gdiColor.R / 255f, 
+			return new D2DColor(gdiColor.A / 255f, gdiColor.R / 255f,
 				gdiColor.G / 255f, gdiColor.B / 255f);
 		}
 

@@ -126,7 +126,8 @@ void AddPathEllipse(HANDLE ctx, const D2D1_ELLIPSE* ellipse)
 	pathContext->sink->AddArc(&seg);
 }
 
-void AddPathArc(HANDLE ctx, D2D1_SIZE_F size, D2D1_POINT_2F endPoint, FLOAT sweepAngle, D2D1_SWEEP_DIRECTION sweepDirection)
+void AddPathArc(HANDLE ctx, D2D1_SIZE_F size, D2D1_POINT_2F endPoint, FLOAT sweepAngle,
+	D2D1_SWEEP_DIRECTION sweepDirection)
 {
 	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(ctx);
 

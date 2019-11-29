@@ -91,7 +91,7 @@ D2DLIB_API void DrawLineWithPen(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F e
 {
 	RetrieveContext(ctx);
 
-	D2DPen* pen = (D2DPen*)penHandle;
+	D2DPen* pen = reinterpret_cast<D2DPen*>(penHandle);
 
 	context->renderTarget->DrawLine(start, end, pen->brush, width, pen->strokeStyle);
 }
@@ -153,10 +153,10 @@ void DrawLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count, D2D1_COLOR_F color
 	SafeRelease(&brush);
 }
 
-void DrawRectangle(HANDLE handle, D2D1_RECT_F* rect, D2D1_COLOR_F color,
+void DrawRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color,
 	FLOAT width, D2D1_DASH_STYLE dashStyle)
 {
-	D2DContext* context = reinterpret_cast<D2DContext*>(handle);
+	RetrieveContext(ctx);
 
 	ID2D1SolidColorBrush* brush = NULL;
 	ID2D1StrokeStyle* strokeStyle = NULL;
