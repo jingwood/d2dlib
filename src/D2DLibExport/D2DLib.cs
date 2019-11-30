@@ -39,110 +39,116 @@ namespace unvell.D2DLib
 {
 	internal static class D2D
 	{
+#if X64
+		const string DLL_NAME = "d2dlib64.dll";
+#else
+		const string DLL_NAME = "d2dlib.dll";
+#endif // X86
+
 		#region Context
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE GetLastResult();
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateContext([In] HANDLE hwnd);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestoryContext([In] HANDLE context);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SetContextProperties([In] HANDLE context, D2DAntialiasMode antialiasMode = D2DAntialiasMode.PerPrimitive);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE BeginRender([In] HANDLE context);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE BeginRenderWithBackgroundColor([In] HANDLE context, D2DColor backColor);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE BeginRenderWithBackgroundBitmap(HANDLE context, HANDLE bitmap);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void EndRender([In] HANDLE context);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Flush([In] HANDLE context);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Clear([In] HANDLE context, D2DColor color);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateBitmapRenderTarget([In] HANDLE context, D2DSize size);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawBitmapRenderTarget([In] HANDLE context, HANDLE bitmapRenderTarget, ref D2DRect rect,
 			FLOAT opacity = 1, D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE GetBitmapRenderTargetBitmap(HANDLE bitmapRenderTarget);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestoryBitmapRenderTarget([In] HANDLE context);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE ResizeContext([In] HANDLE context);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PushClip([In] HANDLE context, [In] ref D2DRect rect,
 			D2DAntialiasMode antiAliasMode = D2DAntialiasMode.PerPrimitive);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PopClip([In] HANDLE context);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PushTransform([In] HANDLE context);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PopTransform([In] HANDLE context);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void RotateTransform([In] HANDLE context, [In] FLOAT angle);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void RotateTransform([In] HANDLE context, [In] FLOAT angle, [In] D2DPoint center);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void TranslateTransform([In] HANDLE context, [In] FLOAT x, [In] FLOAT y);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ScaleTransform([In] HANDLE context, [In] FLOAT sx, [In] FLOAT sy, [Optional] D2DPoint center);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SkewTransform([In] HANDLE ctx, [In] FLOAT angleX, [In] FLOAT angleY, [Optional] D2DPoint center);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SetTransform([In] HANDLE context, [In] FLOAT angle, [In] D2DPoint center);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ResetTransform([In] HANDLE context);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ReleaseObject([In] HANDLE objectHandle);
 
 		#endregion
 
 		#region Simple Sharp
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawLine(HANDLE context, D2DPoint start, D2DPoint end, D2DColor color,
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawLines(HANDLE context, D2DPoint[] points, UINT count, D2DColor color,
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawRectangle(HANDLE context, ref D2DRect rect, D2DColor color,
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillRectangle(HANDLE context, ref D2DRect rect, D2DColor color);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillRectangleWithBrush(HANDLE context, ref D2DRect rect, HANDLE brush);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawRoundedRect(HANDLE ctx, ref D2DRoundedRect roundedRect, 
 			D2DColor strokeColor, D2DColor fillColor,
 			FLOAT strokeWidth = 1, D2DDashStyle strokeStyle = D2DDashStyle.Solid);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawRoundedRectWithBrush(HANDLE ctx, ref D2DRoundedRect roundedRect,
 			HANDLE strokePen, HANDLE fillBrush, float strokeWidth = 1);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawEllipse(HANDLE context, ref D2DEllipse rect, D2DColor color,
 			FLOAT width = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillEllipse(HANDLE context, ref D2DEllipse rect, D2DColor color);
 
 
@@ -150,7 +156,7 @@ namespace unvell.D2DLib
 
 		#region Text
 
-		[DllImport("d2dlib.dll", EntryPoint = "DrawString", CharSet = CharSet.Unicode)]
+		[DllImport(DLL_NAME, EntryPoint = "DrawString", CharSet = CharSet.Unicode)]
 		public static extern void DrawText([In] HANDLE context, [In] string text, [In] D2DColor color,
 			[In] string fontName, [In] FLOAT fontSize, [In] ref D2DRect rect,
 			[In] DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_LEADING,
@@ -160,132 +166,132 @@ namespace unvell.D2DLib
 
 		#region Geometry
 		
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateRectangleGeometry([In] HANDLE ctx, [In] ref D2DRect rect);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillGeometryWithBrush([In] HANDLE ctx, [In] HANDLE geoHandle, 
 			[In] HANDLE brushHandle, [Optional] HANDLE opacityBrushHandle);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawPolygon(HANDLE ctx, D2DPoint[] points, UINT count,
 			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, D2DColor fillColor);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawPolygonWithBrush(HANDLE ctx, D2DPoint[] points, UINT count,
 			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, HANDLE brushHandler);
 		
 		#endregion // Geometry
 
 		#region Path
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreatePathGeometry(HANDLE ctx);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestoryPathGeometry(HANDLE ctx);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ClosePath(HANDLE ctx);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathLines(HANDLE path, D2DPoint[] points, uint count);
 		public static void AddPathLines(HANDLE path, D2DPoint[] points) { AddPathLines(path, points, (uint)points.Length); }
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments, uint count);
 		public static void AddPathBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments)
 			{ AddPathBeziers(ctx, bezierSegments, (uint)bezierSegments.Length); }
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathEllipse(HANDLE path, ref D2DEllipse ellipse);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathArc(HANDLE ctx, D2DSize size, D2DPoint endPoint, FLOAT sweepAngle,
 		D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE);
 			
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments, UINT count, 
 															D2DColor strokeColor, FLOAT strokeWidth = 1, 
 															D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawPath(HANDLE path, D2DColor strokeColor, FLOAT strokeWidth = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillPathD(HANDLE path, D2DColor fillColor);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillGeometryWithBrush(HANDLE path, HANDLE brush);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern bool PathFillContainsPoint(HANDLE pathCtx, D2DPoint point);
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern bool PathStrokeContainsPoint(HANDLE pathCtx, D2DPoint point, FLOAT strokeWidth = 1,
 			D2DDashStyle dashStyle = D2DDashStyle.Solid);
 		#endregion
 
 		#region Pen
-		[DllImport("d2dlib.dll", EntryPoint = "CreatePenStroke")]
+		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke")]
 		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
-		[DllImport("d2dlib.dll", EntryPoint = "DestoryPenStroke")]
+		[DllImport(DLL_NAME, EntryPoint = "DestoryPenStroke")]
 		public static extern void DestoryPen(HANDLE pen);
 		#endregion Pen
 
 		#region Brush
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateSolidColorBrush(HANDLE ctx, D2DColor color);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SetSolidColorBrushColor(HANDLE brush, D2DColor color);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateLinearGradientBrush(HANDLE ctx, D2DPoint startPoint, D2DPoint endPoint,
 																											D2DGradientStop[] gradientStops, UINT gradientStopCount);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateRadialGradientBrush(HANDLE ctx, D2DPoint origin, D2DPoint offset,
 																												  FLOAT radiusX, FLOAT radiusY, D2DGradientStop[] gradientStops, 
 																													UINT gradientStopCount);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillEllipseWithBrush(HANDLE ctx, ref D2DEllipse ellipse, HANDLE brush);
 
 		#endregion // Brush
 
 		#region Bitmap
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateBitmapFromHBitmap(HANDLE context, HANDLE hBitmap, bool useAlphaChannel);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateBitmapFromBytes(HANDLE context, byte[] buffer, UINT offset, UINT length);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateBitmapFromMemory(HANDLE ctx, UINT width, UINT height, UINT stride, IntPtr buffer,
 			UINT offset, UINT length);
 
-		[DllImport("d2dlib.dll", CharSet = CharSet.Unicode)]
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode)]
 		public static extern HANDLE CreateBitmapFromFile(HANDLE context, string filepath);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawD2DBitmap(HANDLE context, HANDLE bitmap);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawD2DBitmap(HANDLE context, HANDLE bitmap, ref D2DRect destRect);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawD2DBitmap(HANDLE context, HANDLE bitmap, ref D2DRect destRect, ref D2DRect srcRect,
 			FLOAT opacity = 1, D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawGDIBitmap(HANDLE context, HANDLE bitmap, FLOAT opacity = 1,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawGDIBitmapRect(HANDLE context, HANDLE bitmap,
 			ref D2DRect destRect, ref D2DRect srcRect, FLOAT opacity = 1, bool alpha = false,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear);
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern D2DSize GetBitmapSize(HANDLE d2dbitmap);
 		#endregion
 
-		[DllImport("d2dlib.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void TestDraw(HANDLE ctx);
 	}
 
