@@ -53,28 +53,41 @@ namespace unvell.D2DLib.Examples
 		private void InitializeComponent()
 		{
 			this.listBox1 = new System.Windows.Forms.ListBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// listBox1
 			// 
 			this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listBox1.FormattingEnabled = true;
-			this.listBox1.ItemHeight = 16;
-			this.listBox1.Location = new System.Drawing.Point(0, 0);
+			this.listBox1.ItemHeight = 29;
+			this.listBox1.Location = new System.Drawing.Point(2, 40);
 			this.listBox1.Margin = new System.Windows.Forms.Padding(4);
 			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(504, 633);
+			this.listBox1.Size = new System.Drawing.Size(500, 591);
 			this.listBox1.TabIndex = 0;
 			// 
-			// FormSelectionForm
+			// label1
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.label1.Location = new System.Drawing.Point(2, 2);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(500, 38);
+			this.label1.TabIndex = 1;
+			this.label1.Text = "Choose an example...";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// DemoSelectionForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(504, 633);
 			this.Controls.Add(this.listBox1);
+			this.Controls.Add(this.label1);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(4);
-			this.Name = "FormSelectionForm";
+			this.Name = "DemoSelectionForm";
+			this.Padding = new System.Windows.Forms.Padding(2);
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "FormSelectionForm";
 			this.ResumeLayout(false);
@@ -84,5 +97,6 @@ namespace unvell.D2DLib.Examples
 		#endregion
 
 		private System.Windows.Forms.ListBox listBox1;
+		private System.Windows.Forms.Label label1;
 	}
 }

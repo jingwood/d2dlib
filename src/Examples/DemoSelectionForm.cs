@@ -41,6 +41,8 @@ namespace unvell.D2DLib.Examples
 		{
 			InitializeComponent();
 
+			Text = "Example Menu";
+
 			var types = Assembly.GetAssembly(this.GetType()).GetTypes();
 
 			foreach (var t in types)

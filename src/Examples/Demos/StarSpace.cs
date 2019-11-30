@@ -121,6 +121,13 @@ namespace unvell.D2DLib.Examples.Demos
 			if (this.bitmap != null) this.bitmap.Dispose();
 			if (this.brush != null) this.brush.Dispose();
 		}
+
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
+
+			Close();
+		}
 	}
 
 	class Star
