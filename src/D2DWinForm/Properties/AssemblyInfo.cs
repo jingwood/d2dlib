@@ -29,11 +29,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("D2DLibExportWinForm")]
+[assembly: AssemblyTitle("D2DWinForm")]
 [assembly: AssemblyDescription("Windows Form and Control extension for using D2DLIB APIs.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("unvell.com")]
-[assembly: AssemblyProduct("D2DLibExportWinForm")]
+[assembly: AssemblyProduct("D2DWinForm")]
 [assembly: AssemblyCopyright("Copyright © 2014-2019 unvell.com, Jingwood. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
