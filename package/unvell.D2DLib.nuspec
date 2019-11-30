@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>unvell.D2DLib</id>
+    <version>1.2.0</version>
+    <authors>Jingwood</authors>
+    <owners>unvell</owners>
+    <projectUrl>https://github.com/jingwood/d2dlib/</projectUrl>
+    <license type="expression">MIT</license>
+    <icon>logo_d2dlib.png</icon>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <title>D2DLib - Direct2D Wrapper for .NET application</title>
+    <releaseNotes>https://github.com/jingwood/d2dlib/releases</releaseNotes>
+    <description>Provides the hardware-accelerated high performance immediate drawing functionality via Direct2D API.</description>
+    <copyright>Copyright (c) 2012-2019 Jingwood, unvell.com, all rights reserved.</copyright>
+    <tags>direct2d hardward-acceleration drawing draw custom-draw rendering paint gpu performance immediate bitmap memory-bitmap direct2d-api graphics-context</tags>
+    <dependencies>
+      <group targetFramework="net35-client">
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="logo_d2dlib.png" target="" />
+    <file src="..\binary\x86-build\d2dlibexport.dll" target="lib\net35-client" />
+    <file src="..\binary\x86-build\d2dwinform.dll" target="lib\net35-client" />
+    <file src="..\binary\x86-build\d2dlib.dll" target="build" />
+    <file src="unvell.D2DLib.targets" target="build" />
+  </files>
+
+</package>
