@@ -22,9 +22,6 @@
 * SOFTWARE.
 */
 
-// D2DLib.cpp : Defines the exported functions for the DLL application.
-//
-
 #include "stdafx.h"
 #include "Transform.h"
 

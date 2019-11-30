@@ -22,6 +22,8 @@
 * SOFTWARE.
 */
 
+#pragma once
+
 #include "Context.h"
 
 extern "C" 
