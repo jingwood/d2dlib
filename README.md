@@ -1,25 +1,65 @@
+![NuGet](https://img.shields.io/nuget/v/unvell.D2DLib.svg)
+
 # d2dlib
 
-A .NET library that provides the hardware-accelerated high performance immediate drawing functionality via Direct2D API.
+A .NET library that provides the hardware-accelerated high-performance immediate mode rendering functionality via Direct2D API.
 
-By using the graphics context to draw anything on windows form, control or draw in memory. The interface of graphics context is designed like standard Windows Form GDI+ graphics interface, it's easily use and user friendly.
+By using the graphics context to draw anything on windows form, control or draw in memory. The interface of the graphics context is designed like the .NET framework Windows Form GDI+ graphics interface, it's easy-to-use and user-friendly.
 
 | Project | Language | Description | Output DLL | 
 | --- | --- | --- | --- |
-| d2dlib | VC++ | Wrapper host side library, calling Windows SDK and Direct2D API | d2dlib.dll | 
-| d2dlibexport | C# | Wrapper client side library, export the interface provided from d2dlib | d2dlibexport.dll |
+| d2dlib | VC++ | Wrapper host-side library, calling Windows SDK and Direct2D API | d2dlib.dll | 
+| d2dlibexport | C# | Wrapper client-side library, export the interface provided from d2dlib | d2dlibexport.dll |
 | d2dlibexportwinform | C# | Provides the .NET classes used in windows form development, like D2DWinForm and D2DControl that use Direct2D hardware-acceleration rendering | d2dlibwinform.dll |
 
-# How to use
+# Installation
 
-1. Compile every projects or use the DLLs from the binary folder directly
-2. Add `d2dlibexport.dll` and `d2dlibwinform.dll` as application references
-3. Put `d2dlib.dll` in the `Debug`, `Release` or folder where application runs
-4. Make windows form or control inherited from `D2DForm` or `D2DControl` class
-5. Override `OnRender(D2DGraphics g)` method (do not override .NET `OnPaint` method)
-6. Draw anything inside `OnRender` method via the `g` context
+## Get binary from NuGet
 
-*Notice*: The platform target of application project must be set to x86 when using default build configuration.
+```shell
+install-package unvell.d2dlib
+```
+
+## Install manually
+
+### Get binary from the source code repository
+
+When you have cloned the source code repository, the binary DLLs can be found at the `binary/x86-build` folder.
+
+### Build from source code
+
+Use git to clone the source code repository
+
+```shell
+git clone https://github.com/jingwood/d2dlib
+```
+
+Open `d2dlib.sln` from the `src` folder with Visual Studio 2019 or later, choose `Build` -> `Batch Build...` menu, then click `Build` button.
+
+The output DLLs will be generated to the `binary/x86-build` folder.
+
+### Add project references
+
+1. Add `d2dlibexport.dll` and `d2dlibwinform.dll` as application references
+2. Put `d2dlib.dll` in the `Debug`, `Release` or the folder where the application runs
+
+You can also add `d2dlib.dll` as a project file, and set it's property `Copy to output folder` to `Copy if newer`.
+
+## Installation Notice
+
+## For application uses .NET Core, .NET framework 4.5 and later
+
+Make sure the "Prefer 32-bit" option is checked. You can find this option from the "Build" page of the project setting.
+
+## For application uses .NET framework 4 and early 
+
+Change the project's build configuration from 'Any CPU' to 'x86' architecture.
+
+# Getting Started
+
+1. Make windows form or control inherited from `D2DForm` or `D2DControl` class
+2. Override `OnRender(D2DGraphics g)` method (do not override .NET `OnPaint` method)
+3. Draw anything inside `OnRender` method via the `g` context
 
 # Basic rendering
 
@@ -30,7 +70,7 @@ var rect = new D2DRect(0, 0, 10, 10);
 g.DrawEllipse(rect, D2DColor.Red);
 ```
 
-## Draw ellipse
+## Draw an ellipse
 
 ```csharp
 var ellipse = new D2DEllipse(0, 0, 10, 10);
@@ -72,7 +112,7 @@ var brush = Device.CreateLinearGradientBrush(new D2DPoint(0, 0), new D2DPoint(20
 g.DrawBitmap(bmp, this.ClientRectangle);
 ```
 
-## Convert GDI+ bitmap to Direct2D bitmap for getting high performance rendering
+## Convert GDI+ bitmap to Direct2D bitmap for getting high-performance rendering
 
 ```csharp
 // convert to Direct2D bitmap
@@ -82,7 +122,7 @@ var d2dbmp = Device.CreateBitmapFromGDIBitmap(gdiBitmap);
 g.DrawBitmap(d2dbmp, this.ClientRectangle);
 ```
 
-# Drawing on memory bitmap
+# Drawing on in-memory bitmap
 
 ## Drawing on GDI+ bitmap
 
@@ -114,7 +154,7 @@ bmpGraphics.EndRender();
 g.DrawBitmap(bmpGraphics, this.ClientRectangle);
 ```
 
-*Note:* When create a Direct2D Device bitmap, do not forget call `BeginRender` and `EndRender` method.
+*Note:* When creating a Direct2D Device bitmap, do not forget call `BeginRender` and `EndRender` method.
 
 # Using transform
 
