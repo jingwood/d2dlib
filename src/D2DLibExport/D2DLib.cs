@@ -393,10 +393,20 @@ namespace unvell.D2DLib
 			return this.CreateBitmapFromGDIBitmap(bmp, useAlphaChannel);
 		}
 
+        [DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr obj);
+
 		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp, bool useAlphaChannel)
 		{
-			HANDLE d2dbmp = D2D.CreateBitmapFromHBitmap(this.Handle, bmp.GetHbitmap(), useAlphaChannel);
-			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
+            HANDLE d2dbmp = HANDLE.Zero;
+            HANDLE hbitmap = bmp.GetHbitmap();
+
+            if(hbitmap != HANDLE.Zero)
+            {
+                d2dbmp = D2D.CreateBitmapFromHBitmap(this.Handle, hbitmap, useAlphaChannel);
+                DeleteObject(hbitmap);
+            }
+            return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
 		}
 
 		public D2DBitmapGraphics CreateBitmapGraphics()
