@@ -92,7 +92,7 @@ HANDLE CreateContext(HWND hwnd)
 	return (HANDLE)context;
 }
 
-void DestoryContext(HANDLE handle)
+void DestroyContext(HANDLE handle)
 {
 	D2DContext* context = reinterpret_cast<D2DContext*>(handle);
 	
@@ -266,7 +266,7 @@ HANDLE GetBitmapRenderTargetBitmap(HANDLE bitmapRenderTargetHandle)
 	return bitmap;
 }
 
-void DestoryBitmapRenderTarget(HANDLE ctx)
+void DestroyBitmapRenderTarget(HANDLE ctx)
 {
 	if (ctx == 0) return;
 

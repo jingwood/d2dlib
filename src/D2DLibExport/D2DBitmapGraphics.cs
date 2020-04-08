@@ -51,7 +51,7 @@ namespace unvell.D2DLib
 
 		public void Dispose()
 		{
-			D2D.DestoryBitmapRenderTarget(this.DeviceHandle);
+			D2D.DestroyBitmapRenderTarget(this.DeviceHandle);
 		}
 	}
 

@@ -53,7 +53,7 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateContext([In] HANDLE hwnd);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DestoryContext([In] HANDLE context);
+		public static extern void DestroyContext([In] HANDLE context);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SetContextProperties([In] HANDLE context, D2DAntialiasMode antialiasMode = D2DAntialiasMode.PerPrimitive);
@@ -79,7 +79,7 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE GetBitmapRenderTargetBitmap(HANDLE bitmapRenderTarget);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DestoryBitmapRenderTarget([In] HANDLE context);
+		public static extern void DestroyBitmapRenderTarget([In] HANDLE context);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE ResizeContext([In] HANDLE context);
@@ -187,7 +187,7 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreatePathGeometry(HANDLE ctx);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DestoryPathGeometry(HANDLE ctx);
+		public static extern void DestroyPathGeometry(HANDLE ctx);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ClosePath(HANDLE ctx);
 
@@ -228,8 +228,8 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke")]
 		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
-		[DllImport(DLL_NAME, EntryPoint = "DestoryPenStroke")]
-		public static extern void DestoryPen(HANDLE pen);
+		[DllImport(DLL_NAME, EntryPoint = "DestroyPenStroke")]
+		public static extern void DestroyPen(HANDLE pen);
 		#endregion Pen
 
 		#region Brush
@@ -429,7 +429,7 @@ namespace unvell.D2DLib
 
 		public void Dispose()
 		{
-			D2D.DestoryContext(this.Handle);
+			D2D.DestroyContext(this.Handle);
 		}
 	}
 
@@ -585,7 +585,7 @@ namespace unvell.D2DLib
 		
 		public override void Dispose()
 		{
-			D2D.DestoryPathGeometry(this.Handle);
+			D2D.DestroyPathGeometry(this.Handle);
 		}
 	}
 

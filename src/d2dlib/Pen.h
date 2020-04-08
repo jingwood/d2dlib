@@ -37,5 +37,5 @@ extern "C"
 	D2DLIB_API HANDLE CreatePenStroke(HANDLE context, D2D1_COLOR_F color,
 		D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);
 
-	D2DLIB_API void DestoryPenStroke(HANDLE pen);
+	D2DLIB_API void DestroyPenStroke(HANDLE pen);
 }

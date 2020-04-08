@@ -103,7 +103,7 @@ inline void SafeRelease(Interface **ppInterfaceToRelease)
 extern "C" 
 {
 	D2DLIB_API HANDLE CreateContext(HWND hwnd);
-	D2DLIB_API void DestoryContext(HANDLE context);
+	D2DLIB_API void DestroyContext(HANDLE context);
 	D2DLIB_API void ResizeContext(HANDLE context);
 	
 	D2DLIB_API void SetContextProperties(HANDLE ctx,
@@ -120,7 +120,7 @@ extern "C"
 	D2DLIB_API void DrawBitmapRenderTarget(HANDLE context, HANDLE bitmapRenderTargetHandle, D2D1_RECT_F* rect = NULL,
 		FLOAT opacity = 1, D2D1_BITMAP_INTERPOLATION_MODE interpolationMode = D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	D2DLIB_API HANDLE GetBitmapRenderTargetBitmap(HANDLE bitmapRenderTargetHandle);
-	D2DLIB_API void DestoryBitmapRenderTarget(HANDLE context);
+	D2DLIB_API void DestroyBitmapRenderTarget(HANDLE context);
 
 	D2DLIB_API void PushClip(HANDLE context, D2D1_RECT_F* rect, 
 												   D2D1_ANTIALIAS_MODE antiAliasMode = D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);

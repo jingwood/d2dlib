@@ -31,7 +31,7 @@ extern "C"
 	D2DLIB_API HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect);
 
 	D2DLIB_API HANDLE CreatePathGeometry(HANDLE ctx);
-	D2DLIB_API void DestoryPathGeometry(HANDLE handle);
+	D2DLIB_API void DestroyPathGeometry(HANDLE handle);
 	D2DLIB_API void ClosePath(HANDLE handle);
 
 	D2DLIB_API void AddPathLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count);

@@ -59,7 +59,7 @@ HANDLE CreatePathGeometry(HANDLE ctx)
 	return (HANDLE)pathContext;
 }
 
-void DestoryPathGeometry(HANDLE ctx) 
+void DestroyPathGeometry(HANDLE ctx) 
 {
 	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(ctx);
 	SafeRelease(&pathContext->path);
