@@ -13,6 +13,21 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -180,16 +195,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\D2DLibExport\D2DLibExport.csproj">
-      <Project>{81dd53d8-fcf0-4384-a931-9370fa8e8e67}</Project>
-      <Name>D2DLibExport</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\D2DWinForm\D2DWinForm.csproj">
-      <Project>{40ed2809-aba2-4655-82dd-e38ad12138bb}</Project>
-      <Name>D2DWinForm</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\space_bg.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +214,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-himeji-castle-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\D2DLibExport\D2DLibExport.csproj">
+      <Project>{81dd53d8-fcf0-4384-a931-9370fa8e8e67}</Project>
+      <Name>D2DLibExport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\D2DWinForm\D2DWinForm.csproj">
+      <Project>{40ed2809-aba2-4655-82dd-e38ad12138bb}</Project>
+      <Name>D2DWinForm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
