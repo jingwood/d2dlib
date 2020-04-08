@@ -131,7 +131,7 @@ extern "C"
 		 __in_opt ID2D1Brush *opacityBrush = NULL, D2D1_LAYER_OPTIONS layerOptions = D2D1_LAYER_OPTIONS_NONE);
 	D2DLIB_API void PopLayer(HANDLE ctx);
 
-	D2DLIB_API HRESULT GetLastResult();
+	D2DLIB_API HRESULT GetLastErrorCode(HANDLE ctx);
 	D2DLIB_API void ReleaseObject(HANDLE context);
 
 	D2DLIB_API void TestDraw(HANDLE context);
