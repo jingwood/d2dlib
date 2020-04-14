@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -243,7 +243,10 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)\$(ConfigurationName)\d2dlib.dll $(TargetDir)
+    <PostBuildEvent>IF "$(ConfigurationName)"=="Debug" IF "$(PlatformName)"=="x86" copy $(SolutionDir)d2dlib\$(ConfigurationName)\Win32\d2dlib32d.dll $(TargetDir)
+IF "$(ConfigurationName)"=="Release" IF "$(PlatformName)"=="x86" copy $(SolutionDir)d2dlib\$(ConfigurationName)\Win32\d2dlib32.dll $(TargetDir)
+IF "$(ConfigurationName)"=="Debug" IF "$(PlatformName)"=="x64" copy $(SolutionDir)d2dlib\$(ConfigurationName)\$(PlatformName)\d2dlib64d.dll $(TargetDir)
+IF "$(ConfigurationName)"=="Release" IF "$(PlatformName)"=="x64" copy $(SolutionDir)d2dlib\$(ConfigurationName)\$(PlatformName)\d2dlib64.dll $(TargetDir)
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
