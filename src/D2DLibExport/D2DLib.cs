@@ -39,13 +39,26 @@ namespace unvell.D2DLib
 {
 	internal static class D2D
 	{
-#if X64
-		const string DLL_NAME = "d2dlib64.dll";
-#else
-		const string DLL_NAME = "d2dlib.dll";
-#endif // X86
 
-		#region Context
+#if DEBUG
+
+#if X86
+		const string DLL_NAME = "d2dlib32d.dll";
+#elif X64
+		const string DLL_NAME = "d2dlib64d.dll";
+#endif
+
+#else // Release
+
+#if X86
+		const string DLL_NAME = "d2dlib32.dll";
+#elif X64
+		const string DLL_NAME = "d2dlib64.dll";
+#endif
+
+#endif
+
+#region Context
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE GetLastResult();
@@ -113,9 +126,9 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ReleaseObject([In] HANDLE objectHandle);
 
-		#endregion
+#endregion
 
-		#region Simple Sharp
+#region Simple Sharp
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawLine(HANDLE context, D2DPoint start, D2DPoint end, D2DColor color,
@@ -152,9 +165,9 @@ namespace unvell.D2DLib
 		public static extern void FillEllipse(HANDLE context, ref D2DEllipse rect, D2DColor color);
 
 
-		#endregion // Simple Sharp
+#endregion // Simple Sharp
 
-		#region Text
+#region Text
 
 		[DllImport(DLL_NAME, EntryPoint = "DrawString", CharSet = CharSet.Unicode)]
 		public static extern void DrawText([In] HANDLE context, [In] string text, [In] D2DColor color,
@@ -162,9 +175,9 @@ namespace unvell.D2DLib
 			[In] DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_LEADING,
 			[In] DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 
-		#endregion
+#endregion
 
-		#region Geometry
+#region Geometry
 		
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateRectangleGeometry([In] HANDLE ctx, [In] ref D2DRect rect);
@@ -181,9 +194,9 @@ namespace unvell.D2DLib
 		public static extern void DrawPolygonWithBrush(HANDLE ctx, D2DPoint[] points, UINT count,
 			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, HANDLE brushHandler);
 		
-		#endregion // Geometry
+#endregion // Geometry
 
-		#region Path
+#region Path
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreatePathGeometry(HANDLE ctx);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -222,17 +235,17 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern bool PathStrokeContainsPoint(HANDLE pathCtx, D2DPoint point, FLOAT strokeWidth = 1,
 			D2DDashStyle dashStyle = D2DDashStyle.Solid);
-		#endregion
+#endregion
 
-		#region Pen
+#region Pen
 		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke")]
 		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
 		[DllImport(DLL_NAME, EntryPoint = "DestroyPenStroke")]
 		public static extern void DestroyPen(HANDLE pen);
-		#endregion Pen
+#endregion Pen
 
-		#region Brush
+#region Brush
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateSolidColorBrush(HANDLE ctx, D2DColor color);
@@ -252,9 +265,9 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillEllipseWithBrush(HANDLE ctx, ref D2DEllipse ellipse, HANDLE brush);
 
-		#endregion // Brush
+#endregion // Brush
 
-		#region Bitmap
+#region Bitmap
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateBitmapFromHBitmap(HANDLE context, HANDLE hBitmap, bool useAlphaChannel);
 
@@ -289,7 +302,7 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern D2DSize GetBitmapSize(HANDLE d2dbitmap);
-		#endregion
+#endregion
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void TestDraw(HANDLE ctx);
