@@ -41,9 +41,18 @@ The output DLLs will be generated to the `binary/x86-build` folder.
 ### Add project references
 
 1. Add `d2dlibexport.dll` and `d2dlibwinform.dll` as application references
-2. Put `d2dlib.dll` in the `Debug`, `Release` or the folder where the application runs
+2. Put `d2dlib32.dll` in the `Debug`, `Release` or the folder where the application runs
 
-You can also add `d2dlib.dll` as a project file, and set it's property `Copy to output folder` to `Copy if newer`.
+You can also add `d2dlib32.dll` as a project file, and set it's property `Copy to output folder` to `Copy if newer`.
+
+For different build configuration and platform target, the d2dlib32.dll is named as following:
+
+| Build configuration | Platform | Name |
+|---|---|---|
+| Debug | x86 (32bit) | d2dlib32d.dll |
+| Release | x86 (32bit) | d2dlib32.dll |
+| Debug | x64 (64bit) | d2dlib64d.dll |
+| Release | x64 (64bit) | d2dlib64.dll |
 
 ## Installation Notice
 
