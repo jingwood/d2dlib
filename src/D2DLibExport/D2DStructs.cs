@@ -248,6 +248,19 @@ namespace unvell.D2DLib
 			}
 		}
 
+		public D2DSize Size
+		{
+			get
+			{
+				return new D2DSize(this.Width, this.Height);
+			}
+			set
+			{
+				this.Width = value.width;
+				this.Height = value.height;
+			}
+		}
+
 		public static implicit operator D2DRect(System.Drawing.Rectangle rect)
 		{
 			return new D2DRect(rect.X, rect.Y, rect.Width, rect.Height);
@@ -385,6 +398,11 @@ namespace unvell.D2DLib
 		public static explicit operator System.Drawing.Size(D2DSize s)
 		{
 			return System.Drawing.Size.Round(s);
+		}
+
+		public override string ToString()
+		{
+			return string.Format("D2DSize({0}, {1})", this.width, this.height);
 		}
 	}
 	#endregion Size
