@@ -35,7 +35,7 @@ namespace unvell.D2DLib.Examples.Samples
 
 		public DrawStringForm()
 		{
-			Text = "Subtitle Demo";
+			Text = "DrawString Sample";
 
 			Size = new Size(1280, 800);
 		}
