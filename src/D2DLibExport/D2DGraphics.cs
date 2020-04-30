@@ -362,6 +362,13 @@ namespace unvell.D2DLib
 			D2D.DrawText(this.DeviceHandle, text, color, fontName, fontSize, ref rect, halign, valign);
 		}
 
+		public D2DSize MeasureText(string text, string fontName, float fontSize, D2DSize placeSize)
+		{
+			D2DSize outputSize = placeSize;
+			D2D.MeasureText(this.DeviceHandle, text, fontName, fontSize, ref outputSize);
+			return outputSize;
+		}
+
 		public void DrawPath(D2DPathGeometry path, D2DColor strokeColor,
 			FLOAT strokeWidth = 1f, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{

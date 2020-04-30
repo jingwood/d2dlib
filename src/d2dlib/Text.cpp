@@ -25,33 +25,88 @@
 #include "stdafx.h"
 #include "Text.h"
 
-D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color, 
+D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 													 LPCWSTR fontName, FLOAT fontSize, D2D1_RECT_F* rect,
 													 DWRITE_TEXT_ALIGNMENT halign, DWRITE_PARAGRAPH_ALIGNMENT valign)
 {
 	RetrieveContext(ctx);
 
 	IDWriteTextFormat* textFormat = NULL;
+	ID2D1SolidColorBrush* brush = NULL;
 
 	// Create a DirectWrite text format object.
-  context->writeFactory->CreateTextFormat(fontName, 
+  HRESULT hr = context->writeFactory->CreateTextFormat(fontName, 
 			NULL,
       DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL,
       fontSize,
       L"", //locale
       &textFormat);
 
-	textFormat->SetTextAlignment(halign);
-	textFormat->SetParagraphAlignment(valign);
+	if (SUCCEEDED(hr)) {
+		textFormat->SetTextAlignment(halign);
+		textFormat->SetParagraphAlignment(valign);
 
-	// Create a solid color brush.
-	ID2D1SolidColorBrush* brush;
-	(context->renderTarget)->CreateSolidColorBrush(color, &brush);
+		// Create a solid color brush.
+		hr = (context->renderTarget)->CreateSolidColorBrush(color, &brush);
 
-	context->renderTarget->DrawText(text, wcslen(text), textFormat, rect, brush);
+		if (SUCCEEDED(hr) && brush != NULL) {
+			context->renderTarget->DrawText(text, wcslen(text), textFormat, rect, brush);
+		}
+	}
 
 	SafeRelease(&brush);
 	SafeRelease(&textFormat);
+}
+
+D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size) {
+	RetrieveContext(ctx);
+
+	IDWriteTextFormat* textFormat = NULL;
+
+	HRESULT hr = context->writeFactory->CreateTextFormat(fontName,
+		NULL,
+		DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL,
+		fontSize,
+		L"", //locale
+		&textFormat);
+
+	if (SUCCEEDED(hr) && textFormat != NULL)
+	{
+		IDWriteTextLayout* textLayout;
+
+		hr = context->writeFactory->CreateTextLayout(
+			text,      // The string to be laid out and formatted.
+			wcslen(text),  // The length of the string.
+			textFormat,  // The text format to apply to the string (contains font information, etc).
+			size->width,         // The width of the layout box.
+			size->height,        // The height of the layout box.
+			&textLayout  // The IDWriteTextLayout interface pointer.
+		);
+
+		if (SUCCEEDED(hr) && textLayout != NULL) {
+			return (HANDLE)textLayout;
+		}
+	}
+
+	SafeRelease(&textFormat);
+
+	return NULL;
+}
+
+D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size) {
+	RetrieveContext(ctx);
+
+	IDWriteTextLayout* textLayout = (IDWriteTextLayout*)CreateTextLayout(ctx, text, fontName, fontSize, size);
+
+	if (textLayout != NULL) {
+		DWRITE_TEXT_METRICS tm;
+		textLayout->GetMetrics(&tm);
+
+		size->width = tm.width;
+		size->height = tm.height;
+	}
+
+	SafeRelease(&textLayout);
 }
 
 void DrawGlyphRun(HANDLE ctx, D2D1_POINT_2F baselineOrigin, 
