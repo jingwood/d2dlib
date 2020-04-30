@@ -120,14 +120,11 @@
     <Compile Include="Demos\BitmapCustomDraw.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Demos\BitmapCustomDraw.Designer.cs">
-      <DependentUpon>BitmapCustomDraw.cs</DependentUpon>
+    <Compile Include="Samples\DrawStringForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Demos\Subtitle.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Demos\Subtitle.Designer.cs">
-      <DependentUpon>Subtitle.cs</DependentUpon>
     </Compile>
     <Compile Include="DemoSelectionForm.cs">
       <SubType>Form</SubType>
@@ -141,9 +138,6 @@
     <Compile Include="Demos\Whiteboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Demos\Whiteboard.Designer.cs">
-      <DependentUpon>Whiteboard.cs</DependentUpon>
-    </Compile>
     <Compile Include="MenuForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,17 +149,8 @@
     <Compile Include="Demos\StarSpace.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Demos\StarSpace.designer.cs">
-      <DependentUpon>StarSpace.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="DemoSelectionForm.resx">
       <DependentUpon>DemoSelectionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Demos\BitmapCustomDraw.resx">
-      <DependentUpon>BitmapCustomDraw.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Demos\Whiteboard.resx">
-      <DependentUpon>Whiteboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
@@ -174,9 +159,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Demos\StarSpace.resx">
-      <DependentUpon>StarSpace.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

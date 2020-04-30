@@ -32,7 +32,7 @@ using unvell.D2DLib.WinForm;
 
 namespace unvell.D2DLib.Examples.Demos
 {
-	class TransparentMemoryBitmapDraw : D2DForm
+	class TransparentMemoryBitmapDraw : DemoForm
 	{
 		public TransparentMemoryBitmapDraw()
 		{

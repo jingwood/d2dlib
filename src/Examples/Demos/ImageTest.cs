@@ -28,7 +28,7 @@ using unvell.D2DLib.WinForm;
 
 namespace unvell.D2DLib.Examples.Demos
 {
-	class ImageTest : D2DForm
+	class ImageTest : DemoForm
 	{
 		public ImageTest()
 		{

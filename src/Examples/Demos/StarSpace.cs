@@ -31,12 +31,10 @@ using unvell.D2DLib.WinForm;
 
 namespace unvell.D2DLib.Examples.Demos
 {
-	public partial class StarSpace : D2DForm
+	public partial class StarSpace : DemoForm
 	{
 		public StarSpace()
 		{
-			InitializeComponent();
-
 			BackColor = Color.Black;
 			WindowState = FormWindowState.Maximized;
 			FormBorderStyle = FormBorderStyle.None;

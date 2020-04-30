@@ -24,15 +24,17 @@
 
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 using unvell.D2DLib.WinForm;
 
 namespace unvell.D2DLib.Examples.Demos
 {
-	public partial class BitmapCustomDraw : D2DForm
+	public partial class BitmapCustomDraw : DemoForm
 	{
 		public BitmapCustomDraw()
 		{
-			InitializeComponent();
+			var screenSize = Screen.FromControl(this).WorkingArea.Size;
+			Size = new System.Drawing.Size((int)(screenSize.Width * 0.8f), (int)(screenSize.Height * 0.9f));
 
 			AnimationDraw = true;
 			ShowFPS = true;

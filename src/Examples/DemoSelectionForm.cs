@@ -25,6 +25,7 @@
 using System;
 using System.Reflection;
 using System.Windows.Forms;
+using unvell.D2DLib.WinForm;
 
 namespace unvell.D2DLib.Examples
 {
@@ -43,46 +44,93 @@ namespace unvell.D2DLib.Examples
 
 			Text = "Example Menu";
 
+			loadItems();
+
+			lstDemos.KeyDown += ProcessKeyDown;
+			lstExamples.KeyDown += ProcessKeyDown;
+			this.KeyDown += ProcessKeyDown;
+
+			lstDemos.Focus();
+		}
+
+		protected override void OnKeyUp(KeyEventArgs e)
+		{
+			base.OnKeyUp(e);
+			
+			switch (e.KeyCode)
+			{
+				case Keys.Escape:
+					Close();
+					break;
+			}
+		}
+
+		private void loadItems()
+		{
 			var types = Assembly.GetAssembly(this.GetType()).GetTypes();
 
 			foreach (var t in types)
 			{
-				if (t.IsSubclassOf(typeof(System.Windows.Forms.Form))
-					&& t.FullName.IndexOf(".Demos.") > 0)
+				if (t.IsSubclassOf(typeof(DemoForm)) || t.IsSubclassOf(typeof(ExampleForm)))
 				{
 					string name = t.Name;
 					if (name.EndsWith("Form"))
 					{
 						name = name.Substring(0, name.Length - 4);
 					}
-					listBox1.Items.Add(new DemoEntry
+
+					if (t.IsSubclassOf(typeof(DemoForm)))
 					{
-						Type = t,
-						Name = name
-					});
+						lstDemos.Items.Add(new DemoEntry
+						{
+							Type = t,
+							Name = name
+						});
+					}
+					else if (t.IsSubclassOf(typeof(ExampleForm)))
+					{
+						lstExamples.Items.Add(new DemoEntry
+						{
+							Type = t,
+							Name = name
+						});
+					}
 				}
 			}
 
-			listBox1.Sorted = true;
+			lstDemos.Sorted = true;
+			lstExamples.Sorted = true;
 
-			listBox1.SelectedIndexChanged += (s, e) =>
-			{
-				if (listBox1.SelectedItem != null)
-				{
-					var f = (Form)System.Activator.CreateInstance(((DemoEntry)listBox1.SelectedItem).Type);
-					f.ShowDialog();
-				}
-			};
-
-			listBox1.KeyDown += ListBox1_KeyDown;
+			lstDemos.SelectedIndexChanged += SelectItem;
+			lstExamples.SelectedIndexChanged += SelectItem;
 		}
 
-		private void ListBox1_KeyDown(object sender, KeyEventArgs e)
+		private void SelectItem(object sender, EventArgs args)
+		{
+			if (sender is ListBox listBox && listBox.SelectedItem != null)
+			{
+				var f = (Form)System.Activator.CreateInstance(((DemoEntry)listBox.SelectedItem).Type);
+				f.ShowDialog();
+			}
+		}
+
+		private void ProcessKeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Escape)
 			{
 				Close();
 			}
 		}
+
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+
+			lstExamples.Width = (int)(this.ClientRectangle.Width * 0.5);
+		}
 	}
+
+	public class DemoForm : D2DForm { }
+	public class ExampleForm : D2DForm { }
+
 }

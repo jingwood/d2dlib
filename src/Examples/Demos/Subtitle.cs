@@ -29,14 +29,12 @@ using unvell.D2DLib.Examples.Properties;
 
 namespace unvell.D2DLib.Examples.Demos
 {
-	public partial class Subtitle : D2DForm
+	public partial class Subtitle : DemoForm
 	{
 		private static readonly Font subtitleFont = new Font("Times New Roman", 32f, FontStyle.Italic);
 
 		public Subtitle()
 		{
-			InitializeComponent();
-
 			Text = "Subtitle Demo";
 
 			Size = new Size(1280, 768);

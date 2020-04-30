@@ -52,37 +52,60 @@ namespace unvell.D2DLib.Examples
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.listBox1 = new System.Windows.Forms.ListBox();
+			this.lstDemos = new System.Windows.Forms.ListBox();
 			this.label1 = new System.Windows.Forms.Label();
+			this.lstExamples = new System.Windows.Forms.ListBox();
+			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.SuspendLayout();
 			// 
-			// listBox1
+			// lstDemos
 			// 
-			this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listBox1.FormattingEnabled = true;
-			this.listBox1.ItemHeight = 29;
-			this.listBox1.Location = new System.Drawing.Point(2, 40);
-			this.listBox1.Margin = new System.Windows.Forms.Padding(4);
-			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(500, 591);
-			this.listBox1.TabIndex = 0;
+			this.lstDemos.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lstDemos.FormattingEnabled = true;
+			this.lstDemos.ItemHeight = 25;
+			this.lstDemos.Location = new System.Drawing.Point(2, 40);
+			this.lstDemos.Margin = new System.Windows.Forms.Padding(4);
+			this.lstDemos.Name = "lstDemos";
+			this.lstDemos.Size = new System.Drawing.Size(477, 591);
+			this.lstDemos.TabIndex = 0;
 			// 
 			// label1
 			// 
 			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.label1.Location = new System.Drawing.Point(2, 2);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(500, 38);
+			this.label1.Size = new System.Drawing.Size(934, 38);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Choose an example...";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// lstExamples
+			// 
+			this.lstExamples.Dock = System.Windows.Forms.DockStyle.Right;
+			this.lstExamples.FormattingEnabled = true;
+			this.lstExamples.ItemHeight = 25;
+			this.lstExamples.Location = new System.Drawing.Point(484, 40);
+			this.lstExamples.Name = "lstExamples";
+			this.lstExamples.Size = new System.Drawing.Size(452, 591);
+			this.lstExamples.TabIndex = 2;
+			// 
+			// splitter1
+			// 
+			this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
+			this.splitter1.Location = new System.Drawing.Point(479, 40);
+			this.splitter1.Name = "splitter1";
+			this.splitter1.Size = new System.Drawing.Size(5, 591);
+			this.splitter1.TabIndex = 3;
+			this.splitter1.TabStop = false;
+			// 
 			// DemoSelectionForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(504, 633);
-			this.Controls.Add(this.listBox1);
+			this.ClientSize = new System.Drawing.Size(938, 633);
+			this.Controls.Add(this.lstDemos);
+			this.Controls.Add(this.splitter1);
+			this.Controls.Add(this.lstExamples);
 			this.Controls.Add(this.label1);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Margin = new System.Windows.Forms.Padding(4);
@@ -96,7 +119,9 @@ namespace unvell.D2DLib.Examples
 
 		#endregion
 
-		private System.Windows.Forms.ListBox listBox1;
+		private System.Windows.Forms.ListBox lstDemos;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ListBox lstExamples;
+		private System.Windows.Forms.Splitter splitter1;
 	}
 }

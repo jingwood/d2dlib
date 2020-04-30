@@ -21,42 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
- 
- namespace unvell.D2DLib.Examples.Demos
+
+using System;
+using System.Drawing;
+using unvell.D2DLib.WinForm;
+using unvell.D2DLib.Examples.Properties;
+
+namespace unvell.D2DLib.Examples.Samples
 {
-	partial class Subtitle
+	public partial class DrawStringForm : ExampleForm
 	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+		private static readonly Font font1 = new Font("Times New Roman", 34f, FontStyle.Italic);
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
+		public DrawStringForm()
 		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
+			Text = "Subtitle Demo";
+
+			Size = new Size(1280, 800);
 		}
 
-		#region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
+		protected override void OnRender(D2DGraphics g)
 		{
-			this.components = new System.ComponentModel.Container();
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Text = "Form6";
-		}
+      var text = "Hello World";
 
-		#endregion
+      var rect = new Rectangle(100, 100, 500, 500);
+
+      var measuredSize = g.MeasureText(text, font1.Name, font1.Size, rect.Size);
+
+      var measuredRect = new D2DRect(rect.X, rect.Y, measuredSize.width, measuredSize.height);
+
+      g.DrawText(text, D2DColor.Black, font1.Name, font1.Size, rect);
+
+      g.DrawRectangle(measuredRect, D2DColor.Blue);
+		}
 	}
 }
+
