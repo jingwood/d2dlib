@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="D2DBitmapGraphics.cs" />
+    <Compile Include="D2DDevice.cs" />
     <Compile Include="D2DEnums.cs" />
     <Compile Include="D2DGraphics.cs" />
     <Compile Include="D2DLib.cs" />

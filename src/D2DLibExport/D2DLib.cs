@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
- 
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -34,6 +34,7 @@ using HWND = System.IntPtr;
 using HANDLE = System.IntPtr;
 using HRESULT = System.Int64;
 using BOOL = System.Int32;
+
 
 namespace unvell.D2DLib
 {
@@ -58,7 +59,8 @@ namespace unvell.D2DLib
 
 #endif
 
-#region Context
+
+		#region Context
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE GetLastResult();
@@ -167,7 +169,7 @@ namespace unvell.D2DLib
 
 #endregion // Simple Sharp
 
-#region Text
+		#region Text
 
 		[DllImport(DLL_NAME, EntryPoint = "DrawString", CharSet = CharSet.Unicode)]
 		public static extern void DrawText([In] HANDLE context, [In] string text, [In] D2DColor color,
@@ -175,10 +177,14 @@ namespace unvell.D2DLib
 			[In] DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_LEADING,
 			[In] DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 
-#endregion
+		[DllImport(DLL_NAME, EntryPoint = "MeasureText", CharSet = CharSet.Unicode)]
+		public static extern void MeasureText([In] HANDLE ctx, [In] string text, [In] string fontName, 
+			[In] FLOAT fontSize, ref D2DSize size);
 
-#region Geometry
-		
+		#endregion
+
+		#region Geometry
+
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateRectangleGeometry([In] HANDLE ctx, [In] ref D2DRect rect);
 
@@ -235,9 +241,10 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern bool PathStrokeContainsPoint(HANDLE pathCtx, D2DPoint point, FLOAT strokeWidth = 1,
 			D2DDashStyle dashStyle = D2DDashStyle.Solid);
-#endregion
 
-#region Pen
+		#endregion
+
+		#region Pen
 		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke")]
 		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
@@ -308,143 +315,6 @@ namespace unvell.D2DLib
 		public static extern void TestDraw(HANDLE ctx);
 	}
 
-	public class D2DDevice: IDisposable
-	{
-		internal HANDLE Handle { get; private set; }
-
-		internal D2DDevice(HANDLE deviceHandle)
-		{
-			this.Handle = deviceHandle;
-		}
-
-		public static D2DDevice FromHwnd(HWND hwnd)
-		{
-			HANDLE contextHandle = D2D.CreateContext(hwnd);
-			return new D2DDevice(contextHandle);
-		}
-
-		public void Resize()
-		{
-			if (Handle != HANDLE.Zero) D2D.ResizeContext(this.Handle);
-		}
-
-		public D2DPen CreatePen(D2DColor color, D2DDashStyle dashStyle)
-		{
-			HANDLE handle = D2D.CreatePen(this.Handle, color, dashStyle);
-			return handle == HANDLE.Zero ? null : new D2DPen(handle, color, dashStyle);
-		}
-
-		public D2DSolidColorBrush CreateSolidColorBrush(D2DColor color)
-		{
-			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
-			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
-		}
-
-		public D2DLinearGradientBrush CreateLinearGradientBrush(D2DPoint startPoint, D2DPoint endPoint,
-																														D2DGradientStop[] gradientStops)
-		{
-			HANDLE handle = D2D.CreateLinearGradientBrush(this.Handle, startPoint, endPoint, gradientStops, (uint)gradientStops.Length);
-			return new D2DLinearGradientBrush(handle, gradientStops);
-		}
-
-		public D2DRadialGradientBrush CreateRadialGradientBrush(D2DPoint origin, D2DPoint offset,
-																														FLOAT radiusX, FLOAT radiusY,
-																														D2DGradientStop[] gradientStops)
-		{
-			HANDLE handle = D2D.CreateRadialGradientBrush(this.Handle, origin, offset, radiusX, radiusY, 
-				gradientStops, (uint)gradientStops.Length);
-
-			return new D2DRadialGradientBrush(handle, gradientStops);
-		}
-
-		public D2DRectangleGeometry CreateRectangleGeometry(FLOAT width, FLOAT height)
-		{
-			var rect = new D2DRect(0, 0, width, height);
-			return CreateRectangleGeometry(ref rect);
-		}
-
-		public D2DRectangleGeometry CreateRectangleGeometry(ref D2DRect rect)
-		{
-			HANDLE rectHandle = D2D.CreateRectangleGeometry(this.Handle, ref rect);
-			return new D2DRectangleGeometry(this.Handle, rectHandle);
-		}
-
-		public D2DPathGeometry CreatePathGeometry()
-		{
-			HANDLE geoHandle = D2D.CreatePathGeometry(this.Handle);
-			return new D2DPathGeometry(this.Handle, geoHandle);
-		}
-
-		public D2DBitmap LoadBitmap(byte[] buffer)
-		{
-			return this.LoadBitmap(buffer, 0, (uint)buffer.Length);
-		}
-
-		public D2DBitmap LoadBitmap(byte[] buffer, UINT offset, UINT length)
-		{
-			var bitmapHandle = D2D.CreateBitmapFromBytes(this.Handle, buffer, offset, length);
-			return (bitmapHandle != HWND.Zero) ? new D2DBitmap(bitmapHandle) : null;
-		}
-
-		public D2DBitmap LoadBitmap(string filepath)
-		{
-			var bitmapHandle = D2D.CreateBitmapFromFile(this.Handle, filepath);
-			return (bitmapHandle != HWND.Zero) ? new D2DBitmap(bitmapHandle) : null;
-		}
-
-		public D2DBitmap CreateBitmapFromMemory(UINT width, UINT height, UINT stride, IntPtr buffer, UINT offset, UINT length)
-		{
-			HANDLE d2dbmp = D2D.CreateBitmapFromMemory(this.Handle, width, height, stride, buffer, offset, length);
-			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
-		}
-
-		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp)
-		{
-			bool useAlphaChannel =
-				(bmp.PixelFormat & System.Drawing.Imaging.PixelFormat.Alpha) == System.Drawing.Imaging.PixelFormat.Alpha;
-
-			return this.CreateBitmapFromGDIBitmap(bmp, useAlphaChannel);
-		}
-
-    [DllImport("gdi32.dll")]
-    public static extern bool DeleteObject(IntPtr obj);
-
-		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp, bool useAlphaChannel)
-		{
-			HANDLE d2dbmp = HANDLE.Zero;
-			HANDLE hbitmap = bmp.GetHbitmap();
-
-			if (hbitmap != HANDLE.Zero)
-			{
-				d2dbmp = D2D.CreateBitmapFromHBitmap(this.Handle, hbitmap, useAlphaChannel);
-				DeleteObject(hbitmap);
-			}
-
-			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
-		}
-
-		public D2DBitmapGraphics CreateBitmapGraphics()
-		{
-			return CreateBitmapGraphics(D2DSize.Empty);
-		}
-
-		public D2DBitmapGraphics CreateBitmapGraphics(float width, float height)
-		{
-			return CreateBitmapGraphics(new D2DSize(width, height));
-		}
-
-		public D2DBitmapGraphics CreateBitmapGraphics(D2DSize size)
-		{
-			HANDLE bitmapRenderTargetHandle = D2D.CreateBitmapRenderTarget(this.Handle, size);
-			return bitmapRenderTargetHandle == HANDLE.Zero ? null 
-				: new D2DBitmapGraphics(bitmapRenderTargetHandle);
-		}
-
-		public void Dispose()
-		{
-			D2D.DestroyContext(this.Handle);
-		}
-	}
 
 	public class D2DObject : IDisposable
 	{
