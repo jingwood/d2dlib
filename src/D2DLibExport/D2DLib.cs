@@ -249,7 +249,8 @@ namespace unvell.D2DLib
 
 		#region Pen
 		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke")]
-		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid, FLOAT[] dashes = null, UINT dashCount = 0);
+		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid,
+			FLOAT[] dashes = null, UINT dashCount = 0, FLOAT dashOffset = 0.0f);
 
 		[DllImport(DLL_NAME, EntryPoint = "DestroyPenStroke")]
 		public static extern void DestroyPen(HANDLE pen);
