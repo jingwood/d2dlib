@@ -25,7 +25,7 @@
 #include "stdafx.h"
 #include "Brush.h"
 
-HANDLE CreateStorkeStyle(HANDLE ctx, FLOAT* dashes, UINT dashCount)
+HANDLE CreateStrokeStyle(HANDLE ctx, FLOAT* dashes, UINT dashCount)
 {
 	RetrieveContext(ctx);
 
@@ -37,7 +37,7 @@ HANDLE CreateStorkeStyle(HANDLE ctx, FLOAT* dashes, UINT dashCount)
             D2D1_CAP_STYLE_ROUND,
             D2D1_LINE_JOIN_MITER,
             10.0f,
-						D2D1_DASH_STYLE_CUSTOM,
+            D2D1_DASH_STYLE_CUSTOM,
             0.0f), dashes, dashCount, &strokeStyle);
 
 	return (HANDLE)strokeStyle;

@@ -39,6 +39,8 @@ extern "C"
 	D2DLIB_API void DrawRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color,
 		FLOAT width = 1, D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);
 
+	D2DLIB_API void DrawRectangleWithPen(HANDLE ctx, D2D1_RECT_F* rect, HANDLE strokePen, FLOAT width = 1);
+
 	D2DLIB_API void FillRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color);
 
 	D2DLIB_API void FillRectangleWithBrush(HANDLE ctx, D2D1_RECT_F* rect, HANDLE brushHandle);

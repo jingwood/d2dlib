@@ -183,6 +183,18 @@ void DrawRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color,
 	SafeRelease(&strokeStyle);
 }
 
+
+void DrawRectangleWithPen(HANDLE ctx, D2D1_RECT_F* rect, HANDLE strokePen, FLOAT width)
+{
+	RetrieveContext(ctx);
+
+	D2DPen* pen = reinterpret_cast<D2DPen*>(strokePen);
+
+	if (pen->brush != NULL) {
+		context->renderTarget->DrawRectangle(rect, pen->brush, width, pen->strokeStyle);
+	}
+}
+
 void FillRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color)
 {
 	RetrieveContext(ctx);

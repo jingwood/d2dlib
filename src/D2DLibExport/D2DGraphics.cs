@@ -286,6 +286,11 @@ namespace unvell.D2DLib
 			this.DrawRectangle(new D2DRect(origin, size), color, strokeWidth, dashStyle);
 		}
 
+		public void DrawRectangle(D2DRect rect, D2DPen strokePen, FLOAT strokeWidth = 1)
+		{
+			D2D.DrawRectangleWithPen(this.DeviceHandle, ref rect, strokePen.Handle, strokeWidth);
+		}
+
 		public void FillRectangle(float x, float y, float width, float height, D2DColor color)
 		{
 			var rect = new D2DRect(x, y, width, height);

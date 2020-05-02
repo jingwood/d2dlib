@@ -62,6 +62,11 @@ namespace unvell.D2DLib
 			HANDLE handle = D2D.CreatePen(this.Handle, color, dashStyle);
 			return handle == HANDLE.Zero ? null : new D2DPen(handle, color, dashStyle);
 		}
+		public D2DPen CreateCustomPen(D2DColor color, float[] dashes)
+		{
+			HANDLE handle = D2D.CreatePen(this.Handle, color, D2DDashStyle.Custom, dashes, (uint)dashes.Length);
+			return handle == HANDLE.Zero ? null : new D2DPen(handle, color, D2DDashStyle.Custom);
+		}
 
 		public D2DSolidColorBrush CreateSolidColorBrush(D2DColor color)
 		{
