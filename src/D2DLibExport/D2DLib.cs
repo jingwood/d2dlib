@@ -322,11 +322,12 @@ namespace unvell.D2DLib
 
 	public class D2DObject : IDisposable
 	{
-		internal HANDLE Handle { get; private set; }
+		protected HANDLE handle;
+		internal HANDLE Handle { get { return this.handle; } }
 
-		public D2DObject(HANDLE handle)
+		internal D2DObject(HANDLE handle)
 		{
-			this.Handle = handle;
+			this.handle = handle;
 		}
 
 		public virtual void Dispose()
@@ -337,19 +338,34 @@ namespace unvell.D2DLib
 
 	public class D2DPen : D2DObject
 	{
-		private D2DColor color;
+		public D2DDevice Device { get; private set; }
 
-		public D2DColor Color { get { return this.color; } }
+		public D2DColor Color { get; private set; }
 
-		private D2DDashStyle dashStyle;
+		public D2DDashStyle DashStyle { get; private set; }
 
-		public D2DDashStyle DashStyle { get { return this.dashStyle; } }
+		public float[] CustomDashes { get; private set; }
 
-		public D2DPen(HANDLE handle, D2DColor color, D2DDashStyle dashStyle)
+		public float DashOffset { get; private set; }
+
+		internal D2DPen(D2DDevice Device, HANDLE handle, D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid, 
+			float[] customDashes = null, float dashOffset = 0f)
 			: base(handle)
 		{
-			this.color = color;
-			this.dashStyle = dashStyle;
+			this.Device = Device;
+			this.Color = color;
+			this.DashStyle = dashStyle;
+			this.CustomDashes = customDashes;
+			this.DashOffset = dashOffset;
+		}
+
+		public override void Dispose()
+		{
+			if (this.Handle != IntPtr.Zero)
+			{
+				this.Device.DestroyPen(this);
+				this.handle = IntPtr.Zero;
+			}
 		}
 	}
 
