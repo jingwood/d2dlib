@@ -41,14 +41,24 @@ namespace unvell.D2DLib.Examples.Demos
 			Location = new Point(0, 0);
 			DesktopLocation = new Point(0, 0);
 			Size = Screen.GetBounds(this).Size;
+			
+			ShowFPS = true;
+		}
+
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+
+			this.recreateMemoryGraphics();
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			base.OnKeyDown(e);
-
+			
 			switch (e.KeyCode)
 			{
+				case Keys.Oemtilde:
 				case Keys.E:
 					this.lastPenColor = D2DColor.White;
 					this.penColor = D2DColor.White; Invalidate(); break;
@@ -68,7 +78,16 @@ namespace unvell.D2DLib.Examples.Demos
 				case Keys.D5:
 					this.lastPenColor = D2DColor.Pink;
 					this.penColor = D2DColor.Pink; Invalidate(); break;
+
+				case Keys.R:
+					this.memg.BeginRender();
+					this.memg.DrawRectangle(0, 0, this.ClientSize.Width, this.ClientSize.Height, D2DColor.White);
+					this.memg.EndRender();
+					break;
 			}
+
+			// when we're in the eraser, we want to invalidate since the eraser is animated
+			this.AnimationDraw = (this.penColor == D2DColor.White);
 		}
 
 		protected override void OnSizeChanged(EventArgs e)
@@ -97,7 +116,7 @@ namespace unvell.D2DLib.Examples.Demos
 			g.DrawBitmap(memg, this.ClientSize.Width, this.ClientSize.Height);
 
 			// draw tips
-			g.DrawText("Tips:\n   Press 1 to 5 to switch color, E to erase\n   Scroll to change pen size", D2DColor.Black, this.Font, 10, 10);
+			g.DrawText("Tips:\n   Press 1 to 5 to switch color, E or Right to erase\n   Scroll to change pen size\n    R to clear whiteboard", D2DColor.Black, this.Font, 10, 10);
 
 			if (showGettingStart)
 			{
@@ -106,12 +125,6 @@ namespace unvell.D2DLib.Examples.Demos
 
 			// draw cursor
 			this.drawCursor(g, this.cursorPoint);
-
-			if (this.penColor == D2DColor.White)
-			{
-				// when we're in the eraser, we want to invalidate since the eraser is animated
-				this.Invalidate();
-			}
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -135,6 +148,10 @@ namespace unvell.D2DLib.Examples.Demos
 			this.cursorPoint = e.Location;
 			drawPen(e.Location);
 			this.showGettingStart = false;
+
+			// when we're in the eraser, we want to invalidate since the eraser is animated
+			this.AnimationDraw = (this.penColor == D2DColor.White);
+
 			this.Invalidate();
 		}
 
