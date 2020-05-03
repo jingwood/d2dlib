@@ -57,19 +57,16 @@ namespace unvell.D2DLib
 			if (Handle != HANDLE.Zero) D2D.ResizeContext(this.Handle);
 		}
 
-		public D2DPen CreatePen(D2DColor color, D2DDashStyle dashStyle, float dashOffset = 0.0f)
+		public D2DPen CreatePen(D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid, 
+			float[] customDashes = null, float dashOffset = 0.0f)
 		{
-			HANDLE handle = D2D.CreatePen(this.Handle, color, dashStyle, null, 0, dashOffset);
-			return handle == HANDLE.Zero ? null : new D2DPen(handle, color, dashStyle);
-		}
-		public D2DPen CreateCustomPen(D2DColor color, float[] dashes, float dashOffset = 0.0f)
-		{
-			if (dashes == null) throw new ArgumentNullException(nameof(dashes));
+			HANDLE handle = D2D.CreatePen(this.Handle, color, dashStyle,
+				customDashes, customDashes != null ? (uint)customDashes.Length : 0, dashOffset);
 
-			HANDLE handle = D2D.CreatePen(this.Handle, color, D2DDashStyle.Custom, dashes, (uint)dashes.Length, dashOffset);
-			return handle == HANDLE.Zero ? null : new D2DPen(handle, color, D2DDashStyle.Custom);
+			return handle == HANDLE.Zero ? null : new D2DPen(this, handle, color, dashStyle, customDashes, dashOffset);
 		}
-		public void DestroyPen(D2DPen pen)
+	
+		internal void DestroyPen(D2DPen pen)
 		{
 			if (pen == null) throw new ArgumentNullException(nameof(pen));
 			D2D.DestroyPen(pen.Handle);
