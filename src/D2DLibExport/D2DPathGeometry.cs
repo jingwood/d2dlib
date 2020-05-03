@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using FLOAT = System.Single;
@@ -36,23 +37,52 @@ using BOOL = System.Int32;
 
 namespace unvell.D2DLib
 {
-	public class D2DBitmapGraphics : D2DGraphics, IDisposable
+	public class D2DPathGeometry : D2DGeometry
 	{
-		internal D2DBitmapGraphics(HANDLE handle)
-			: base(handle)
+		internal D2DPathGeometry(HANDLE deviceHandle, HANDLE pathHandle)
+			: base(deviceHandle, pathHandle)
 		{
 		}
 
-		public D2DBitmap GetBitmap()
+		public void AddLines(D2DPoint[] points)
 		{
-			HANDLE bitmapHandle = D2D.GetBitmapRenderTargetBitmap(this.Handle);
-			return bitmapHandle == HANDLE.Zero ? null : new D2DBitmap(bitmapHandle);
+			D2D.AddPathLines(this.Handle, points);
 		}
 
-		public void Dispose()
+		public void AddBeziers(D2DBezierSegment[] bezierSegments)
 		{
-			D2D.DestroyBitmapRenderTarget(this.Handle);
+			D2D.AddPathBeziers(this.Handle, bezierSegments);
+		}
+
+		public void AddEllipse(D2DEllipse ellipse)
+		{
+			D2D.AddPathEllipse(this.Handle, ref ellipse);
+		}
+
+		public void AddArc(D2DSize size, D2DPoint endPoint, FLOAT sweepAngle,
+			D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE)
+		{
+			D2D.AddPathArc(this.Handle, size, endPoint, sweepAngle);
+		}
+
+		public bool FillContainsPoint(D2DPoint point)
+		{
+			return D2D.PathFillContainsPoint(this.Handle, point);
+		}
+
+		public bool StrokeContainsPoint(D2DPoint point, FLOAT width = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
+		{
+			return D2D.PathStrokeContainsPoint(this.Handle, point, width, dashStyle);
+		}
+
+		public void ClosePath()
+		{
+			D2D.ClosePath(this.Handle);
+		}
+
+		public override void Dispose()
+		{
+			D2D.DestroyPathGeometry(this.Handle);
 		}
 	}
-
 }

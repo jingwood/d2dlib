@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using FLOAT = System.Single;
@@ -36,23 +37,36 @@ using BOOL = System.Int32;
 
 namespace unvell.D2DLib
 {
-	public class D2DBitmapGraphics : D2DGraphics, IDisposable
+	public class D2DPen : D2DObject
 	{
-		internal D2DBitmapGraphics(HANDLE handle)
+		public D2DDevice Device { get; private set; }
+
+		public D2DColor Color { get; private set; }
+
+		public D2DDashStyle DashStyle { get; private set; }
+
+		public float[] CustomDashes { get; private set; }
+
+		public float DashOffset { get; private set; }
+
+		internal D2DPen(D2DDevice Device, HANDLE handle, D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid,
+			float[] customDashes = null, float dashOffset = 0f)
 			: base(handle)
 		{
+			this.Device = Device;
+			this.Color = color;
+			this.DashStyle = dashStyle;
+			this.CustomDashes = customDashes;
+			this.DashOffset = dashOffset;
 		}
 
-		public D2DBitmap GetBitmap()
+		public override void Dispose()
 		{
-			HANDLE bitmapHandle = D2D.GetBitmapRenderTargetBitmap(this.Handle);
-			return bitmapHandle == HANDLE.Zero ? null : new D2DBitmap(bitmapHandle);
-		}
-
-		public void Dispose()
-		{
-			D2D.DestroyBitmapRenderTarget(this.Handle);
+			if (this.Handle != IntPtr.Zero)
+			{
+				this.Device.DestroyPen(this);
+				this.handle = IntPtr.Zero;
+			}
 		}
 	}
-
 }

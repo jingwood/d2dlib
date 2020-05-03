@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using FLOAT = System.Single;
@@ -36,23 +37,19 @@ using BOOL = System.Int32;
 
 namespace unvell.D2DLib
 {
-	public class D2DBitmapGraphics : D2DGraphics, IDisposable
-	{
-		internal D2DBitmapGraphics(HANDLE handle)
-			: base(handle)
-		{
-		}
+  public class D2DGeometry : D2DObject
+  {
+    internal HANDLE DeviceHandle { get; private set; }
 
-		public D2DBitmap GetBitmap()
-		{
-			HANDLE bitmapHandle = D2D.GetBitmapRenderTargetBitmap(this.Handle);
-			return bitmapHandle == HANDLE.Zero ? null : new D2DBitmap(bitmapHandle);
-		}
+    internal D2DGeometry(HANDLE deviceHandle, HANDLE geoHandle)
+      : base(geoHandle)
+    {
+      this.DeviceHandle = deviceHandle;
+    }
 
-		public void Dispose()
-		{
-			D2D.DestroyBitmapRenderTarget(this.Handle);
-		}
-	}
-
+    public void FillGeometry(D2DBrush brush, [Optional] D2DBrush opacityBrush)
+    {
+      // TODO
+    }
+  }
 }

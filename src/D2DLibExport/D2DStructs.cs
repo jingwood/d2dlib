@@ -464,19 +464,4 @@ namespace unvell.D2DLib
 	}
 	#endregion
 
-	#region Gradient
-	[Serializable]
-	[StructLayout(LayoutKind.Sequential)]
-	public struct D2DGradientStop
-	{
-		public FLOAT position;
-		public D2DColor color;
-
-		public D2DGradientStop(FLOAT position, D2DColor color)
-		{
-			this.position = position;
-			this.color = color;
-		}
-	} 
-	#endregion // Gradient
 }

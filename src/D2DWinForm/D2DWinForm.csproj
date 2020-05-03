@@ -85,6 +85,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="D2DControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Extensions.cs" />
     <Compile Include="D2DWinForm.cs">
       <SubType>Form</SubType>

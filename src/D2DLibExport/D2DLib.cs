@@ -59,7 +59,6 @@ namespace unvell.D2DLib
 
 #endif
 
-
 		#region Context
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -128,9 +127,9 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ReleaseObject([In] HANDLE objectHandle);
 
-#endregion
+		#endregion
 
-#region Simple Sharp
+		#region Simple Sharp
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawLine(HANDLE context, D2DPoint start, D2DPoint end, D2DColor color,
@@ -154,7 +153,7 @@ namespace unvell.D2DLib
 		public static extern void FillRectangleWithBrush(HANDLE context, ref D2DRect rect, HANDLE brush);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DrawRoundedRect(HANDLE ctx, ref D2DRoundedRect roundedRect, 
+		public static extern void DrawRoundedRect(HANDLE ctx, ref D2DRoundedRect roundedRect,
 			D2DColor strokeColor, D2DColor fillColor,
 			FLOAT strokeWidth = 1, D2DDashStyle strokeStyle = D2DDashStyle.Solid);
 
@@ -170,7 +169,7 @@ namespace unvell.D2DLib
 		public static extern void FillEllipse(HANDLE context, ref D2DEllipse rect, D2DColor color);
 
 
-#endregion // Simple Sharp
+		#endregion // Simple Sharp
 
 		#region Text
 
@@ -181,7 +180,7 @@ namespace unvell.D2DLib
 			[In] DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 
 		[DllImport(DLL_NAME, EntryPoint = "MeasureText", CharSet = CharSet.Unicode)]
-		public static extern void MeasureText([In] HANDLE ctx, [In] string text, [In] string fontName, 
+		public static extern void MeasureText([In] HANDLE ctx, [In] string text, [In] string fontName,
 			[In] FLOAT fontSize, ref D2DSize size);
 
 		#endregion
@@ -192,7 +191,7 @@ namespace unvell.D2DLib
 		public static extern HANDLE CreateRectangleGeometry([In] HANDLE ctx, [In] ref D2DRect rect);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void FillGeometryWithBrush([In] HANDLE ctx, [In] HANDLE geoHandle, 
+		public static extern void FillGeometryWithBrush([In] HANDLE ctx, [In] HANDLE geoHandle,
 			[In] HANDLE brushHandle, [Optional] HANDLE opacityBrushHandle);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -202,10 +201,10 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawPolygonWithBrush(HANDLE ctx, D2DPoint[] points, UINT count,
 			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, HANDLE brushHandler);
-		
-#endregion // Geometry
 
-#region Path
+		#endregion // Geometry
+
+		#region Path
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreatePathGeometry(HANDLE ctx);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -219,16 +218,16 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments, uint count);
 		public static void AddPathBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments)
-			{ AddPathBeziers(ctx, bezierSegments, (uint)bezierSegments.Length); }
+		{ AddPathBeziers(ctx, bezierSegments, (uint)bezierSegments.Length); }
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathEllipse(HANDLE path, ref D2DEllipse ellipse);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathArc(HANDLE ctx, D2DSize size, D2DPoint endPoint, FLOAT sweepAngle,
 		D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE);
-			
+
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DrawBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments, UINT count, 
-															D2DColor strokeColor, FLOAT strokeWidth = 1, 
+		public static extern void DrawBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments, UINT count,
+															D2DColor strokeColor, FLOAT strokeWidth = 1,
 															D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -254,9 +253,9 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, EntryPoint = "DestroyPenStroke")]
 		public static extern void DestroyPen(HANDLE pen);
-#endregion Pen
+		#endregion Pen
 
-#region Brush
+		#region Brush
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateSolidColorBrush(HANDLE ctx, D2DColor color);
@@ -270,15 +269,15 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateRadialGradientBrush(HANDLE ctx, D2DPoint origin, D2DPoint offset,
-																												  FLOAT radiusX, FLOAT radiusY, D2DGradientStop[] gradientStops, 
+																													FLOAT radiusX, FLOAT radiusY, D2DGradientStop[] gradientStops,
 																													UINT gradientStopCount);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillEllipseWithBrush(HANDLE ctx, ref D2DEllipse ellipse, HANDLE brush);
 
-#endregion // Brush
+		#endregion // Brush
 
-#region Bitmap
+		#region Bitmap
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateBitmapFromHBitmap(HANDLE context, HANDLE hBitmap, bool useAlphaChannel);
 
@@ -313,196 +312,9 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern D2DSize GetBitmapSize(HANDLE d2dbitmap);
-#endregion
+		#endregion
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void TestDraw(HANDLE ctx);
-	}
-
-
-	public class D2DObject : IDisposable
-	{
-		protected HANDLE handle;
-		internal HANDLE Handle { get { return this.handle; } }
-
-		internal D2DObject(HANDLE handle)
-		{
-			this.handle = handle;
-		}
-
-		public virtual void Dispose()
-		{
-			if (this.Handle != IntPtr.Zero) D2D.ReleaseObject(this.Handle);
-		}
-	}
-
-	public class D2DPen : D2DObject
-	{
-		public D2DDevice Device { get; private set; }
-
-		public D2DColor Color { get; private set; }
-
-		public D2DDashStyle DashStyle { get; private set; }
-
-		public float[] CustomDashes { get; private set; }
-
-		public float DashOffset { get; private set; }
-
-		internal D2DPen(D2DDevice Device, HANDLE handle, D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid, 
-			float[] customDashes = null, float dashOffset = 0f)
-			: base(handle)
-		{
-			this.Device = Device;
-			this.Color = color;
-			this.DashStyle = dashStyle;
-			this.CustomDashes = customDashes;
-			this.DashOffset = dashOffset;
-		}
-
-		public override void Dispose()
-		{
-			if (this.Handle != IntPtr.Zero)
-			{
-				this.Device.DestroyPen(this);
-				this.handle = IntPtr.Zero;
-			}
-		}
-	}
-
-	public abstract class D2DBrush : D2DObject
-	{
-		internal D2DBrush(HANDLE handle) : base(handle) { }
-	}
-
-	public class D2DSolidColorBrush : D2DBrush
-	{
-		private D2DColor color;
-
-		public D2DColor Color
-		{
-			get
-			{
-				return color;
-			}
-			set
-			{
-				D2D.SetSolidColorBrushColor(this.Handle, value);
-			}
-		}
-
-		internal D2DSolidColorBrush(HANDLE handle, D2DColor color)
-			: base(handle)
-		{
-			this.color = color;
-		}
-	}
-	
-	public class D2DLinearGradientBrush : D2DBrush
-	{
-		public D2DGradientStop[] GradientStops { get; private set; }
-
-		internal D2DLinearGradientBrush(HANDLE handle, D2DGradientStop[] gradientStops)
-			: base(handle)
-		{
-			this.GradientStops = gradientStops;
-		}
-	}
-
-	public class D2DRadialGradientBrush : D2DBrush
-	{
-		public D2DGradientStop[] GradientStops { get; private set; }
-
-		internal D2DRadialGradientBrush(HANDLE handle, D2DGradientStop[] gradientStops)
-			: base(handle)
-		{
-			this.GradientStops = gradientStops;
-		}
-	}
-
-	public class D2DGeometry : D2DObject
-	{
-		internal HANDLE DeviceHandle { get; private set; }
-
-		internal D2DGeometry(HANDLE deviceHandle, HANDLE geoHandle)
-			: base(geoHandle)
-		{
-			this.DeviceHandle = deviceHandle;
-		}
-
-		public void FillGeometry(D2DBrush brush, [Optional] D2DBrush opacityBrush)
-		{
-
-		}
-	}
-
-	public class D2DRectangleGeometry : D2DGeometry
-	{
-		internal D2DRectangleGeometry(HANDLE deviceHandle, HANDLE geoHandle)
-			: base(deviceHandle, geoHandle)
-		{
-		}
-	}
-
-	public class D2DPathGeometry : D2DGeometry
-	{
-		internal D2DPathGeometry(HANDLE deviceHandle, HANDLE pathHandle)
-			: base(deviceHandle, pathHandle)
-		{
-		}	
-
-		public void AddLines(D2DPoint[] points)
-		{
-			D2D.AddPathLines(this.Handle, points);
-		}
-
-		public void AddBeziers(D2DBezierSegment[] bezierSegments)
-		{
-			D2D.AddPathBeziers(this.Handle, bezierSegments);
-		}
-
-		public void AddEllipse(D2DEllipse ellipse)
-		{
-			D2D.AddPathEllipse(this.Handle, ref ellipse);
-		}
-
-		public void AddArc(D2DSize size, D2DPoint	endPoint, FLOAT sweepAngle, 
-			D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE)
-		{
-			D2D.AddPathArc(this.Handle, size, endPoint, sweepAngle);
-		}
-
-		public bool FillContainsPoint(D2DPoint point)
-		{
-			return D2D.PathFillContainsPoint(this.Handle, point);
-		}
-
-		public bool StrokeContainsPoint(D2DPoint point, FLOAT width = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
-		{
-			return D2D.PathStrokeContainsPoint(this.Handle, point, width, dashStyle);
-		}
-
-		public void ClosePath()
-		{
-			D2D.ClosePath(this.Handle);
-		}
-		
-		public override void Dispose()
-		{
-			D2D.DestroyPathGeometry(this.Handle);
-		}
-	}
-
-	public class D2DBitmap : D2DObject
-	{
-		public D2DSize Size { get; private set; }
-
-		public FLOAT Height { get { return this.Size.height; } }
-		public FLOAT Width { get { return this.Size.width; } }
-
-		internal D2DBitmap(HANDLE handle)
-			: base(handle)
-		{
-			this.Size = D2D.GetBitmapSize(handle);
-		}
 	}
 }

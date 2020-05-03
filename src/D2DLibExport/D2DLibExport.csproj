@@ -85,10 +85,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="D2DBitmapGraphics.cs" />
+    <Compile Include="D2DBitmap.cs" />
+    <Compile Include="D2DPathGeometry.cs" />
+    <Compile Include="D2DRectangleGeometry.cs" />
+    <Compile Include="D2DObject.cs" />
+    <Compile Include="D2DRadialGradientBrush.cs" />
+    <Compile Include="D2DLinearGradientBrush.cs" />
+    <Compile Include="D2DGeometry.cs" />
+    <Compile Include="D2DSolidColorBrush.cs" />
     <Compile Include="D2DDevice.cs" />
     <Compile Include="D2DEnums.cs" />
     <Compile Include="D2DGraphics.cs" />
     <Compile Include="D2DLib.cs" />
+    <Compile Include="D2DBrush.cs" />
+    <Compile Include="D2DPen.cs" />
     <Compile Include="D2DStructs.cs" />
     <Compile Include="MathFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

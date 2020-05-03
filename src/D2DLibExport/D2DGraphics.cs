@@ -39,7 +39,7 @@ namespace unvell.D2DLib
 {
 	public class D2DGraphics
 	{
-		internal HANDLE DeviceHandle { get; private set; }
+		internal HANDLE Handle { get; private set; }
 
 		public D2DDevice Device { get; private set; }
 
@@ -49,34 +49,34 @@ namespace unvell.D2DLib
 			this.Device = context;
 		}
 
-		public D2DGraphics(HANDLE device)
+		public D2DGraphics(HANDLE handle)
 		{
-			this.DeviceHandle = device;
+			this.Handle = handle;
 		}
 
 		public void BeginRender()
 		{
-			D2D.BeginRender(this.DeviceHandle);
+			D2D.BeginRender(this.Handle);
 		}
 
 		public void BeginRender(D2DColor color)
 		{
-			D2D.BeginRenderWithBackgroundColor(this.DeviceHandle, color);
+			D2D.BeginRenderWithBackgroundColor(this.Handle, color);
 		}
 
 		public void BeginRender(D2DBitmap bitmap)
 		{
-			D2D.BeginRenderWithBackgroundBitmap(this.DeviceHandle, bitmap.Handle);
+			D2D.BeginRenderWithBackgroundBitmap(this.Handle, bitmap.Handle);
 		}
 
 		public void EndRender()
 		{
-			D2D.EndRender(this.DeviceHandle);
+			D2D.EndRender(this.Handle);
 		}
 
 		public void Flush()
 		{
-			D2D.Flush(this.DeviceHandle);
+			D2D.Flush(this.Handle);
 		}
 
 		private bool antialias = true;
@@ -88,7 +88,7 @@ namespace unvell.D2DLib
 			{
 				if (this.antialias != value)
 				{
-					D2D.SetContextProperties(this.DeviceHandle,
+					D2D.SetContextProperties(this.Handle,
 						value ? D2DAntialiasMode.PerPrimitive : D2DAntialiasMode.Aliased);
 
 					this.antialias = value;
@@ -105,12 +105,12 @@ namespace unvell.D2DLib
 		public void DrawLine(D2DPoint start, D2DPoint end, D2DColor color,
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			D2D.DrawLine(this.DeviceHandle, start, end, color, weight, dashStyle);
+			D2D.DrawLine(this.Handle, start, end, color, weight, dashStyle);
 		}
 
 		public void DrawLines(D2DPoint[] points, D2DColor color, FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			D2D.DrawLines(this.DeviceHandle, points, (uint)points.Length, color, weight, dashStyle);
+			D2D.DrawLines(this.Handle, points, (uint)points.Length, color, weight, dashStyle);
 		}
 
 		public void DrawEllipse(FLOAT x, FLOAT y, FLOAT width, FLOAT height, D2DColor color,
@@ -140,7 +140,7 @@ namespace unvell.D2DLib
 		public void DrawEllipse(D2DEllipse ellipse, D2DColor color, FLOAT weight = 1,
 			D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			D2D.DrawEllipse(this.DeviceHandle, ref ellipse, color, weight, dashStyle);
+			D2D.DrawEllipse(this.Handle, ref ellipse, color, weight, dashStyle);
 		}
 
 		public void FillEllipse(D2DPoint p, FLOAT radial, D2DColor color)
@@ -169,19 +169,19 @@ namespace unvell.D2DLib
 
 		public void FillEllipse(D2DEllipse ellipse, D2DColor color)
 		{
-			D2D.FillEllipse(this.DeviceHandle, ref ellipse, color);
+			D2D.FillEllipse(this.Handle, ref ellipse, color);
 		}
 
 		public void FillEllipse(D2DEllipse ellipse, D2DBrush brush)
 		{
-			D2D.FillEllipseWithBrush(this.DeviceHandle, ref ellipse, brush.Handle);
+			D2D.FillEllipseWithBrush(this.Handle, ref ellipse, brush.Handle);
 		}
 
 		public void DrawBeziers(D2DBezierSegment[] bezierSegments,
 														D2DColor strokeColor, FLOAT strokeWidth = 1,
 														D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			D2D.DrawBeziers(DeviceHandle, bezierSegments, (uint)bezierSegments.Length, strokeColor, strokeWidth, dashStyle);
+			D2D.DrawBeziers(Handle, bezierSegments, (uint)bezierSegments.Length, strokeColor, strokeWidth, dashStyle);
 		}
 
 		public void DrawPolygon(D2DPoint[] points,
@@ -193,13 +193,13 @@ namespace unvell.D2DLib
 		public void DrawPolygon(D2DPoint[] points,
 			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, D2DColor fillColor)
 		{
-			D2D.DrawPolygon(DeviceHandle, points, (uint)points.Length, strokeColor, strokeWidth, dashStyle, fillColor);
+			D2D.DrawPolygon(Handle, points, (uint)points.Length, strokeColor, strokeWidth, dashStyle, fillColor);
 		}
 
 		public void DrawPolygon(D2DPoint[] points,
 			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, D2DBrush fillBrush)
 		{
-			D2D.DrawPolygonWithBrush(DeviceHandle, points, (uint)points.Length, strokeColor, strokeWidth, dashStyle, fillBrush.Handle);
+			D2D.DrawPolygonWithBrush(Handle, points, (uint)points.Length, strokeColor, strokeWidth, dashStyle, fillBrush.Handle);
 		}
 
 		public void FillPolygon(D2DPoint[] points, D2DColor fillColor)
@@ -209,75 +209,75 @@ namespace unvell.D2DLib
 
 		public void FillPolygon(D2DPoint[] points, D2DBrush brush)
 		{
-			D2D.DrawPolygonWithBrush(this.DeviceHandle, points, (uint)points.Length, D2DColor.Transparent, 0, D2DDashStyle.Solid, brush.Handle);
+			D2D.DrawPolygonWithBrush(this.Handle, points, (uint)points.Length, D2DColor.Transparent, 0, D2DDashStyle.Solid, brush.Handle);
 		}
 
 		public void TestDraw()
 		{
-			D2D.TestDraw(this.DeviceHandle);
+			D2D.TestDraw(this.Handle);
 		}
 
 		public void PushClip(D2DRect rect)
 		{
-			D2D.PushClip(this.DeviceHandle, ref rect);
+			D2D.PushClip(this.Handle, ref rect);
 		}
 
 		public void PopClip()
 		{
-			D2D.PopClip(this.DeviceHandle);
+			D2D.PopClip(this.Handle);
 		}
 
 		public void PushTransform()
 		{
-			D2D.PushTransform(this.DeviceHandle);
+			D2D.PushTransform(this.Handle);
 		}
 
 		public void PopTransform()
 		{
-			D2D.PopTransform(this.DeviceHandle);
+			D2D.PopTransform(this.Handle);
 		}
 
 		public void ResetTransform()
 		{
-			D2D.ResetTransform(this.DeviceHandle);
+			D2D.ResetTransform(this.Handle);
 		}
 
 		public void RotateTransform(FLOAT angle)
 		{
-			D2D.RotateTransform(this.DeviceHandle, angle);
+			D2D.RotateTransform(this.Handle, angle);
 		}
 
 		public void RotateTransform(FLOAT angle, D2DPoint center)
 		{
-			D2D.RotateTransform(this.DeviceHandle, angle, center);
+			D2D.RotateTransform(this.Handle, angle, center);
 		}
 
 		public void TranslateTransform(FLOAT x, FLOAT y)
 		{
-			D2D.TranslateTransform(this.DeviceHandle, x, y);
+			D2D.TranslateTransform(this.Handle, x, y);
 		}
 
 		public void ScaleTransform(FLOAT sx, FLOAT sy, [Optional] D2DPoint center)
 		{
-			D2D.ScaleTransform(this.DeviceHandle, sx, sy, center);
+			D2D.ScaleTransform(this.Handle, sx, sy, center);
 		}
 
 		public void SkewTransform(FLOAT angleX, FLOAT angleY, [Optional] D2DPoint center)
 		{
-			D2D.SkewTransform(this.DeviceHandle, angleX, angleY, center);
+			D2D.SkewTransform(this.Handle, angleX, angleY, center);
 		}
 
 		public void DrawRectangle(FLOAT x, FLOAT y, FLOAT w, FLOAT h, D2DColor color, FLOAT strokeWidth = 1,
 			D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
 			D2DRect rect = new D2DRect(x, y, w, h);
-			D2D.DrawRectangle(this.DeviceHandle, ref rect, color, strokeWidth, dashStyle);
+			D2D.DrawRectangle(this.Handle, ref rect, color, strokeWidth, dashStyle);
 		}
 
 		public void DrawRectangle(D2DRect rect, D2DColor color, FLOAT strokeWidth = 1,
 			D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			D2D.DrawRectangle(this.DeviceHandle, ref rect, color, strokeWidth, dashStyle);
+			D2D.DrawRectangle(this.Handle, ref rect, color, strokeWidth, dashStyle);
 		}
 
 		public void DrawRectangle(D2DPoint origin, D2DSize size, D2DColor color, FLOAT strokeWidth = 1,
@@ -288,7 +288,7 @@ namespace unvell.D2DLib
 
 		public void DrawRectangle(D2DRect rect, D2DPen strokePen, FLOAT strokeWidth = 1)
 		{
-			D2D.DrawRectangleWithPen(this.DeviceHandle, ref rect, strokePen.Handle, strokeWidth);
+			D2D.DrawRectangleWithPen(this.Handle, ref rect, strokePen.Handle, strokeWidth);
 		}
 
 		public void FillRectangle(float x, float y, float width, float height, D2DColor color)
@@ -304,23 +304,23 @@ namespace unvell.D2DLib
 
 		public void FillRectangle(D2DRect rect, D2DColor color)
 		{
-			D2D.FillRectangle(this.DeviceHandle, ref rect, color);
+			D2D.FillRectangle(this.Handle, ref rect, color);
 		}
 
 		public void FillRectangle(D2DRect rect, D2DBrush brush)
 		{
-			D2D.FillRectangleWithBrush(this.DeviceHandle, ref rect, brush.Handle);
+			D2D.FillRectangleWithBrush(this.Handle, ref rect, brush.Handle);
 		}
 
 		public void DrawRoundedRectangle(D2DRoundedRect roundedRect, D2DColor strokeColor, D2DColor fillColor, 
 			FLOAT strokeWidth = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			D2D.DrawRoundedRect(this.DeviceHandle, ref roundedRect, strokeColor, fillColor, strokeWidth, dashStyle);
+			D2D.DrawRoundedRect(this.Handle, ref roundedRect, strokeColor, fillColor, strokeWidth, dashStyle);
 		}
 
 		public void DrawRoundedRectangle(D2DRoundedRect roundedRect, D2DPen strokePen, D2DBrush fillBrush, FLOAT strokeWidth = 1)
 		{
-			D2D.DrawRoundedRectWithBrush(this.DeviceHandle, ref roundedRect, strokePen.Handle, fillBrush.Handle, strokeWidth);
+			D2D.DrawRoundedRectWithBrush(this.Handle, ref roundedRect, strokePen.Handle, fillBrush.Handle, strokeWidth);
 		}
 
 		public void DrawBitmap(D2DBitmap bitmap, D2DRect destRect, FLOAT opacity = 1,
@@ -333,13 +333,13 @@ namespace unvell.D2DLib
 		public void DrawBitmap(D2DBitmap bitmap, D2DRect destRect, D2DRect srcRect, FLOAT opacity = 1,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
 		{
-			D2D.DrawD2DBitmap(this.DeviceHandle, bitmap.Handle, ref destRect, ref srcRect, opacity, interpolationMode);
+			D2D.DrawD2DBitmap(this.Handle, bitmap.Handle, ref destRect, ref srcRect, opacity, interpolationMode);
 		}
 
 		public void DrawBitmap(D2DBitmapGraphics bg, D2DRect rect, FLOAT opacity = 1,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
 		{
-			D2D.DrawBitmapRenderTarget(this.DeviceHandle, bg.DeviceHandle, ref rect, opacity, interpolationMode);
+			D2D.DrawBitmapRenderTarget(this.Handle, bg.Handle, ref rect, opacity, interpolationMode);
 		}
 
 		public void DrawBitmap(D2DBitmapGraphics bg, FLOAT width, FLOAT height, FLOAT opacity = 1,
@@ -351,7 +351,7 @@ namespace unvell.D2DLib
 		public void DrawGDIBitmap(HANDLE hbitmap, D2DRect rect, D2DRect srcRect, FLOAT opacity = 1, bool alpha = false,
 			D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
 		{
-			D2D.DrawGDIBitmapRect(this.DeviceHandle, hbitmap, ref rect, ref srcRect, opacity, alpha, interpolationMode);
+			D2D.DrawGDIBitmapRect(this.Handle, hbitmap, ref rect, ref srcRect, opacity, alpha, interpolationMode);
 		}
 
 		public void DrawTextCenter(string text, D2DColor color, string fontName, float fontSize, D2DRect rect)
@@ -364,13 +364,13 @@ namespace unvell.D2DLib
 			DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_LEADING,
 			DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_NEAR)
 		{
-			D2D.DrawText(this.DeviceHandle, text, color, fontName, fontSize, ref rect, halign, valign);
+			D2D.DrawText(this.Handle, text, color, fontName, fontSize, ref rect, halign, valign);
 		}
 
 		public D2DSize MeasureText(string text, string fontName, float fontSize, D2DSize placeSize)
 		{
 			D2DSize outputSize = placeSize;
-			D2D.MeasureText(this.DeviceHandle, text, fontName, fontSize, ref outputSize);
+			D2D.MeasureText(this.Handle, text, fontName, fontSize, ref outputSize);
 			return outputSize;
 		}
 
@@ -387,7 +387,7 @@ namespace unvell.D2DLib
 
 		public void Clear(D2DColor color)
 		{
-			D2D.Clear(DeviceHandle, color);
+			D2D.Clear(Handle, color);
 		}
 	}
 
