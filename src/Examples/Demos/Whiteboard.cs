@@ -247,11 +247,11 @@ namespace unvell.D2DLib.Examples.Demos
 				// when current color is white, draw an eraser
 				var eraserRectangle = new D2DRect(p.X - this.penSize.Width, p.Y - this.penSize.Height, this.penSize.Width * 2, this.penSize.Height * 2);
 
-				var pen = Device.CreateCustomPen(D2DColor.Black, eraserPenDashes, eraserDashOffset);
+				using (var pen = Device.CreatePen(D2DColor.Black, D2DDashStyle.Custom, eraserPenDashes, eraserDashOffset))
+				{
+					g.DrawRectangle(eraserRectangle, pen, 2);
+				}
 
-				g.DrawRectangle(eraserRectangle, pen, 2);
-
-				Device.DestroyPen(pen);
 				eraserDashOffset += 0.1f;
 			}
 			else
