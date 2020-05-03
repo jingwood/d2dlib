@@ -40,7 +40,6 @@ namespace unvell.D2DLib.Examples.Samples
 			Size = new Size(1280, 800);
 		}
 
-
 		protected override void OnRender(D2DGraphics g)
 		{
       var text = "Hello World";

@@ -52,9 +52,7 @@ namespace unvell.D2DLib.Examples.Demos
 			}
 		}
 
-		private Timer timer = new Timer { Interval = 14 };
-
-		private const int StarCount = 10000;
+		private const int StarCount = 3000;
 		private Star[] stars = new Star[StarCount];
 		private static readonly Random rand = new Random();
 
@@ -78,8 +76,8 @@ namespace unvell.D2DLib.Examples.Demos
 					s.x = rand.Next(range.Width);
 					s.y = rand.Next(range.Height);
 
-					s.size = (float)rand.NextDouble() * 2.0f + 0.2f;
-					s.speed = (float)rand.NextDouble() * 0.05f + 0.01f;
+					s.size = (float)rand.NextDouble() * 3.0f + 0.2f;
+					s.speed = (float)rand.NextDouble() * 0.03f + 0.002f;
 
 					float gray = (float)rand.NextDouble() * 0.7f + 0.3f;
 					s.color = new D2DColor(gray, gray, gray);
@@ -87,12 +85,13 @@ namespace unvell.D2DLib.Examples.Demos
 
 				s.x += (s.x - hw) * s.speed;
 				s.y += (s.y - hh) * s.speed;
+				//s.size += 0.1f / (float)(Math.Pow(s.x - hw, 2) + Math.Pow(s.y - hh, 2));
 			}
 
 			SceneChanged = true;
 		}
 
-		protected override void OnRender(unvell.D2DLib.D2DGraphics g)
+		protected override void OnRender(D2DGraphics g)
 		{
 			D2DEllipse ellipse = new D2DEllipse();
 
