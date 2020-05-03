@@ -145,6 +145,9 @@ namespace unvell.D2DLib
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawRectangleWithPen(HANDLE context, ref D2DRect rect, HANDLE strokePen, FLOAT weight = 1);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillRectangle(HANDLE context, ref D2DRect rect, D2DColor color);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -246,7 +249,8 @@ namespace unvell.D2DLib
 
 		#region Pen
 		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke")]
-		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid);
+		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid,
+			FLOAT[] dashes = null, UINT dashCount = 0, FLOAT dashOffset = 0.0f);
 
 		[DllImport(DLL_NAME, EntryPoint = "DestroyPenStroke")]
 		public static extern void DestroyPen(HANDLE pen);

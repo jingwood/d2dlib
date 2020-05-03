@@ -106,6 +106,12 @@ namespace unvell.D2DLib.Examples.Demos
 
 			// draw cursor
 			this.drawCursor(g, this.cursorPoint);
+
+			if (this.penColor == D2DColor.White)
+			{
+				// when we're in the eraser, we want to invalidate since the eraser is animated
+				this.Invalidate();
+			}
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
@@ -214,12 +220,22 @@ namespace unvell.D2DLib.Examples.Demos
 			this.lastPoint = currentPoint;
 		}
 
+
+		private readonly float[] eraserPenDashes = new[] { 2f, 2f };
+		private float eraserDashOffset = 0.0f;
 		private void drawCursor(D2DGraphics g, Point p)
 		{
 			if (this.penColor == D2DColor.White)
 			{
 				// when current color is white, draw an eraser
-				g.DrawRectangle(p.X - this.penSize.Width, p.Y - this.penSize.Height, this.penSize.Width * 2, this.penSize.Height * 2, D2DColor.Black, 2);
+				var eraserRectangle = new D2DRect(p.X - this.penSize.Width, p.Y - this.penSize.Height, this.penSize.Width * 2, this.penSize.Height * 2);
+
+				var pen = Device.CreateCustomPen(D2DColor.Black, eraserPenDashes, eraserDashOffset);
+
+				g.DrawRectangle(eraserRectangle, pen, 2);
+
+				Device.DestroyPen(pen);
+				eraserDashOffset += 0.1f;
 			}
 			else
 			{

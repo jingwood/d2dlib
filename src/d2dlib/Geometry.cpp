@@ -168,7 +168,7 @@ void DrawPath(HANDLE pathCtx, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_
           D2D1_CAP_STYLE_ROUND,
           D2D1_LINE_JOIN_MITER,
           10.0f,
-					dashStyle,
+          dashStyle,
           0.0f), NULL, 0, &strokeStyle);
 	}
 

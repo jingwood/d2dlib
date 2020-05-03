@@ -35,7 +35,8 @@ typedef struct D2DPen
 extern "C"
 {
 	D2DLIB_API HANDLE CreatePenStroke(HANDLE context, D2D1_COLOR_F color,
-		D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);
+		D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID,
+		FLOAT* dashes = NULL, UINT dashCount = 0, FLOAT dashOffset = 0.0f);
 
 	D2DLIB_API void DestroyPenStroke(HANDLE pen);
 }
