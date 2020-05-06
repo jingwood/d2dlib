@@ -35,7 +35,6 @@ using HANDLE = System.IntPtr;
 using HRESULT = System.Int64;
 using BOOL = System.Int32;
 
-
 namespace unvell.D2DLib
 {
 	internal static class D2D
