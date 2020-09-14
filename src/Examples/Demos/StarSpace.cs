@@ -36,8 +36,13 @@ namespace unvell.D2DLib.Examples.Demos
 		public StarSpace()
 		{
 			BackColor = Color.Black;
-			WindowState = FormWindowState.Maximized;
+
+			StartPosition = FormStartPosition.Manual;
+			WindowState = FormWindowState.Normal;
 			FormBorderStyle = FormBorderStyle.None;
+			Location = new Point(0, 0);
+			DesktopLocation = new Point(0, 0);
+			Size = Screen.GetBounds(this).Size;
 
 			ShowFPS = true;
 			AnimationDraw = true;
@@ -87,8 +92,6 @@ namespace unvell.D2DLib.Examples.Demos
 				s.y += (s.y - hh) * s.speed;
 				//s.size += 0.1f / (float)(Math.Pow(s.x - hw, 2) + Math.Pow(s.y - hh, 2));
 			}
-
-			SceneChanged = true;
 		}
 
 		protected override void OnRender(D2DGraphics g)
