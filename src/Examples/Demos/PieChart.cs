@@ -37,6 +37,8 @@ namespace unvell.D2DLib.Examples.Demos
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
+
+			Text = "PieChart Demo";
 			CreateChart();
 		}
 
