@@ -102,6 +102,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -114,13 +120,16 @@
     <Compile Include="D2DHybridForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Demos\PieChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Demos\ImageTest.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Demos\BitmapCustomDraw.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Samples\DrawStringForm.cs">
+    <Compile Include="SampleCode\MeasureAndDrawStringForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Demos\Subtitle.cs">
@@ -161,6 +170,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
