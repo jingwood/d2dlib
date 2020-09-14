@@ -129,7 +129,8 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command> </Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -185,6 +186,7 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="Pen.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Simple.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Effect.h" />

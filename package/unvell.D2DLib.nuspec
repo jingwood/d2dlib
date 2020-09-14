@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>unvell.D2DLib</id>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <authors>Jingwood</authors>
     <owners>unvell</owners>
     <projectUrl>https://github.com/jingwood/d2dlib/</projectUrl>
@@ -29,7 +29,7 @@
     <file src="..\binary\x86-build\d2dwinform.dll" target="lib\net20" />
     <file src="..\binary\x86-build\d2dlibexport.dll" target="lib\netcore" />
     <file src="..\binary\x86-build\d2dwinform.dll" target="lib\netcore" />
-    <file src="..\binary\x86-build\d2dlib.dll" target="build" />
+    <file src="..\binary\x86-build\d2dlib32.dll" target="build" />
     <file src="unvell.D2DLib.targets" target="build" />
     <file src="..\README.md" target="" />
     <file src="..\LICENSE.md" target="" />
