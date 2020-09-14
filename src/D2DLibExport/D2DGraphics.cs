@@ -389,6 +389,16 @@ namespace unvell.D2DLib
 		{
 			D2D.Clear(Handle, color);
 		}
+
+		public void GetDPI(out float dpiX, out float dpiY)
+		{
+			D2D.GetDPI(this.Device.Handle, out dpiX, out dpiY);
+		}
+
+		public void SetDPI(float dpiX, float dpiY)
+		{
+			D2D.SetDPI(this.Device.Handle, dpiX, dpiY);
+		}
 	}
 
 }

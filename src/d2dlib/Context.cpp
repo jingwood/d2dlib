@@ -285,16 +285,14 @@ void DestroyBitmapRenderTarget(HANDLE ctx)
 	delete context;
 }
 
-void PushClip(HANDLE ctx, D2D1_RECT_F* rect, D2D1_ANTIALIAS_MODE antiAliasMode)
-{
-	D2DContext* context = reinterpret_cast<D2DContext*>(ctx);
-	context->renderTarget->PushAxisAlignedClip(rect, antiAliasMode);
+void GetDPI(HANDLE ctx, FLOAT* dpiX, FLOAT* dpiY) {
+	RetrieveContext(ctx);
+	context->renderTarget->GetDpi(dpiX, dpiY);
 }
 
-void PopClip(HANDLE ctx)
-{
-	D2DContext* context = reinterpret_cast<D2DContext*>(ctx);
-	context->renderTarget->PopAxisAlignedClip();
+void SetDPI(HANDLE ctx, FLOAT dpiX, FLOAT dpiY) {
+	RetrieveContext(ctx);
+	context->renderTarget->SetDpi(dpiX, dpiY);
 }
 
 void ReleaseObject(HANDLE handle)

@@ -122,6 +122,9 @@ extern "C"
 	D2DLIB_API HANDLE GetBitmapRenderTargetBitmap(HANDLE bitmapRenderTargetHandle);
 	D2DLIB_API void DestroyBitmapRenderTarget(HANDLE context);
 
+	D2DLIB_API void GetDPI(HANDLE ctx, FLOAT* dpiX, FLOAT* dpiY);
+	D2DLIB_API void SetDPI(HANDLE ctx, FLOAT dpiX, FLOAT dpiY);
+
 	D2DLIB_API void PushClip(HANDLE context, D2D1_RECT_F* rect, 
 												   D2D1_ANTIALIAS_MODE antiAliasMode = D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	D2DLIB_API void PopClip(HANDLE context);
