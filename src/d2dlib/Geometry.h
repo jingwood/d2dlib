@@ -32,12 +32,18 @@ extern "C"
 
 	D2DLIB_API HANDLE CreatePathGeometry(HANDLE ctx);
 	D2DLIB_API void DestroyPathGeometry(HANDLE handle);
+
+	D2DLIB_API void SetPathStartPoint(HANDLE handle, D2D1_POINT_2F startPoint);
 	D2DLIB_API void ClosePath(HANDLE handle);
 
 	D2DLIB_API void AddPathLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count);
+
 	D2DLIB_API void AddPathBeziers(HANDLE ctx, D2D1_BEZIER_SEGMENT* bezierSegments, UINT count);
+
 	D2DLIB_API void AddPathEllipse(HANDLE ctx, const D2D1_ELLIPSE* ellipse);
-	D2DLIB_API void AddPathArc(HANDLE ctx, D2D1_SIZE_F size, D2D1_POINT_2F endPoint, FLOAT sweepAngle,
+
+	D2DLIB_API void AddPathArc(HANDLE ctx, D2D1_POINT_2F endPoint, D2D1_SIZE_F size, FLOAT sweepAngle,
+		D2D1_ARC_SIZE arcSize = D2D1_ARC_SIZE::D2D1_ARC_SIZE_SMALL,
 		D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION::D2D1_SWEEP_DIRECTION_CLOCKWISE);
 
 	D2DLIB_API void DrawBeziers(HANDLE ctx, D2D1_BEZIER_SEGMENT* bezierSegments, UINT count, 
@@ -53,6 +59,9 @@ extern "C"
 	D2DLIB_API bool PathFillContainsPoint(HANDLE pathCtx, D2D1_POINT_2F point);
 	D2DLIB_API bool PathStrokeContainsPoint(HANDLE pathCtx, D2D1_POINT_2F point, FLOAT strokeWidth = 1,
 		D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);
+
+	D2DLIB_API void GetGeometryBounds(HANDLE pathCtx, __out D2D1_RECT_F* rect);
+	D2DLIB_API void GetGeometryTransformedBounds(HANDLE pathCtx, __in D2D1_MATRIX_3X2_F* mat3x2, __out D2D1_RECT_F* rect);
 
 	D2DLIB_API void DrawPolygon(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 		D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle, D2D1_COLOR_F fillColor);

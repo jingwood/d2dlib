@@ -44,6 +44,11 @@ namespace unvell.D2DLib
 		{
 		}
 
+		public void SetStartPoint(D2DPoint startPoint)
+		{
+			D2D.SetPathStartPoint(this.Handle, startPoint);
+		}
+
 		public void AddLines(D2DPoint[] points)
 		{
 			D2D.AddPathLines(this.Handle, points);
@@ -59,10 +64,11 @@ namespace unvell.D2DLib
 			D2D.AddPathEllipse(this.Handle, ref ellipse);
 		}
 
-		public void AddArc(D2DSize size, D2DPoint endPoint, FLOAT sweepAngle,
+		public void AddArc(D2DPoint endPoint, D2DSize size, FLOAT sweepAngle,
+			D2D1_ARC_SIZE arcSize = D2D1_ARC_SIZE.D2D1_ARC_SIZE_SMALL,
 			D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE)
 		{
-			D2D.AddPathArc(this.Handle, size, endPoint, sweepAngle);
+			D2D.AddPathArc(this.Handle, endPoint, size, sweepAngle, arcSize, sweepDirection);
 		}
 
 		public bool FillContainsPoint(D2DPoint point)

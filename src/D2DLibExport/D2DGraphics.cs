@@ -374,13 +374,13 @@ namespace unvell.D2DLib
 			return outputSize;
 		}
 
-		public void DrawPath(D2DPathGeometry path, D2DColor strokeColor,
+		public void DrawPath(D2DGeometry path, D2DColor strokeColor,
 			FLOAT strokeWidth = 1f, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
 			D2D.DrawPath(path.Handle, strokeColor, strokeWidth, dashStyle);
 		}
 
-		public void FillPath(D2DPathGeometry path, D2DColor fillColor)
+		public void FillPath(D2DGeometry path, D2DColor fillColor)
 		{
 			D2D.FillPathD(path.Handle, fillColor);
 		}

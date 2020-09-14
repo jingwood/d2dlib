@@ -47,9 +47,17 @@ namespace unvell.D2DLib
       this.DeviceHandle = deviceHandle;
     }
 
-    public void FillGeometry(D2DBrush brush, [Optional] D2DBrush opacityBrush)
+    // FIXME: TO be implemented
+    //public void FillGeometry(D2DBrush brush, [Optional] D2DBrush opacityBrush)
+    //{
+    //  // TODO
+    //}
+
+    public D2DRect GetBounds()
     {
-      // TODO
+      var rect = new D2DRect();
+      D2D.GetGeometryBounds(this.Handle, ref rect);
+      return rect;
     }
   }
 }

@@ -62,9 +62,23 @@ HANDLE CreatePathGeometry(HANDLE ctx)
 void DestroyPathGeometry(HANDLE ctx) 
 {
 	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(ctx);
+	
 	SafeRelease(&pathContext->path);
+	SafeRelease(&pathContext->sink);
 
 	delete pathContext;
+}
+
+void SetPathStartPoint(HANDLE ctx, D2D1_POINT_2F startPoint) {
+	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(ctx);
+
+	if (pathContext->isOpen)
+	{
+		return;
+	}
+
+	pathContext->sink->BeginFigure(startPoint, D2D1_FIGURE_BEGIN_FILLED);
+	pathContext->isOpen = true;
 }
 
 void ClosePath(HANDLE ctx)
@@ -126,14 +140,14 @@ void AddPathEllipse(HANDLE ctx, const D2D1_ELLIPSE* ellipse)
 	pathContext->sink->AddArc(&seg);
 }
 
-void AddPathArc(HANDLE ctx, D2D1_SIZE_F size, D2D1_POINT_2F endPoint, FLOAT sweepAngle,
-	D2D1_SWEEP_DIRECTION sweepDirection)
+void AddPathArc(HANDLE ctx, D2D1_POINT_2F endPoint, D2D1_SIZE_F size, FLOAT sweepAngle,
+	D2D1_ARC_SIZE arcSize, D2D1_SWEEP_DIRECTION sweepDirection)
 {
 	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(ctx);
 
 	D2D1_ARC_SEGMENT seg;
 	seg.rotationAngle = sweepAngle;
-	seg.arcSize = D2D1_ARC_SIZE::D2D1_ARC_SIZE_LARGE;
+	seg.arcSize = arcSize;
 	seg.point = endPoint;
 	seg.size = size;
 	seg.sweepDirection = sweepDirection;
@@ -375,4 +389,17 @@ bool PathStrokeContainsPoint(HANDLE pathCtx, D2D1_POINT_2F point, FLOAT strokeWi
 	SafeRelease(&strokeStyle);
 
 	return contain == TRUE;
+}
+
+
+void GetGeometryBounds(HANDLE pathCtx, __out D2D1_RECT_F* rect)
+{
+	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
+	pathContext->path->GetBounds(NULL, rect);
+}
+
+void GetGeometryTransformedBounds(HANDLE pathCtx, __in D2D1_MATRIX_3X2_F* mat3x2, __out D2D1_RECT_F* rect)
+{
+	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
+	pathContext->path->GetBounds(mat3x2, rect);
 }

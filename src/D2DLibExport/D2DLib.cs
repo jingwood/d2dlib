@@ -58,7 +58,7 @@ namespace unvell.D2DLib
 
 #endif
 
-		#region Context
+		#region Device Context
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE GetLastResult();
@@ -94,8 +94,27 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyBitmapRenderTarget([In] HANDLE context);
 
+		public static D2DBitmap CreateBitmapFromGDIBitmap(D2DDevice device, System.Drawing.Bitmap bmp)
+		{
+			bool useAlphaChannel =
+				(bmp.PixelFormat & System.Drawing.Imaging.PixelFormat.Alpha) == System.Drawing.Imaging.PixelFormat.Alpha;
+
+			return device.CreateBitmapFromGDIBitmap(bmp, useAlphaChannel);
+		}
+
+		public static D2DBitmap CreateBitmapFromGDIBitmap(D2DDevice device, System.Drawing.Bitmap bmp, bool useAlphaChannel)
+		{
+			HANDLE d2dbmp = D2D.CreateBitmapFromHBitmap(device.Handle, bmp.GetHbitmap(), useAlphaChannel);
+			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
+		}
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE ResizeContext([In] HANDLE context);
+
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE GetDPI([In] HANDLE context, out FLOAT dpix, out FLOAT dpiy);
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE SetDPI([In] HANDLE context, FLOAT dpix, FLOAT dpiy);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PushClip([In] HANDLE context, [In] ref D2DRect rect,
@@ -201,28 +220,37 @@ namespace unvell.D2DLib
 		public static extern void DrawPolygonWithBrush(HANDLE ctx, D2DPoint[] points, UINT count,
 			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, HANDLE brushHandler);
 
-		#endregion // Geometry
-
-		#region Path
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreatePathGeometry(HANDLE ctx);
+
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyPathGeometry(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetPathStartPoint(HANDLE ctx, D2DPoint startPoint);
+
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ClosePath(HANDLE ctx);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathLines(HANDLE path, D2DPoint[] points, uint count);
 		public static void AddPathLines(HANDLE path, D2DPoint[] points) { AddPathLines(path, points, (uint)points.Length); }
+
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments, uint count);
+
 		public static void AddPathBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments)
-		{ AddPathBeziers(ctx, bezierSegments, (uint)bezierSegments.Length); }
+		{
+			AddPathBeziers(ctx, bezierSegments, (uint)bezierSegments.Length);
+		}
+
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathEllipse(HANDLE path, ref D2DEllipse ellipse);
+
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void AddPathArc(HANDLE ctx, D2DSize size, D2DPoint endPoint, FLOAT sweepAngle,
-		D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE);
+		public static extern void AddPathArc(HANDLE ctx, D2DPoint endPoint, D2DSize size, FLOAT sweepAngle,
+			D2D1_ARC_SIZE arcSize = D2D1_ARC_SIZE.D2D1_ARC_SIZE_SMALL,
+			D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments, UINT count,
@@ -230,7 +258,9 @@ namespace unvell.D2DLib
 															D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DrawPath(HANDLE path, D2DColor strokeColor, FLOAT strokeWidth = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
+		public static extern void DrawPath(HANDLE path, D2DColor strokeColor, FLOAT strokeWidth = 1,
+			D2DDashStyle dashStyle = D2DDashStyle.Solid);
+
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillPathD(HANDLE path, D2DColor fillColor);
 
@@ -239,11 +269,18 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern bool PathFillContainsPoint(HANDLE pathCtx, D2DPoint point);
+
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern bool PathStrokeContainsPoint(HANDLE pathCtx, D2DPoint point, FLOAT strokeWidth = 1,
 			D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
-		#endregion
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void GetGeometryBounds(HANDLE pathCtx, ref D2DRect rect);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void GetGeometryTransformedBounds(HANDLE pathCtx, ref D2DMatrix3x2 mat3x2, ref D2DRect rect);
+
+		#endregion // Geometry
 
 		#region Pen
 		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke")]
