@@ -81,7 +81,7 @@ namespace unvell.D2DLib.Examples
 			this.graphics = new D2DGraphics(this.device);
 		}
 
-		private D2DAccelerationGraphics d2dGraphics;
+		private Direct2DGraphics d2dGraphics;
 
 		private GDIGraphics gdiGraphics;
 
@@ -117,7 +117,7 @@ namespace unvell.D2DLib.Examples
 
 				if (this.d2dGraphics == null)
 				{
-					this.d2dGraphics = new D2DAccelerationGraphics(this.graphics);
+					this.d2dGraphics = new Direct2DGraphics(this.graphics);
 				}
 				else
 				{
@@ -151,7 +151,7 @@ namespace unvell.D2DLib.Examples
 		/// User drawing method. Override this method to draw anything on your form.
 		/// </summary>
 		/// <param name="ag">Graphics context supports both GDI+ and Direct2D rendering.</param>
-		protected virtual void OnDraw(IAccelerationGraphics ag)
+		protected virtual void OnDraw(IHybridGraphics ag)
 		{
 			ag.DrawString("Hello World", Font, Color.Black, 
 				this.ClientRectangle.Width / 2 - 30, this.ClientRectangle.Height / 2 - 20);
@@ -161,14 +161,14 @@ namespace unvell.D2DLib.Examples
 		{
 			switch (m.Msg)
 			{
-				case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_ERASEBKGND:
+				case 0x0014 /* WM_ERASEBKGND */:
 					if (!this.hardwardAcceleration)
 					{
 						base.WndProc(ref m);
 					}
 					break;
 
-				case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_SIZE:
+				case 0x0005 /* WM_SIZE */:
 					base.WndProc(ref m);
 					if (this.device != null)
 					{
@@ -177,7 +177,7 @@ namespace unvell.D2DLib.Examples
 					}
 					break;
 
-				case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_DESTROY:
+				case 0x0002 /* WM_DESTROY */:
 					if (this.device != null) this.device.Dispose();
 					base.WndProc(ref m);
 					break;
@@ -348,11 +348,11 @@ namespace unvell.D2DLib.Examples
 		}
 	}
 
-	class D2DAccelerationGraphics : IAccelerationGraphics
+	class Direct2DGraphics : IHybridGraphics
 	{
 		internal D2DGraphics g;
 
-		public D2DAccelerationGraphics(D2DGraphics g)
+		public Direct2DGraphics(D2DGraphics g)
 		{
 			this.g = g;
 		}
@@ -440,29 +440,7 @@ namespace unvell.D2DLib.Examples
 
 	}
 
-	class D2DPen : IPen
-	{
-		private unvell.D2DLib.D2DPen pen;
-
-		public Color Color { get { return D2DColor.ToGDIColor(this.pen.Color); } }
-
-		private float width;
-
-		public float Width { get { return this.width; } }
-
-		public D2DPen(unvell.D2DLib.D2DPen pen, float width = 1f)
-		{
-			this.pen = pen;
-			this.width = width;
-		}
-
-		public void Dispose()
-		{
-			this.pen.Dispose();
-		}
-	}
-
-	class GDIGraphics : IAccelerationGraphics
+	class GDIGraphics : IHybridGraphics
 	{
 		internal Graphics g;
 
@@ -591,25 +569,7 @@ namespace unvell.D2DLib.Examples
 	
 	}
 
-	class GDIPen : IPen
-	{
-		private Pen pen;
-
-		public GDIPen(Color c, float width = 1f)
-		{
-			this.pen = new Pen(c, width);
-		}
-
-		public Color Color { get { return this.pen.Color; } set { this.pen.Color = value; } }
-		public float Width { get { return this.pen.Width; } set { this.pen.Width = value; } }
-
-		public void Dispose()
-		{
-			this.pen.Dispose();
-		}
-	}
-
-	interface IAccelerationGraphics
+	interface IHybridGraphics
 	{
 		bool SmoothingMode { get; set; }
 		void DrawLine(Point p1, Point p2, Color c, float weight = 1f);
@@ -627,9 +587,4 @@ namespace unvell.D2DLib.Examples
 		void Flush();
 	}
 
-	interface IPen : IDisposable
-	{
-		Color Color { get; }
-		float Width { get; }
-	}
 }

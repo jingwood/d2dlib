@@ -27,7 +27,7 @@ using System.Windows.Forms;
 
 namespace unvell.D2DLib.WinForm
 {
-	public class D2DForm : System.Windows.Forms.Form
+	public class D2DForm : Form
 	{
 		private D2DDevice device;
 		public D2DDevice Device
@@ -174,10 +174,10 @@ namespace unvell.D2DLib.WinForm
 		{
 			switch (m.Msg)
 			{
-				case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_ERASEBKGND:
+				case (int)Win32.WMessages.WM_ERASEBKGND:
 					break;
 
-				case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_SIZE:
+				case (int)Win32.WMessages.WM_SIZE:
 					base.WndProc(ref m);
 					if (this.device != null)
 					{
@@ -186,7 +186,7 @@ namespace unvell.D2DLib.WinForm
 					}
 					break;
 
-				case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_DESTROY:
+				case (int)Win32.WMessages.WM_DESTROY:
 					if (this.backgroundImage != null) this.backgroundImage.Dispose();
 					if (this.device != null) this.device.Dispose();
 					base.WndProc(ref m);

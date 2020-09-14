@@ -37,8 +37,10 @@
  * 
  ****************************************************************************/
 
-// Disable XML comment document
+// Disable XML comment document warning
 #pragma warning disable 1591
+// Disable variable not used warning
+#pragma warning disable 0649
 
 using System;
 using System.Collections.Generic;
@@ -47,7 +49,7 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace unvell.Common.Win32Lib
+namespace unvell.D2DLib.WinForm
 {
 	public static class Win32
 	{
@@ -1413,3 +1415,5 @@ namespace unvell.Common.Win32Lib
 		#endregion
 	}
 }
+
+#pragma warning restore 1591, CS0649

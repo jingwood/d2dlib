@@ -135,10 +135,10 @@ namespace unvell.D2DLib.WinForm
 				//	base.WndProc(ref m);
 				//	break;
 
-				case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_ERASEBKGND:
+				case (int)unvell.D2DLib.WinForm.Win32.WMessages.WM_ERASEBKGND:
 					break;
 
-				case (int)unvell.Common.Win32Lib.Win32.WMessages.WM_SIZE:
+				case (int)unvell.D2DLib.WinForm.Win32.WMessages.WM_SIZE:
 					base.WndProc(ref m);
 					if (this.device != null) this.device.Resize();
 					break;
