@@ -212,10 +212,12 @@ namespace unvell.D2DLib
 			D2D.DrawPolygonWithBrush(this.Handle, points, (uint)points.Length, D2DColor.Transparent, 0, D2DDashStyle.Solid, brush.Handle);
 		}
 
+#if DEBUG
 		public void TestDraw()
 		{
 			D2D.TestDraw(this.Handle);
 		}
+#endif // DEBUG
 
 		public void PushClip(D2DRect rect)
 		{

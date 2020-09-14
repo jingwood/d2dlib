@@ -135,7 +135,8 @@ extern "C"
 	D2DLIB_API void PopLayer(HANDLE ctx);
 
 	D2DLIB_API HRESULT GetLastErrorCode(HANDLE ctx);
-	D2DLIB_API void ReleaseObject(HANDLE context);
+
+	D2DLIB_API void ReleaseObject(HANDLE handle);
 
 	D2DLIB_API void TestDraw(HANDLE context);
 }

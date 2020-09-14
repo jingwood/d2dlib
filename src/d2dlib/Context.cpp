@@ -268,7 +268,7 @@ HANDLE GetBitmapRenderTargetBitmap(HANDLE bitmapRenderTargetHandle)
 
 void DestroyBitmapRenderTarget(HANDLE ctx)
 {
-	if (ctx == 0) return;
+	if (ctx == NULL) return;
 
 	RetrieveContext(ctx);
 
@@ -295,16 +295,16 @@ void SetDPI(HANDLE ctx, FLOAT dpiX, FLOAT dpiY) {
 	context->renderTarget->SetDpi(dpiX, dpiY);
 }
 
-void ReleaseObject(HANDLE handle)
+void PushClip(HANDLE ctx, D2D1_RECT_F* rect, D2D1_ANTIALIAS_MODE antiAliasMode)
 {
-	ID2D1Resource* object = reinterpret_cast<ID2D1Resource*>(handle);
-	SafeRelease(&object);
+	RetrieveContext(ctx);
+	context->renderTarget->PushAxisAlignedClip(rect, antiAliasMode);
 }
 
-HRESULT GetLastErrorCode(HANDLE handle)
+void PopClip(HANDLE ctx)
 {
-	D2DContext* context = reinterpret_cast<D2DContext*>(handle);
-	return context->lastErrorCode;
+	RetrieveContext(ctx);
+	context->renderTarget->PopAxisAlignedClip();
 }
 
 HANDLE CreateLayer(HANDLE ctx)
@@ -332,4 +332,16 @@ void PopLayer(HANDLE ctx)
 {
 	RetrieveContext(ctx);
 	context->renderTarget->PopLayer();
+}
+
+HRESULT GetLastErrorCode(HANDLE ctx)
+{
+	RetrieveContext(ctx);
+	return context->lastErrorCode;
+}
+
+void ReleaseObject(HANDLE handle)
+{
+	ID2D1Resource* object = reinterpret_cast<ID2D1Resource*>(handle);
+	SafeRelease(&object);
 }

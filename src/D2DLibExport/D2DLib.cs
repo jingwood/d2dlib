@@ -145,7 +145,7 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ReleaseObject([In] HANDLE objectHandle);
 
-		#endregion
+		#endregion // Device Context
 
 		#region Simple Sharp
 
@@ -201,7 +201,7 @@ namespace unvell.D2DLib
 		public static extern void MeasureText([In] HANDLE ctx, [In] string text, [In] string fontName,
 			[In] FLOAT fontSize, ref D2DSize size);
 
-		#endregion
+		#endregion // Text
 
 		#region Geometry
 
