@@ -130,7 +130,16 @@ namespace unvell.D2DLib.Examples
 		}
 	}
 
-	public class DemoForm : D2DForm { }
+	public class DemoForm : D2DForm
+	{
+		public DemoForm()
+		{
+			var screenSize = Screen.FromControl(this).WorkingArea.Size;
+			Size = new System.Drawing.Size((int)(screenSize.Width * 0.8f), (int)(screenSize.Height * 0.9f));
+			StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+		}
+	}
+
 	public class ExampleForm : D2DForm { }
 
 }

@@ -33,9 +33,6 @@ namespace unvell.D2DLib.Examples.Demos
 	{
 		public BitmapCustomDraw()
 		{
-			var screenSize = Screen.FromControl(this).WorkingArea.Size;
-			Size = new System.Drawing.Size((int)(screenSize.Width * 0.8f), (int)(screenSize.Height * 0.9f));
-
 			AnimationDraw = true;
 			ShowFPS = true;
 
