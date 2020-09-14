@@ -27,15 +27,15 @@ using System.Drawing;
 using unvell.D2DLib.WinForm;
 using unvell.D2DLib.Examples.Properties;
 
-namespace unvell.D2DLib.Examples.Samples
+namespace unvell.D2DLib.Examples.SampleCode
 {
-	public partial class DrawStringForm : ExampleForm
+	public partial class MeasureAndDrawStringForm : ExampleForm
 	{
 		private static readonly Font font1 = new Font("Times New Roman", 34f, FontStyle.Italic);
 
-		public DrawStringForm()
+		public MeasureAndDrawStringForm()
 		{
-			Text = "DrawString Sample";
+			Text = "Measure and draw string";
 
 			Size = new Size(1280, 800);
 		}
