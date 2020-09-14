@@ -113,6 +113,33 @@ namespace unvell.D2DLib
 			return new D2DPathGeometry(this.Handle, geoHandle);
 		}
 
+		public D2DGeometry CreatePieGeometry(D2DPoint origin, D2DSize size, float startAngle, float endAngle)
+		{
+			var path = this.CreatePathGeometry();
+
+			var halfSize = new D2DSize(size.width * 0.5f, size.height * 0.5f);
+
+			var sangle = startAngle * Math.PI / 180f;
+			var eangle = endAngle * Math.PI / 180f;
+			var angleDiff = endAngle - startAngle;
+
+			var startPoint = new D2DPoint((float)(origin.x + halfSize.width * Math.Cos(sangle)),
+				(float)(origin.y + halfSize.height * Math.Sin(sangle)));
+
+			var endPoint = new D2DPoint((float)(origin.x + halfSize.width * Math.Cos(eangle)),
+				(float)(origin.y + halfSize.height * Math.Sin(eangle)));
+
+			path.AddLines(new D2DPoint[] { origin, startPoint });
+
+			path.AddArc(endPoint, halfSize, angleDiff,
+				angleDiff > 180 ? D2D1_ARC_SIZE.D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE.D2D1_ARC_SIZE_SMALL,
+				D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE);
+
+			path.ClosePath();
+
+			return path;
+		}
+
 		public D2DBitmap LoadBitmap(byte[] buffer)
 		{
 			return this.LoadBitmap(buffer, 0, (uint)buffer.Length);
