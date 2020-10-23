@@ -123,6 +123,9 @@
     <Compile Include="Demos\HelloWorld.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Demos\HitTestByInverseTransform.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Demos\PieChart.cs">
       <SubType>Form</SubType>
     </Compile>
