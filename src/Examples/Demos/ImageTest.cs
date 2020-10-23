@@ -32,7 +32,7 @@ namespace unvell.D2DLib.Examples.Demos
 	{
 		public ImageTest()
 		{
-			Text = "Direct2D Image Test";
+			Text = "Direct2D Image Test - d2dlib Examples";
 
 			// put this form center on screen
 			var screenSize = Screen.FromControl(this).WorkingArea.Size;

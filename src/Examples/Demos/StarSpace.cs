@@ -35,6 +35,7 @@ namespace unvell.D2DLib.Examples.Demos
 	{
 		public StarSpace()
 		{
+			Text = "Star Space - d2dlib Examples";
 			BackColor = Color.Black;
 
 			StartPosition = FormStartPosition.Manual;

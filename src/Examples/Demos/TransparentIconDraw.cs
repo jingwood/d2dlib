@@ -36,7 +36,7 @@ namespace unvell.D2DLib.Examples.Demos
 	{
 		public TransparentMemoryBitmapDraw()
 		{
-			Text = "Transparenct Images Drawing";
+			Text = "Transparenct Images Draw - d2dlib Examples";
 			WindowState = FormWindowState.Maximized;
 
 			AnimationDraw = true;
@@ -45,12 +45,12 @@ namespace unvell.D2DLib.Examples.Demos
 
 		protected override void OnLoad(EventArgs e)
 		{
-			Bitmap[] bmps = new Bitmap[] {
-				Properties.Resources.icons8_car_production_96,
-				Properties.Resources.icons8_himeji_castle_96,
-				Properties.Resources.icons8_home_page_96,
-				Properties.Resources.icons8_music_96,
-				Properties.Resources.icons8_uwu_emoji_96,
+			D2DBitmap[] bmps = new D2DBitmap[] {
+				this.Device.CreateBitmapFromGDIBitmap(Properties.Resources.icons8_car_production_96),
+				this.Device.CreateBitmapFromGDIBitmap(Properties.Resources.icons8_himeji_castle_96),
+				this.Device.CreateBitmapFromGDIBitmap(Properties.Resources.icons8_home_page_96),
+				this.Device.CreateBitmapFromGDIBitmap(Properties.Resources.icons8_music_96),
+				this.Device.CreateBitmapFromGDIBitmap(Properties.Resources.icons8_uwu_emoji_96),
 			};
 
 			// Try this!
@@ -59,7 +59,7 @@ namespace unvell.D2DLib.Examples.Demos
 			//
 			for (int i = 0; i < 1000; i++)
 			{
-				icons.Add(new IconInfo(this.Device.CreateBitmapFromGDIBitmap(bmps[rand.Next(bmps.Length)]), this.ClientRectangle));
+				icons.Add(new IconInfo(bmps[rand.Next(bmps.Length)], this.ClientRectangle));
 			}
 
 			// Try this!
@@ -101,17 +101,16 @@ namespace unvell.D2DLib.Examples.Demos
 			foreach (var icon in icons)
 			{
 				icon.Y += icon.Speed;
-				icon.X += rand.NextDouble() - 0.5;
 
 				if (icon.Y > ClientRectangle.Height) {
 					icon.Reset(this.ClientRectangle);
 				}
 			}
 
-			bgPos += (float)(rand.NextDouble() - 0.5) * 0.001f;
-			bgR += (float)(rand.NextDouble() - 0.5) * 0.001f;
-			bgG += (float)(rand.NextDouble() - 0.5) * 0.0001f;
-			bgB += (float)(rand.NextDouble() - 0.5) * 0.001f;
+			bgPos += (float)(rand.NextDouble() - 0.5) * 0.01f;
+			bgR += (float)(rand.NextDouble() - 0.5) * 0.01f;
+			bgG += (float)(rand.NextDouble() - 0.5) * 0.01f;
+			bgB += (float)(rand.NextDouble() - 0.5) * 0.01f;
 		}
 
 		private static readonly Random rand = new Random();

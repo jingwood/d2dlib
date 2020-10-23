@@ -33,6 +33,7 @@ namespace unvell.D2DLib.Examples.Demos
 	{
 		public Whiteboard()
 		{
+			Text = "Whiteboard - d2dlib Examples";
 			BackColor = Color.White;
 
 			StartPosition = FormStartPosition.Manual;

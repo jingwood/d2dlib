@@ -35,7 +35,7 @@ namespace unvell.D2DLib.Examples.Demos
 
 		public Subtitle()
 		{
-			Text = "Subtitle Demo";
+			Text = "Subtitle Demo - d2dlib Examples";
 
 			Size = new Size(1280, 768);
 			BackgroundImage = Device.LoadBitmap(Resources.space_bg);

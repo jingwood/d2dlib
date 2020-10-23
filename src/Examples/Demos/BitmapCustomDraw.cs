@@ -33,6 +33,7 @@ namespace unvell.D2DLib.Examples.Demos
 	{
 		public BitmapCustomDraw()
 		{
+			Text = "Bitmap Draw - d2dlib Examples";
 			AnimationDraw = true;
 			ShowFPS = true;
 

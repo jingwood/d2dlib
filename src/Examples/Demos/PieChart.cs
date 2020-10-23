@@ -34,11 +34,11 @@ namespace unvell.D2DLib.Examples.Demos
 	{
 		List<PieInfo> pies = new List<PieInfo>();
 
-		protected override void OnLoad(EventArgs e)
+		public PieChart()
 		{
-			base.OnLoad(e);
+			Size = new Size(800, 1000);
+			Text = "PieChart Demo - d2dlib Examples";
 
-			Text = "PieChart Demo";
 			CreateChart();
 		}
 
@@ -65,7 +65,6 @@ namespace unvell.D2DLib.Examples.Demos
 				currentAngle += angleSpan;
 			}
 
-			Invalidate();
 		}
 
 		protected override void OnRender(D2DGraphics g)
@@ -88,7 +87,9 @@ namespace unvell.D2DLib.Examples.Demos
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			base.OnMouseUp(e);
+
 			CreateChart();
+			Invalidate();
 		}
 	}
 
