@@ -121,7 +121,7 @@ var brush = Device.CreateLinearGradientBrush(new D2DPoint(0, 0), new D2DPoint(20
 g.DrawBitmap(bmp, this.ClientRectangle);
 ```
 
-## Convert GDI+ bitmap to Direct2D bitmap for getting high-performance rendering
+### Convert GDI+ bitmap to Direct2D bitmap for getting high-performance rendering
 
 ```csharp
 // convert to Direct2D bitmap
@@ -131,7 +131,7 @@ var d2dbmp = Device.CreateBitmapFromGDIBitmap(gdiBitmap);
 g.DrawBitmap(d2dbmp, this.ClientRectangle);
 ```
 
-## Drawing on GDI+ bitmap
+### Drawing on GDI+ bitmap
 
 ```csharp
 // create and draw on GDI+ bitmap
@@ -148,7 +148,7 @@ g.DrawBitmap(gdiBmp, this.ClientRectangle);
 Learn more about [Bitmap](https://github.com/jingwood/d2dlib/wiki/Bitmap).
 See [Example code](src/Examples/Demos/BitmapCustomDraw.cs)
 
-## Drawing on Direct2D memory bitmap
+### Drawing on Direct2D memory bitmap
 
 ```csharp
 var bmpGraphics = this.Device.CreateBitmapGraphics(1024, 1024);
