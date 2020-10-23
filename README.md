@@ -56,11 +56,11 @@ For different build configuration and platform target, the d2dlib32.dll is named
 
 ## Installation Notice
 
-## For application uses .NET Core, .NET framework 4.5 and later
+### For application uses .NET Core, .NET framework 4.5 and later
 
 Make sure the "Prefer 32-bit" option is checked. You can find this option from the "Build" page of the project setting.
 
-## For application uses .NET framework 4 and early 
+### For application uses .NET framework 4 and early 
 
 Change the project's build configuration from 'Any CPU' to 'x86' architecture.
 
@@ -70,7 +70,7 @@ Change the project's build configuration from 'Any CPU' to 'x86' architecture.
 2. Override `OnRender(D2DGraphics g)` method (do not override .NET `OnPaint` method)
 3. Draw anything inside `OnRender` method via the `g` context
 
-# Basic rendering
+# Drawing
 
 ## Draw rectangle
 
@@ -131,8 +131,6 @@ var d2dbmp = Device.CreateBitmapFromGDIBitmap(gdiBitmap);
 g.DrawBitmap(d2dbmp, this.ClientRectangle);
 ```
 
-# Drawing on in-memory bitmap
-
 ## Drawing on GDI+ bitmap
 
 ```csharp
@@ -165,7 +163,7 @@ g.DrawBitmap(bmpGraphics, this.ClientRectangle);
 
 *Note:* When creating a Direct2D Device bitmap, do not forget call `BeginRender` and `EndRender` method.
 
-# Using transform
+## Using transform
 
 By calling `PushTransform` and `PopTransform` to make a transform session.
 
