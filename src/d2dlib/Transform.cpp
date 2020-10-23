@@ -91,14 +91,18 @@ void SkewTransform(HANDLE ctx, FLOAT angleX, FLOAT angleY, D2D1_POINT_2F center)
 	context->renderTarget->SetTransform(matrix);
 }
 
-void SetTransform(HANDLE ctx, FLOAT angle, D2D_POINT_2F center)
+void SetTransform(HANDLE ctx, D2D1_MATRIX_3X2_F* transform)
 {
+	D2D1::Matrix3x2F mat;
 	RetrieveContext(ctx);
+	context->renderTarget->SetTransform(transform);
+}
 
-	D2D1::Matrix3x2F mr = D2D1::Matrix3x2F::Rotation(angle, D2D1::Point2F(0, 0));
-	D2D1::Matrix3x2F mt = D2D1::Matrix3x2F::Translation(center.x, center.y);
-
-	context->renderTarget->SetTransform(mr * mt);
+void GetTransform(HANDLE ctx, D2D1_MATRIX_3X2_F* transform)
+{
+	D2D1::Matrix3x2F mat;
+	RetrieveContext(ctx);
+	context->renderTarget->GetTransform(transform);
 }
 
 void ResetTransform(HANDLE ctx)

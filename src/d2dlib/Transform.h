@@ -34,6 +34,7 @@ extern "C"
 	D2DLIB_API void ScaleTransform(HANDLE context, FLOAT scaleX, FLOAT scaleY, D2D1_POINT_2F center = D2D1::Point2F());
 	D2DLIB_API void RotateTransform(HANDLE context, FLOAT angle, D2D_POINT_2F point = D2D1::Point2F());
 	D2DLIB_API void SkewTransform(HANDLE ctx, FLOAT angleX, FLOAT angleY, D2D1_POINT_2F center = D2D1::Point2F());
-	D2DLIB_API void SetTransform(HANDLE context, FLOAT angle, D2D_POINT_2F center);
+	D2DLIB_API void SetTransform(HANDLE context, D2D1_MATRIX_3X2_F* transform);
+	D2DLIB_API void GetTransform(HANDLE context, D2D1_MATRIX_3X2_F* transform);
 	D2DLIB_API void ResetTransform(HANDLE context);
 }

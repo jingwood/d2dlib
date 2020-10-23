@@ -34,6 +34,7 @@ using HWND = System.IntPtr;
 using HANDLE = System.IntPtr;
 using HRESULT = System.Int64;
 using BOOL = System.Int32;
+using System.Drawing.Drawing2D;
 
 namespace unvell.D2DLib
 {
@@ -138,7 +139,9 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SkewTransform([In] HANDLE ctx, [In] FLOAT angleX, [In] FLOAT angleY, [Optional] D2DPoint center);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SetTransform([In] HANDLE context, [In] FLOAT angle, [In] D2DPoint center);
+		public static extern void SetTransform([In] HANDLE context, [In] ref D2DMatrix3x2 mat);
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void GetTransform([In] HANDLE context, [Out] out D2DMatrix3x2 mat);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ResetTransform([In] HANDLE context);
 

@@ -469,9 +469,9 @@ namespace unvell.D2DLib
 	[StructLayout(LayoutKind.Sequential)]
 	public struct D2DMatrix3x2
 	{
-		FLOAT a1, b1;
-		FLOAT a2, b2;
-		FLOAT a3, b3;
+		public FLOAT a1, b1;
+		public FLOAT a2, b2;
+		public FLOAT a3, b3;
 
 		public D2DMatrix3x2(float a1, float b1, float a2, float b2, float a3, float b3) {
 			this.a1 = a1; this.b1 = b1;

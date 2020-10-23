@@ -229,6 +229,18 @@ namespace unvell.D2DLib
 			D2D.PopClip(this.Handle);
 		}
 
+		public void SetTransform(D2DMatrix3x2 mat)
+		{
+			D2D.SetTransform(this.Handle, ref mat);
+		}
+
+		public D2DMatrix3x2 GetTransform()
+		{
+			D2DMatrix3x2 mat;
+			D2D.GetTransform(this.Handle, out mat);
+			return mat;
+		}
+
 		public void PushTransform()
 		{
 			D2D.PushTransform(this.Handle);
