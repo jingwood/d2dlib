@@ -147,7 +147,6 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ReleaseObject([In] HANDLE objectHandle);
-
 		#endregion // Device Context
 
 		#region Simple Sharp
@@ -204,6 +203,27 @@ namespace unvell.D2DLib
 		public static extern void MeasureText([In] HANDLE ctx, [In] string text, [In] string fontName,
 			[In] FLOAT fontSize, ref D2DSize size);
 
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextFormat", CharSet = CharSet.Unicode)]
+		public static extern HANDLE CreateFontFormat([In] HANDLE ctx, [In] string fontName, [In] FLOAT fontSize, 
+			[In] DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT.DWRITE_FONT_WEIGHT_NORMAL, 
+			[In] DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE.DWRITE_FONT_STYLE_NORMAL, 
+			[In] DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH.DWRITE_FONT_STRETCH_NORMAL,
+			[In] DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_LEADING, 
+			[In] DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextLayoutWithFormat", CharSet = CharSet.Unicode)]
+		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE fontFormat, [In] ref D2DSize size);
+
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextLayout", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE fontFormat, [In] ref D2DSize size,
+			[In] DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT.DWRITE_FONT_WEIGHT_NORMAL,
+			[In] DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE.DWRITE_FONT_STYLE_NORMAL,
+			[In] DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH.DWRITE_FONT_STRETCH_NORMAL);
+
+		[DllImport(DLL_NAME, EntryPoint = "DrawStringWithFormat", CharSet = CharSet.Unicode)]
+		public static extern void DrawText([In] HANDLE context, [In] string text, [In] HANDLE brush,
+			[In] HANDLE textFormat, [In] ref D2DRect rect);
+		
 		#endregion // Text
 
 		#region Geometry

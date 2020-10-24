@@ -101,6 +101,7 @@
     <Compile Include="D2DBrush.cs" />
     <Compile Include="D2DPen.cs" />
     <Compile Include="D2DStructs.cs" />
+    <Compile Include="D2DText.cs" />
     <Compile Include="MathFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

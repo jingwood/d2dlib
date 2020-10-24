@@ -58,14 +58,77 @@ D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 	SafeRelease(&textFormat);
 }
 
-D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size) {
+D2DLIB_API void DrawStringWithFormat(HANDLE ctx, LPCWSTR text, ID2D1Brush* brush, IDWriteTextFormat* textFormat, D2D1_RECT_F* rect)
+{
+	RetrieveContext(ctx);
+
+	if (brush != NULL && textFormat != NULL)
+	{
+		context->renderTarget->DrawText(text, wcslen(text), textFormat, rect, brush); 
+	}
+}
+
+D2DLIB_API HANDLE CreateTextFormat(HANDLE ctx, LPCWSTR fontName, FLOAT fontSize, DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, DWRITE_FONT_STRETCH fontStretch,
+																				DWRITE_TEXT_ALIGNMENT halign, DWRITE_PARAGRAPH_ALIGNMENT valign)
+{
 	RetrieveContext(ctx);
 
 	IDWriteTextFormat* textFormat = NULL;
 
 	HRESULT hr = context->writeFactory->CreateTextFormat(fontName,
 		NULL,
-		DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL,
+		fontWeight, fontStyle, fontStretch,
+		fontSize,
+		L"", //locale
+		&textFormat);
+
+	if (SUCCEEDED(hr) && textFormat != NULL) {
+		textFormat->SetTextAlignment(halign);
+		textFormat->SetParagraphAlignment(valign);
+
+		return (HANDLE)textFormat;
+	}
+
+	return NULL;
+}
+
+D2DLIB_API HANDLE CreateTextLayoutWithFormat(HANDLE ctx, LPCWSTR text, HANDLE fontFormat, D2D1_SIZE_F* size)
+{
+	RetrieveContext(ctx);
+
+	IDWriteTextFormat* textFormat = reinterpret_cast<IDWriteTextFormat*>(fontFormat); ;
+
+	if (textFormat != NULL)
+	{
+		IDWriteTextLayout* textLayout;
+
+		HRESULT hr = context->writeFactory->CreateTextLayout(
+			text,      // The string to be laid out and formatted.
+			wcslen(text),  // The length of the string.
+			textFormat,  // The text format to apply to the string (contains font information, etc).
+			size->width,         // The width of the layout box.
+			size->height,        // The height of the layout box.
+			&textLayout  // The IDWriteTextLayout interface pointer.
+		);
+
+		if (SUCCEEDED(hr) && textLayout != NULL) {
+			return (HANDLE)textLayout;
+		}
+	}
+
+	return NULL;
+}
+
+D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size,
+									DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, DWRITE_FONT_STRETCH fontStretch) 
+{
+	RetrieveContext(ctx);
+
+	IDWriteTextFormat* textFormat = NULL;
+
+	HRESULT hr = context->writeFactory->CreateTextFormat(fontName,
+		NULL,
+		fontWeight, fontStyle, fontStretch,
 		fontSize,
 		L"", //locale
 		&textFormat);
@@ -96,7 +159,11 @@ D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, F
 D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size) {
 	RetrieveContext(ctx);
 
-	IDWriteTextLayout* textLayout = (IDWriteTextLayout*)CreateTextLayout(ctx, text, fontName, fontSize, size);
+	IDWriteTextFormat* textFormat = (IDWriteTextFormat*)CreateTextFormat(ctx, fontName, fontSize);
+	if (textFormat == NULL)
+		return;
+
+	IDWriteTextLayout* textLayout = (IDWriteTextLayout*)CreateTextLayoutWithFormat(ctx, text, textFormat, size);
 
 	if (textLayout != NULL) {
 		DWRITE_TEXT_METRICS tm;
@@ -106,6 +173,7 @@ D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fo
 		size->height = tm.height;
 	}
 
+	SafeRelease(&textFormat);
 	SafeRelease(&textLayout);
 }
 

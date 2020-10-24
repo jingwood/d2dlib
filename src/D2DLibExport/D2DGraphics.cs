@@ -381,6 +381,11 @@ namespace unvell.D2DLib
 			D2D.DrawText(this.Handle, text, color, fontName, fontSize, ref rect, halign, valign);
 		}
 
+		public void DrawText(string text, D2DBrush brush, D2DFontFormat fontFormat, D2DRect rect)
+		{
+			D2D.DrawText(this.Handle, text, brush.Handle, fontFormat.Handle, ref rect);
+		}
+
 		public D2DSize MeasureText(string text, string fontName, float fontSize, D2DSize placeSize)
 		{
 			D2DSize outputSize = placeSize;

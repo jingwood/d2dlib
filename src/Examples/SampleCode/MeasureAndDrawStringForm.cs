@@ -26,6 +26,8 @@ using System;
 using System.Drawing;
 using unvell.D2DLib.WinForm;
 using unvell.D2DLib.Examples.Properties;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace unvell.D2DLib.Examples.SampleCode
 {
@@ -38,22 +40,71 @@ namespace unvell.D2DLib.Examples.SampleCode
 			Text = "Measure and draw string";
 
 			Size = new Size(1280, 800);
+			brush = Device.CreateSolidColorBrush(D2DColor.BlueViolet);
+			brushBack = Device.CreateSolidColorBrush(D2DColor.DarkGray);
+			textFormat = Device.CreateFontFormat(Font.Name, Font.Size * 96F / 72F);
+			szString = new D2DSize(60, 20);
+			dispstrings = new List<string>();
+			AnimationDraw = true;
+			ShowFPS = true;
 		}
 
-		protected override void OnRender(D2DGraphics g)
+		D2DSize szString;
+		D2DSolidColorBrush brush;
+		D2DSolidColorBrush brushBack;
+		D2DFontFormat textFormat;
+		int ColCount;
+		int RowCount;
+		List<string> dispstrings;
+		D2DPoint ptLeftTop = new D2DPoint(0, 0);
+
+		private void ReSize()
+        {
+			ColCount = (int)Math.Floor(Size.Width / szString.width);
+			RowCount = (int)Math.Floor(Size.Height / szString.height);
+		}
+
+		private void CreateStrings()
+        {
+			ReSize();
+
+			dispstrings.Clear();
+			for (int count = ColCount * RowCount; count >= 0; count--)
+            {
+				dispstrings.Add(Guid.NewGuid().ToString().Substring(20, 8));
+			}
+		}
+
+        protected override void OnFrame()
+        {
+            base.OnFrame();
+			CreateStrings();
+		}
+
+        protected override void OnRender(D2DGraphics g)
 		{
-      var text = "Hello World";
-
-      var rect = new Rectangle(100, 100, 500, 500);
-
-      var measuredSize = g.MeasureText(text, font1.Name, font1.Size, rect.Size);
-
-      var measuredRect = new D2DRect(rect.X, rect.Y, measuredSize.width, measuredSize.height);
-
-      g.DrawText(text, D2DColor.Black, font1.Name, font1.Size, rect);
-
-      g.DrawRectangle(measuredRect, D2DColor.Blue);
+			g.FillRectangle(ClientRectangle, brushBack);
+			int pos = 0;
+			for (int row = 0; row < RowCount; row++)
+            {
+				ptLeftTop.y = szString.height * row + 10;
+				for (int col = 0; col < ColCount; col++)
+                {
+					ptLeftTop.x = szString.width * col + 30;
+					D2DRect rcText = new D2DRect(ptLeftTop, szString);
+					g.DrawText(dispstrings[pos++], brush, textFormat, rcText);
+					//g.DrawText(dispstrings[pos++], D2DColor.BlueViolet, Font.Name, Font.Size * 96F / 72F, rcText);
+				}
+			}
 		}
-	}
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+			brush.Dispose();
+			brushBack.Dispose();
+			textFormat.Dispose();
+		}
+        
+    }
 }
 
