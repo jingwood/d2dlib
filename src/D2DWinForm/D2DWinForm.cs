@@ -79,21 +79,18 @@ namespace unvell.D2DLib.WinForm
 			set
 			{
 				this.animationDraw = value;
-				if (!this.animationDraw && !this.sceneAnimation && timer.Enabled) timer.Stop();
+
+				if (!this.animationDraw)
+				{
+					if (timer.Enabled) timer.Stop();
+				}
+				else
+				{
+					if (!timer.Enabled) timer.Start();
+				}
 			}
 		}
 
-		private bool sceneAnimation;
-
-		protected bool SceneAnimation
-		{
-			get { return this.sceneAnimation; }
-			set
-			{
-				this.sceneAnimation = true;
-				if (!this.animationDraw && !this.sceneAnimation && timer.Enabled) timer.Stop();
-			}
-		}
 		protected bool SceneChanged { get; set; }
 
 		protected override void CreateHandle()
@@ -112,7 +109,7 @@ namespace unvell.D2DLib.WinForm
 
 			this.timer.Tick += (ss, ee) =>
 			{
-				if (!SceneAnimation || SceneChanged)
+				if (AnimationDraw || SceneChanged)
 				{
 					OnFrame();
 					Invalidate(); SceneChanged = false;
@@ -163,7 +160,7 @@ namespace unvell.D2DLib.WinForm
 
 				this.graphics.EndRender();
 
-				if ((this.animationDraw || this.sceneAnimation) && !this.timer.Enabled)
+				if (this.animationDraw && !this.timer.Enabled)
 				{
 					this.timer.Start();
 				}
