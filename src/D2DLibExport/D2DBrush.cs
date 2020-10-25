@@ -40,5 +40,11 @@ namespace unvell.D2DLib
 	public abstract class D2DBrush : D2DObject
 	{
 		internal D2DBrush(HANDLE handle) : base(handle) { }
+
+		public override void Dispose()
+		{
+			if (this.Handle != IntPtr.Zero) D2D.ReleaseBrush(this.Handle);
+			this.handle = IntPtr.Zero;
+		}
 	}
 }

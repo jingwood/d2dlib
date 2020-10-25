@@ -25,6 +25,7 @@
 #include "stdafx.h"
 #include "Simple.h"
 #include "Pen.h"
+#include "Brush.h"
 
 void DrawLine(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLOR_F color,
 	FLOAT width, D2D1_DASH_STYLE dashStyle)
@@ -213,7 +214,8 @@ void FillRectangleWithBrush(HANDLE ctx, D2D1_RECT_F* rect, HANDLE brushHandle)
 {
 	RetrieveContext(ctx);
 
-	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brushHandle);
+	BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
+	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brushContext->brush);
 
 	if (brush != NULL) {
 		context->renderTarget->FillRectangle(rect, brush);
@@ -268,7 +270,8 @@ D2DLIB_API void DrawRoundedRectWithBrush(HANDLE ctx, D2D1_ROUNDED_RECT* roundedR
 	RetrieveContext(ctx);
 
 	D2DPen* pen = reinterpret_cast<D2DPen*>(strokePen);
-	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(fillBrush);
+	BrushContext* brushContext = reinterpret_cast<BrushContext*>(fillBrush);
+	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brushContext->brush);
 
 	if (pen != NULL) {
 		context->renderTarget->DrawRoundedRectangle(roundedRect, pen->brush, strokeWidth, pen->strokeStyle);
@@ -325,10 +328,12 @@ void FillEllipse(HANDLE handle, D2D1_ELLIPSE* ellipse, D2D1_COLOR_F color)
 	SafeRelease(&brush);
 }
 
-void FillEllipseWithBrush(HANDLE ctx, D2D1_ELLIPSE* ellipse, HANDLE brush_handle)
+void FillEllipseWithBrush(HANDLE ctx, D2D1_ELLIPSE* ellipse, HANDLE brushHandle)
 {
 	RetrieveContext(ctx);
 
-	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brush_handle);
+	BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
+	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brushContext->brush);
+
 	context->renderTarget->FillEllipse(ellipse, brush);
 }

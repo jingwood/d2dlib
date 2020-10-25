@@ -189,6 +189,8 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillEllipse(HANDLE context, ref D2DEllipse rect, D2DColor color);
 
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FillEllipseWithBrush(HANDLE ctx, ref D2DEllipse ellipse, HANDLE brush);
 
 		#endregion // Simple Sharp
 
@@ -312,7 +314,7 @@ namespace unvell.D2DLib
 																													UINT gradientStopCount);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void FillEllipseWithBrush(HANDLE ctx, ref D2DEllipse ellipse, HANDLE brush);
+		public static extern void ReleaseBrush(HANDLE brushCtx);
 
 		#endregion // Brush
 

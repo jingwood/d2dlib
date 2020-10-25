@@ -24,6 +24,7 @@
 
 #include "stdafx.h"
 #include "Geometry.h"
+#include "Brush.h"
 
 typedef struct D2DPathContext
 {
@@ -286,6 +287,11 @@ void DrawPolygonWithBrush(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 	ID2D1PathGeometry* path = NULL;
 	hr = context->factory->CreatePathGeometry(&path);
 
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return;
+	}
+
 	ID2D1GeometrySink* sink = NULL;
 	hr = path->Open(&sink);
 
@@ -300,7 +306,8 @@ void DrawPolygonWithBrush(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 
 	ID2D1Brush* brush = NULL;
 	if (brushHandle != NULL) {
-		brush = reinterpret_cast<ID2D1Brush*>(brushHandle);
+		BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
+		brush = brushContext->brush;
 		renderTarget->FillGeometry(path, brush);
 	}
 
@@ -337,10 +344,10 @@ void DrawPolygonWithBrush(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 void FillPathWithBrush(HANDLE ctx, HANDLE brushHandle)
 {
 	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(ctx);
-	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brushHandle);
+	BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
 	D2DContext* context = pathContext->d2context;
 
-	context->renderTarget->FillGeometry(pathContext->path, brush);
+	context->renderTarget->FillGeometry(pathContext->path, brushContext->brush);
 }
 
 void FillGeometryWithBrush(HANDLE ctx, HANDLE geoHandle, _In_ HANDLE brushHandle, _In_opt_ HANDLE opacityBrushHandle)
@@ -348,10 +355,11 @@ void FillGeometryWithBrush(HANDLE ctx, HANDLE geoHandle, _In_ HANDLE brushHandle
 	RetrieveContext(ctx);
 
 	ID2D1Geometry* geometry = reinterpret_cast<ID2D1Geometry*>(geoHandle);
-	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brushHandle);
-	ID2D1Brush* opacityBrush = reinterpret_cast<ID2D1Brush*>(opacityBrushHandle);
+	BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
+	BrushContext* opacityBrushContext = reinterpret_cast<BrushContext*>(opacityBrushHandle);
 
-	context->renderTarget->FillGeometry(geometry, brush, opacityBrush);
+	context->renderTarget->FillGeometry(geometry, brushContext->brush,
+		opacityBrushContext == NULL ? NULL : opacityBrushContext->brush);
 }
 
 bool PathFillContainsPoint(HANDLE pathCtx, D2D1_POINT_2F point)
