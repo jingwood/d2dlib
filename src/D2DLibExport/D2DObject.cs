@@ -50,6 +50,7 @@ namespace unvell.D2DLib
     public virtual void Dispose()
     {
       if (this.Handle != IntPtr.Zero) D2D.ReleaseObject(this.Handle);
+      this.handle = IntPtr.Zero;
     }
   }
 }
