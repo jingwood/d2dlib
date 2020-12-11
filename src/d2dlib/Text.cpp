@@ -31,18 +31,18 @@ D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 {
 	RetrieveContext(ctx);
 
-	IDWriteTextFormat* textFormat = NULL;
 	ID2D1SolidColorBrush* brush = NULL;
+	IDWriteTextFormat* textFormat = NULL;
 
-	// Create a DirectWrite text format object.
-  HRESULT hr = context->writeFactory->CreateTextFormat(fontName, 
-			NULL,
-      DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL,
-      fontSize,
-      L"", //locale
-      &textFormat);
+	HRESULT hr = context->writeFactory->CreateTextFormat(fontName,
+		NULL,
+		DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL,
+		fontSize,
+		L"", //locale
+		&textFormat);
 
-	if (SUCCEEDED(hr)) {
+	if (SUCCEEDED(hr) && textFormat != NULL)
+	{
 		textFormat->SetTextAlignment(halign);
 		textFormat->SetParagraphAlignment(valign);
 
