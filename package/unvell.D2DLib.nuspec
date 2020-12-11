@@ -15,7 +15,7 @@
     <description>Provides the hardware-accelerated high performance immediate mode rendering functionality via Direct2D API.</description>
     <summary>Provides the hardware-accelerated high performance immediate mode rendering functionality via Direct2D API.</summary>
     <copyright>Copyright (c) 2012-2019 Jingwood, unvell.com, all rights reserved.</copyright>
-    <tags>direct2d hardward-acceleration drawing draw custom-draw rendering paint gpu performance immediate bitmap memory-bitmap direct2d-api graphics-context</tags>
+    <tags>direct2d hardware-acceleration drawing draw custom-draw rendering paint gpu performance immediate bitmap memory-bitmap direct2d-api graphics-context</tags>
     <dependencies>
       <group targetFramework="net20">
       </group>
