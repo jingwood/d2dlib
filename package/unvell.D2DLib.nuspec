@@ -17,18 +17,16 @@
     <copyright>Copyright (c) 2012-2019 Jingwood, unvell.com, all rights reserved.</copyright>
     <tags>direct2d hardware-acceleration drawing draw custom-draw rendering paint gpu performance immediate bitmap memory-bitmap direct2d-api graphics-context</tags>
     <dependencies>
-      <group targetFramework="net20">
-      </group>
-      <group targetFramework="netcore">
-      </group>
+      <group targetFramework="net20" />
+      <group targetFramework="netstandard1.0" />
     </dependencies>
   </metadata>
   <files>
     <file src="logo_d2dlib.png" target="" />
     <file src="..\binary\x86-build\d2dlibexport.dll" target="lib\net20" />
     <file src="..\binary\x86-build\d2dwinform.dll" target="lib\net20" />
-    <file src="..\binary\x86-build\d2dlibexport.dll" target="lib\netcore" />
-    <file src="..\binary\x86-build\d2dwinform.dll" target="lib\netcore" />
+    <file src="..\binary\x86-build\d2dlibexport.dll" target="lib\netstandard1.0" />
+    <file src="..\binary\x86-build\d2dwinform.dll" target="lib\netstandard1.0" />
     <file src="..\binary\x86-build\d2dlib32.dll" target="build" />
     <file src="unvell.D2DLib.targets" target="build" />
     <file src="..\README.md" target="" />
