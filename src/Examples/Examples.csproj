@@ -120,6 +120,9 @@
     <Compile Include="D2DHybridForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Demos\ManyTextRender.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Demos\HelloWorld.cs">
       <SubType>Form</SubType>
     </Compile>
