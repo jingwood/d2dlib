@@ -1,0 +1,22 @@
+<Project>
+
+  <PropertyGroup>
+    <Platforms>x86;x64</Platforms>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants Condition="'$(Platform)' == 'x86'">$(DefineConstants);X86</DefineConstants>
+    <DefineConstants Condition="'$(Platform)' == 'x64'">$(DefineConstants);X64</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>1.2.2</Version>
+    <Authors>Jingwood</Authors>
+    <Company>unvell.com</Company>
+    <Product>D2DLib</Product>
+    <Description>A .NET library for hardware-accelerated, high performance, immediate mode rendering via Direct2D.</Description>
+    <Copyright>Copyright © 2009-2020 unvell.com, Jingwood. All rights reserved.</Copyright>
+  </PropertyGroup>
+
+</Project>
