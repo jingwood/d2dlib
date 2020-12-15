@@ -196,13 +196,15 @@ namespace unvell.D2DLib
 
 		#region Text
 
-		[DllImport(DLL_NAME, EntryPoint = "DrawString", CharSet = CharSet.Unicode)]
+		[DllImport(DLL_NAME, EntryPoint = "DrawString", CharSet = CharSet.Unicode,
+			CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawText([In] HANDLE context, [In] string text, [In] D2DColor color,
 			[In] string fontName, [In] FLOAT fontSize, [In] ref D2DRect rect,
 			[In] DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_LEADING,
 			[In] DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 
-		[DllImport(DLL_NAME, EntryPoint = "MeasureText", CharSet = CharSet.Unicode)]
+		[DllImport(DLL_NAME, EntryPoint = "MeasureText", CharSet = CharSet.Unicode,
+			CallingConvention = CallingConvention.Cdecl)]
 		public static extern void MeasureText([In] HANDLE ctx, [In] string text, [In] string fontName,
 			[In] FLOAT fontSize, ref D2DSize size);
 
@@ -288,11 +290,11 @@ namespace unvell.D2DLib
 		#endregion // Geometry
 
 		#region Pen
-		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke")]
+		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke", CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid,
 			FLOAT[] dashes = null, UINT dashCount = 0, FLOAT dashOffset = 0.0f);
 
-		[DllImport(DLL_NAME, EntryPoint = "DestroyPenStroke")]
+		[DllImport(DLL_NAME, EntryPoint = "DestroyPenStroke", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyPen(HANDLE pen);
 		#endregion Pen
 
