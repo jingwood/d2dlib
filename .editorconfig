@@ -1,0 +1,16 @@
+# https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Don't use tabs for indentation.
+[*.cs]
+indent_style = tab
+indent_size = 4
+insert_final_newline = true
+charset = utf-8-bom
+
+# XML project files
+[*.{csproj,props,targets}]
+indent_style = space
+indent_size = 2

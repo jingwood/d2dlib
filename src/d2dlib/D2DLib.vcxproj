@@ -151,9 +151,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>d2d1.lib;dwrite.lib;windowscodecs.lib;dxgi.lib;d3d10_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>copy $(TargetPath) $(SolutionDir)..\binary\x86-build\</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -173,9 +170,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>d2d1.lib;dwrite.lib;windowscodecs.lib;dxgi.lib;d3d10_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>copy $(TargetPath) $(SolutionDir)..\binary\x64-build\</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
