@@ -30,7 +30,7 @@ using unvell.D2DLib.WinForm;
 
 namespace unvell.D2DLib.Examples.Demos
 {
-	public partial class HelloWorld : DemoForm
+	public partial class HelloWorld : ExampleForm
 	{
 		public HelloWorld()
 		{
