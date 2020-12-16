@@ -12,7 +12,8 @@
 
   <!-- Package properties -->
   <PropertyGroup>
-    <PackageId>unvell.D2DLib</PackageId>
+    <PackageId Condition="'$(Platform)'=='x86'">unvell.D2DLib</PackageId>
+    <PackageId Condition="'$(Platform)'=='x64'">unvell.D2DLib-x64</PackageId>
     <PackageIcon>logo_d2dlib.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/jingwood/d2dlib</PackageProjectUrl>
