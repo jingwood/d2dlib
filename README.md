@@ -2,15 +2,15 @@
 
 # d2dlib
 
-A .NET library that provides the hardware-accelerated high-performance immediate mode rendering functionality via Direct2D API.
+A .NET library for hardware-accelerated, high performance, immediate mode rendering via Direct2D.
 
-By using the graphics context to draw anything on windows form, control or draw in memory. The interface of the graphics context is designed like the .NET framework Windows Form GDI+ graphics interface, it's easy-to-use and user-friendly.
+By using the graphics context to draw anything on windows form, control or draw in memory via Direct2D. The graphics interface is designed like the normal Windows Form graphics interface, it's easy-to-learn and user-friendly.
 
 | Project | Language | Description | Output DLL | 
 | --- | --- | --- | --- |
 | d2dlib | VC++ | Wrapper host-side library, calling Windows SDK and Direct2D API | d2dlib.dll | 
 | d2dlibexport | C# | Wrapper client-side library, export the interface provided from d2dlib | d2dlibexport.dll |
-| d2dlibexportwinform | C# | Provides the .NET classes used in windows form development, like D2DWinForm and D2DControl that use Direct2D hardware-acceleration rendering | d2dlibwinform.dll |
+| d2dwinform | C# | Provides the `D2DWinForm` and `D2DControl` classes that use Direct2D hardware-acceleration graphics context during rendering | d2dwinform.dll |
 
 # Installation
 
@@ -20,11 +20,17 @@ By using the graphics context to draw anything on windows form, control or draw 
 install-package unvell.d2dlib
 ```
 
+Or install for x64 platform:
+
+```shell
+install-package unvell.d2dlib-x64
+```
+
+## Notes
+
+The Direct2D API is a platform-associated API that requires the application to be targeted to either the x86 or x64 platform. To run the application uses this library correctly, the `Platform target` of the project settings must be set to `x86` or `x64`.
+
 ## Install manually
-
-### Get binary from the source code repository
-
-When you have cloned the source code repository, the binary DLLs can be found at the `binary/x86-build` folder.
 
 ### Build from source code
 
@@ -35,8 +41,6 @@ git clone https://github.com/jingwood/d2dlib
 ```
 
 Open `d2dlib.sln` from the `src` folder with Visual Studio 2019 or later, choose `Build` -> `Batch Build...` menu, then click `Build` button.
-
-The output DLLs will be generated to the `binary/x86-build` folder.
 
 ### Add project references
 
@@ -53,16 +57,6 @@ For different build configuration and platform target, the d2dlib32.dll is named
 | Release | x86 (32bit) | d2dlib32.dll |
 | Debug | x64 (64bit) | d2dlib64d.dll |
 | Release | x64 (64bit) | d2dlib64.dll |
-
-## Installation Notice
-
-### For application uses .NET Core, .NET framework 4.5 and later
-
-Make sure the "Prefer 32-bit" option is checked. You can find this option from the "Build" page of the project setting.
-
-### For application uses .NET framework 4 and early 
-
-Change the project's build configuration from 'Any CPU' to 'x86' architecture.
 
 # Getting Started
 
