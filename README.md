@@ -28,7 +28,7 @@ install-package unvell.d2dlib-x64
 
 ## Notes
 
-The Direct2D API is a platform-associated API that requires the application to be targeted to either the x86 or x64 platform. To run the application uses this library correctly, the `Platform target` of the project settings must be set to `x86` or `x64`.
+The Direct2D API is a platform-associated API that requires the application to be targeted to either x86 or x64 platform. To run the application uses this library correctly, the `Platform target` of the project settings must be set to `x86` or `x64`.
 
 ## Install manually
 
@@ -44,12 +44,12 @@ Open `d2dlib.sln` from the `src` folder with Visual Studio 2019 or later, choose
 
 ### Add project references
 
-1. Add `d2dlibexport.dll` and `d2dlibwinform.dll` as application references
+1. Add `d2dlibexport.dll` and `d2dwinform.dll` as application references
 2. Put `d2dlib32.dll` in the `Debug`, `Release` or the folder where the application runs
 
 You can also add `d2dlib32.dll` as a project file, and set it's property `Copy to output folder` to `Copy if newer`.
 
-For different build configuration and platform target, the d2dlib32.dll is named as following:
+For different build configuration and platform target, the `d2dlib32.dll` is named as following:
 
 | Build configuration | Platform | Name |
 |---|---|---|
