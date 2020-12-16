@@ -69,8 +69,11 @@ For different build configuration and platform target, the `d2dlib32.dll` is nam
 ## Draw rectangle
 
 ```csharp
-var rect = new D2DRect(0, 0, 10, 10);
-g.DrawEllipse(rect, D2DColor.Red);
+protected override void OnRender(D2DGraphics g)
+{
+  var rect = new D2DRect(0, 0, 10, 10);
+  g.DrawEllipse(rect, D2DColor.Red);
+}
 ```
 
 ## Draw an ellipse
@@ -83,10 +86,7 @@ g.DrawEllipse(ellipse, D2DColor.Gray);
 ## Draw text
 
 ```csharp
-protected override void OnRender(D2DGraphics g)
-{
-  g.DrawText("Hello World", D2DColor.Yellow, this.Font, 100, 200);
-}
+g.DrawText("Hello World", D2DColor.Yellow, this.Font, 100, 200);
 ```
 
 ## Using brush object
