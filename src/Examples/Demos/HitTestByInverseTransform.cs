@@ -32,28 +32,30 @@ namespace unvell.D2DLib.Examples.Demos
 {
 	public partial class HitTestByInverseTransform : DemoForm
 	{
+    float angle = 45;
 		Matrix3 mat = new Matrix3();
 		Matrix3 matInv = new Matrix3();
-		D2DRect rect = new D2DRect(0, 0, 200, 100);
+		Rect2D rect = new Rect2D(0, 0, 200, 100);
 		bool isHitted = false;
 
 		public HitTestByInverseTransform()
 		{
-			Text = "HotTest By Inverse Transform - d2dlib Examples";
-			
-			// set the transform
-			mat.LoadIdentity();
-			mat.Translate(300, 300);
-			mat.Rotate(45);
+			Text = "HitTest By Inverse Transform - d2dlib Examples";
 
-			// get the inversed matrix
-			matInv.CopyFrom(mat).Inverse();
+      UpdateTransform();
 		}
 
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-		}
+    void UpdateTransform()
+    {
+      // set the transform
+      mat.LoadIdentity();
+      mat.Translate(300, 300);
+      mat.Rotate(this.angle);
+      mat.Translate(-rect.Width * 0.5f, -rect.Height * 0.5f);
+
+      // get the inversed matrix
+      matInv.CopyFrom(mat).Inverse();
+    }
 
 		protected override void OnRender(D2DGraphics g)
 		{
@@ -61,7 +63,12 @@ namespace unvell.D2DLib.Examples.Demos
 
 			// set the transform before draw rect
 			g.SetTransform(mat.ToMatrix3x2());
+
+      g.FillRectangle(rect, isHitted ? D2DColor.LightYellow : D2DColor.LightGray);
 			g.DrawRectangle(rect, isHitted ? D2DColor.Red : D2DColor.Blue, 2);
+
+      g.DrawText("Click to rotate", D2DColor.Black, this.Font.Name, 14, rect, 
+        DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_CENTER, DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -71,19 +78,64 @@ namespace unvell.D2DLib.Examples.Demos
 			// transformed point to the rect
 			var tp = matInv.TransformPoint(e.Location);
 
-			// calculate whether the point inside the rect
-			isHitted = tp.X >= rect.left && tp.Y >= rect.top
-				&& tp.X <= rect.right && tp.Y <= rect.bottom;
+      // calculate whether the point inside the rect
+      isHitted = rect.ContainsPoint(tp);
 
 			Invalidate();
 		}
-	}
 
-	#region Matrix3
-	/// <summary>
-	/// Represents a left-handed 3x3 matrix.
-	/// </summary>
-	public class Matrix3
+    protected override void OnMouseDown(MouseEventArgs e)
+    {
+      base.OnMouseDown(e);
+
+      // transformed point to the rect
+      var tp = matInv.TransformPoint(e.Location);
+
+      if (rect.ContainsPoint(tp))
+      {
+        this.angle += 10;
+        UpdateTransform();
+        Invalidate();
+      }
+    }
+  }
+
+  #region Rect2D
+  class Rect2D
+  {
+    public float X { get; set; }
+    public float Y { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
+
+    public float Right { get { return this.X + this.Width; } }
+    public float Bottom { get { return this.Y + this.Height; } }
+
+    public Rect2D(float x, float y, float width, float height)
+    {
+      this.X = x;
+      this.Y = y;
+      this.Width = width;
+      this.Height = height;
+    }
+
+    public bool ContainsPoint(PointF p)
+    {
+      return p.X >= this.X && p.Y >= this.Y
+        && p.X <= this.Right && p.Y <= this.Bottom;
+    }
+
+    public static implicit operator D2DRect(Rect2D r) {
+      return new D2DRect(r.X, r.Y, r.Width, r.Height);
+    }
+  }
+  #endregion /* Rect2D */
+
+  #region Matrix3
+  /// <summary>
+  /// Represents a left-handed 3x3 matrix.
+  /// </summary>
+  public class Matrix3
 	{
 		public float a1, b1, c1;
 		public float a2, b2, c2;
