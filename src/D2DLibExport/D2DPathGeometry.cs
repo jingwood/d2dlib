@@ -44,6 +44,11 @@ namespace unvell.D2DLib
 		{
 		}
 
+    public void SetStartPoint(FLOAT x, FLOAT y)
+    {
+      this.SetStartPoint(new D2DPoint(x, y));
+    }
+
 		public void SetStartPoint(D2DPoint startPoint)
 		{
 			D2D.SetPathStartPoint(this.Handle, startPoint);
