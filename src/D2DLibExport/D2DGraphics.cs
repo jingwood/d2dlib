@@ -202,12 +202,14 @@ namespace unvell.D2DLib
 			D2D.DrawPolygonWithBrush(Handle, points, (uint)points.Length, strokeColor, strokeWidth, dashStyle, fillBrush.Handle);
 		}
 
-		public void FillPolygon(D2DPoint[] points, D2DColor fillColor)
+    [Obsolete("FillPolygon will be removed from later versions. Use DrawPolygon instead")]
+    public void FillPolygon(D2DPoint[] points, D2DColor fillColor)
 		{
 			this.DrawPolygon(points, D2DColor.Transparent, 0, D2DDashStyle.Solid, fillColor);
 		}
 
-		public void FillPolygon(D2DPoint[] points, D2DBrush brush)
+    [Obsolete("FillPolygon will be removed from later versions. Use DrawPolygon instead")]
+    public void FillPolygon(D2DPoint[] points, D2DBrush brush)
 		{
 			D2D.DrawPolygonWithBrush(this.Handle, points, (uint)points.Length, D2DColor.Transparent, 0, D2DDashStyle.Solid, brush.Handle);
 		}

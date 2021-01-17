@@ -39,7 +39,7 @@ namespace unvell.D2DLib.Examples.SampleCode
 
 		protected override void OnRender(D2DGraphics g)
 		{
-      g.FillPolygon(new D2DPoint[] { new D2DPoint(100, 100), new D2DPoint(150, 150), new D2DPoint(100, 150) }, D2DColor.Red);
+      g.DrawPolygon(new D2DPoint[] { new D2DPoint(100, 100), new D2DPoint(150, 150), new D2DPoint(100, 150) }, D2DColor.Black, 0, D2DDashStyle.Solid, D2DColor.Red);
 
       g.DrawText("Text drawed via Direct2D API (d2dlib)", D2DColor.Black, "Arial", 24, 140, 110);
     }
