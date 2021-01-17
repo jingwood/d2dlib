@@ -203,7 +203,9 @@ void FillPathD(HANDLE pathCtx, D2D1_COLOR_F fillColor)
 		ID2D1SolidColorBrush* fillBrush = NULL;
 		renderTarget->CreateSolidColorBrush(fillColor, &fillBrush);
 	
-		renderTarget->FillGeometry(pathContext->path, fillBrush);
+		if (fillBrush != NULL) {
+			renderTarget->FillGeometry(pathContext->path, fillBrush);
+		}
 	
 		SafeRelease(&fillBrush);
 	}
@@ -271,9 +273,10 @@ void DrawPolygon(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 		renderTarget->CreateSolidColorBrush(fillColor, &fillBrush);
 	}
 
-	DrawPolygonWithBrush(ctx, points, count, strokeColor, strokeWidth, dashStyle, fillBrush);
-		
 	if (fillBrush != NULL) {
+		BrushContext brushCtx;
+		brushCtx.brush = fillBrush;
+		DrawPolygonWithBrush(ctx, points, count, strokeColor, strokeWidth, dashStyle, &brushCtx);
 		SafeRelease(&fillBrush);
 	}
 }
@@ -330,9 +333,11 @@ void DrawPolygonWithBrush(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 				0.0f), NULL, 0, &strokeStyle);
 		}
 
-		renderTarget->DrawGeometry(path, strokeBrush, strokeWidth, strokeStyle);
+		if (strokeBrush != NULL) {
+			renderTarget->DrawGeometry(path, strokeBrush, strokeWidth, strokeStyle);
+			SafeRelease(&strokeBrush);
+		}
 
-		SafeRelease(&strokeBrush);
 		SafeRelease(&strokeStyle);
 	}
 
