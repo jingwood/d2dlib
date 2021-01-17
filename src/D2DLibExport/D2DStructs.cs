@@ -429,11 +429,11 @@ namespace unvell.D2DLib
 		public FLOAT radiusX;
 		public FLOAT radiusY;
 
-		public D2DEllipse(D2DPoint center, FLOAT rx, FLOAT ry)
+		public D2DEllipse(D2DPoint center, FLOAT radiusX, FLOAT radiusY)
 		{
 			this.origin = center;
-			this.radiusX = rx;
-			this.radiusY = ry;
+			this.radiusX = radiusX;
+			this.radiusY = radiusY;
 		}
 
 
