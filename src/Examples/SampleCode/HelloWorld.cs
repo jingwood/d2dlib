@@ -28,7 +28,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using unvell.D2DLib.WinForm;
 
-namespace unvell.D2DLib.Examples.Demos
+namespace unvell.D2DLib.Examples.SampleCode
 {
 	public partial class HelloWorld : ExampleForm
 	{
@@ -37,22 +37,12 @@ namespace unvell.D2DLib.Examples.Demos
 			Text = "HelloWorld - d2dlib Examples";
 		}
 
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-		}
-
 		protected override void OnRender(D2DGraphics g)
 		{
-			base.OnRender(g);
+      g.FillPolygon(new D2DPoint[] { new D2DPoint(100, 100), new D2DPoint(150, 150), new D2DPoint(100, 150) }, D2DColor.Red);
 
-			g.DrawText("Text drawed via Direct2D API (d2dlib)", D2DColor.Black, 100, 100);
-		}
-
-		protected override void OnMouseUp(MouseEventArgs e)
-		{
-			base.OnMouseUp(e);
-		}
-	}
+      g.DrawText("Text drawed via Direct2D API (d2dlib)", D2DColor.Black, "Arial", 24, 140, 110);
+    }
+  }
 
 }
