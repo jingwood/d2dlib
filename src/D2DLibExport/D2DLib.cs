@@ -269,6 +269,9 @@ namespace unvell.D2DLib
 			D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawPathWithPen(HANDLE path, HANDLE pen, FLOAT strokeWidth = 1);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillPathD(HANDLE path, D2DColor fillColor);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]

@@ -403,6 +403,11 @@ namespace unvell.D2DLib
 		{
 			D2D.DrawPath(path.Handle, strokeColor, strokeWidth, dashStyle);
 		}
+		
+		public void DrawPath(D2DGeometry path, D2DPen strokePen, FLOAT strokeWidth = 1f)
+		{
+			D2D.DrawPathWithPen(path.Handle, strokePen.Handle, strokeWidth);
+		}
 
 		public void FillPath(D2DGeometry path, D2DColor fillColor)
 		{

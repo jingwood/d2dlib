@@ -25,6 +25,7 @@
 #include "stdafx.h"
 #include "Geometry.h"
 #include "Brush.h"
+#include "Pen.h"
 
 typedef struct D2DPathContext
 {
@@ -191,6 +192,17 @@ void DrawPath(HANDLE pathCtx, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_
 
 	SafeRelease(&strokeBrush);
 	SafeRelease(&strokeStyle);
+}
+
+void DrawPathWithPen(HANDLE pathCtx, HANDLE strokePen, FLOAT strokeWidth)
+{
+	D2DPen* pen = reinterpret_cast<D2DPen*>(strokePen);
+	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
+	ID2D1RenderTarget* renderTarget = pathContext->d2context->renderTarget;	
+	
+	if (pen->brush != NULL) {
+		renderTarget->DrawGeometry(pathContext->path, pen->brush, strokeWidth, pen->strokeStyle);
+	}
 }
 
 void FillPathD(HANDLE pathCtx, D2D1_COLOR_F fillColor)
