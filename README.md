@@ -72,11 +72,11 @@ For different build configuration and platform target, the `d2dlib32.dll` is nam
 protected override void OnRender(D2DGraphics g)
 {
   var rect = new D2DRect(0, 0, 10, 10);
-  g.DrawEllipse(rect, D2DColor.Red);
+  g.DrawRectangle(rect, D2DColor.Red);
 }
 ```
 
-## Draw an ellipse
+## Draw ellipse
 
 ```csharp
 var ellipse = new D2DEllipse(0, 0, 10, 10);
