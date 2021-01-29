@@ -51,6 +51,7 @@ extern "C"
 															D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);
 
 	D2DLIB_API void DrawPath(HANDLE pathCtx, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle);
+	D2DLIB_API void DrawPathWithPen(HANDLE pathCtx, HANDLE strokePen, FLOAT strokeWidth);
 	D2DLIB_API void FillPathD(HANDLE pathCtx, D2D1_COLOR_F fillColor);
 
 	D2DLIB_API void FillGeometryWithBrush(HANDLE ctx, HANDLE geoHandle, 
