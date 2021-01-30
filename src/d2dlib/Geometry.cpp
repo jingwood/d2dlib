@@ -27,6 +27,11 @@
 #include "Brush.h"
 #include "Pen.h"
 
+void DestroyGeometry(HANDLE geometryHandle) {
+	D2DGeometryContext* context = reinterpret_cast<D2DGeometryContext*>(geometryHandle);
+	SafeRelease(&context->geometry);
+	delete context;
+}
 
 HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect)
 {
