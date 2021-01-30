@@ -216,7 +216,7 @@ void DrawPathWithPen(HANDLE pathCtx, HANDLE strokePen, FLOAT strokeWidth)
 {
 	D2DPen* pen = reinterpret_cast<D2DPen*>(strokePen);
 	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
-	ID2D1RenderTarget* renderTarget = pathContext->d2context->renderTarget;	
+	ID2D1RenderTarget* renderTarget = pathContext->d2context->renderTarget;
 	
 	if (pen->brush != NULL) {
 		renderTarget->DrawGeometry(pathContext->path, pen->brush, strokeWidth, pen->strokeStyle);
