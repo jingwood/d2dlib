@@ -27,14 +27,6 @@
 #include "Brush.h"
 #include "Pen.h"
 
-typedef struct D2DPathContext
-{
-	D2DContext* d2context;
-	ID2D1PathGeometry* path;
-	ID2D1GeometrySink* sink;
-	bool isOpen;
-	bool isClosed;
-} D2DPathContext;
 
 HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect)
 {
@@ -43,7 +35,13 @@ HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect)
 	ID2D1RectangleGeometry* rectGeo;
 	context->factory->CreateRectangleGeometry(rect, &rectGeo);
 
-	return (HANDLE)rectGeo;
+	D2DGeometryContext* pathCtx = new D2DGeometryContext();
+	pathCtx->d2context = context;
+	pathCtx->geometry = rectGeo;
+
+	return (HANDLE)pathCtx;
+}
+
 }
 
 HANDLE CreatePathGeometry(HANDLE ctx) 
@@ -51,7 +49,10 @@ HANDLE CreatePathGeometry(HANDLE ctx)
 	D2DContext* context = reinterpret_cast<D2DContext*>(ctx);
 
 	D2DPathContext* pathContext = new D2DPathContext();
+
 	context->factory->CreatePathGeometry(&pathContext->path);
+	pathContext->geometry = pathContext->path;
+
 	pathContext->path->Open(&pathContext->sink);
 
 	pathContext->sink->SetFillMode(D2D1_FILL_MODE_WINDING);

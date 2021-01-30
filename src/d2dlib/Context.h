@@ -63,6 +63,24 @@ typedef struct D2DContext
 	
 } D2DContext;
 
+typedef enum GeometryType {
+	GeoType_RectangleGeometry,
+	GeoType_PathGeometry,
+};
+
+typedef struct D2DGeometryContext {
+	D2DContext* d2context;
+	ID2D1Geometry* geometry;
+} D2DGeometryContext;
+
+typedef struct D2DPathContext : D2DGeometryContext
+{
+	ID2D1PathGeometry* path;
+	ID2D1GeometrySink* sink;
+	bool isOpen;
+	bool isClosed;
+} D2DPathContext;
+
 //typedef struct D2DBitmapRenderTargetContext
 //{
 //	ID2D1Factory *factory;
