@@ -30,6 +30,8 @@ extern "C"
 {
 	D2DLIB_API void DestroyGeometry(HANDLE geometryHandle);
 
+	D2DLIB_API HANDLE CreateEllipseGeometry(HANDLE ctx, const D2D1_ELLIPSE& ellipse);
+
 	D2DLIB_API HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect);
 
 	D2DLIB_API HANDLE CreatePathGeometry(HANDLE ctx);

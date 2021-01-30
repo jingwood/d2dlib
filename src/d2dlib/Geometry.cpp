@@ -47,6 +47,18 @@ HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect)
 	return (HANDLE)pathCtx;
 }
 
+HANDLE CreateEllipseGeometry(HANDLE ctx, const D2D1_ELLIPSE& ellipse)
+{
+	RetrieveContext(ctx);
+
+	ID2D1EllipseGeometry* ellipseGeometry;
+	context->factory->CreateEllipseGeometry(ellipse, &ellipseGeometry);
+
+	D2DGeometryContext* pathCtx = new D2DGeometryContext();
+	pathCtx->d2context = context;
+	pathCtx->geometry = ellipseGeometry;
+
+	return (HANDLE)pathCtx;
 }
 
 HANDLE CreatePathGeometry(HANDLE ctx) 

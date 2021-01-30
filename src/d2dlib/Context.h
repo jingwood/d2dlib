@@ -58,6 +58,7 @@ typedef struct D2DContext
 	};
 
 	std::stack<D2D1_MATRIX_3X2_F>* matrixStack;
+	//std::stack<ID2D1Layer*> layerStack;
 
 	HRESULT lastErrorCode;
 	

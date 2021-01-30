@@ -31,14 +31,6 @@
 #include <stack>
 using namespace std;
 
-// This is the constructor of a class that has been exported.
-// see D2DLib.h for the class definition
-//CD2DLib::CD2DLib()
-//{
-//	return;
-//}
-
-// This is an example of an exported function.
 HANDLE CreateContext(HWND hwnd)
 {
 	D2DContext* context = new D2DContext();
