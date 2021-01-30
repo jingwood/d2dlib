@@ -98,13 +98,13 @@ namespace unvell.D2DLib
 		public D2DRectangleGeometry CreateRectangleGeometry(FLOAT width, FLOAT height)
 		{
 			var rect = new D2DRect(0, 0, width, height);
-			return CreateRectangleGeometry(ref rect);
+			return CreateRectangleGeometry(rect);
 		}
 
-		public D2DRectangleGeometry CreateRectangleGeometry(ref D2DRect rect)
+		public D2DRectangleGeometry CreateRectangleGeometry(D2DRect rect)
 		{
-			HANDLE rectHandle = D2D.CreateRectangleGeometry(this.Handle, ref rect);
-			return new D2DRectangleGeometry(this.Handle, rectHandle);
+			HANDLE rectGeometryHandle = D2D.CreateRectangleGeometry(this.Handle, ref rect);
+			return new D2DRectangleGeometry(this.Handle, rectGeometryHandle);
 		}
 
 		public D2DPathGeometry CreatePathGeometry()
@@ -113,7 +113,13 @@ namespace unvell.D2DLib
 			return new D2DPathGeometry(this.Handle, geoHandle);
 		}
 
-		public D2DGeometry CreatePieGeometry(D2DPoint origin, D2DSize size, float startAngle, float endAngle)
+    public D2DGeometry CreateEllipseGeometry(D2DPoint origin, D2DSize size)
+    {
+      var ellipse = new D2DEllipse(origin, size);
+      return new D2DGeometry(this.Handle, D2D.CreateEllipseGeometry(this.Handle, ref ellipse));
+    }
+
+    public D2DGeometry CreatePieGeometry(D2DPoint origin, D2DSize size, float startAngle, float endAngle)
 		{
 			var path = this.CreatePathGeometry();
 
@@ -170,6 +176,11 @@ namespace unvell.D2DLib
 
 			return this.CreateBitmapFromGDIBitmap(bmp, useAlphaChannel);
 		}
+
+    public D2DLayer CreateLayer()
+    {
+      return new D2DLayer(D2D.CreateLayer(this.Handle));
+    }
 
 		[DllImport("gdi32.dll")]
 		public static extern bool DeleteObject(IntPtr obj);

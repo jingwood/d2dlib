@@ -31,14 +31,6 @@
 #include <stack>
 using namespace std;
 
-// This is the constructor of a class that has been exported.
-// see D2DLib.h for the class definition
-//CD2DLib::CD2DLib()
-//{
-//	return;
-//}
-
-// This is an example of an exported function.
 HANDLE CreateContext(HWND hwnd)
 {
 	D2DContext* context = new D2DContext();
@@ -317,15 +309,23 @@ HANDLE CreateLayer(HANDLE ctx)
 	return (HANDLE)layer;
 }
 
-void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds, __in_opt ID2D1Brush* opacityBrush,
-							 D2D1_LAYER_OPTIONS layerOptions)
+void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds, __in_opt HANDLE geometryHandle,
+		__in_opt ID2D1Brush* opacityBrush, D2D1_LAYER_OPTIONS layerOptions)
 {
 	RetrieveContext(ctx);
 
+	ID2D1Geometry* geometry = NULL;
+
+	if (geometryHandle != NULL) {
+		D2DGeometryContext* geometryContext = reinterpret_cast<D2DGeometryContext*>(geometryHandle);
+		geometry = geometryContext->geometry;
+	}
+
+	D2D1_LAYER_PARAMETERS params = D2D1::LayerParameters(contentBounds, geometry,
+		D2D1_ANTIALIAS_MODE_PER_PRIMITIVE, D2D1::IdentityMatrix(), 1, opacityBrush, layerOptions);
+
 	ID2D1Layer* layer = reinterpret_cast<ID2D1Layer*>(layerHandle);
-	context->renderTarget->PushLayer(
-		D2D1::LayerParameters(contentBounds, NULL, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
-		D2D1::IdentityMatrix(), 1, opacityBrush, layerOptions), layer);
+	context->renderTarget->PushLayer(&params, layer);
 }
 
 void PopLayer(HANDLE ctx) 

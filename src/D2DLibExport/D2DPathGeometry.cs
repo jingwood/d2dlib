@@ -64,12 +64,13 @@ namespace unvell.D2DLib
 			D2D.AddPathBeziers(this.Handle, bezierSegments);
 		}
 
-		public void AddEllipse(D2DEllipse ellipse)
-		{
-			D2D.AddPathEllipse(this.Handle, ref ellipse);
-		}
+    // TODO: unnecessary API and it doesn't work very well, consider to remove
+    //public void AddEllipse(D2DEllipse ellipse)
+    //{
+    //	D2D.AddPathEllipse(this.Handle, ref ellipse);
+    //}
 
-		public void AddArc(D2DPoint endPoint, D2DSize size, FLOAT sweepAngle,
+    public void AddArc(D2DPoint endPoint, D2DSize size, FLOAT sweepAngle,
 			D2D1_ARC_SIZE arcSize = D2D1_ARC_SIZE.D2D1_ARC_SIZE_SMALL,
 			D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE)
 		{
@@ -93,7 +94,8 @@ namespace unvell.D2DLib
 
 		public override void Dispose()
 		{
-			D2D.DestroyPathGeometry(this.Handle);
+      if (this.Handle != IntPtr.Zero) D2D.DestroyPathGeometry(this.Handle);
+      this.handle = IntPtr.Zero;
 		}
 	}
 }

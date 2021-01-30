@@ -13,4 +13,10 @@
     <ProjectReference Include="..\D2DWinForm\D2DWinForm.csproj" IncludeAssets="contentFiles" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="SampleCode\ClipMaskDraw.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

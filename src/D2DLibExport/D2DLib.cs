@@ -123,7 +123,16 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PopClip([In] HANDLE context);
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+    public static extern HANDLE CreateLayer(HANDLE ctx);
+    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+    public static extern HANDLE PushLayer(HANDLE ctx, HANDLE layerHandle, ref D2DRect contentBounds,
+      [In, Optional] HANDLE geometryHandle, [In, Optional] HANDLE opacityBrush, 
+      LayerOptions layerOptions = LayerOptions.InitializeForClearType);
+    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void PopLayer(HANDLE ctx);
+
+    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PushTransform([In] HANDLE context);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PopTransform([In] HANDLE context);
@@ -215,7 +224,19 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateRectangleGeometry([In] HANDLE ctx, [In] ref D2DRect rect);
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void DestroyGeometry(HANDLE geometryContext);
+
+    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+    public static extern HANDLE CreateEllipseGeometry(HANDLE ctx, ref D2DEllipse ellipse);
+
+    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+    public static extern HANDLE CreatePathGeometry(HANDLE ctx);
+
+    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void DestroyPathGeometry(HANDLE ctx);
+
+    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillGeometryWithBrush([In] HANDLE ctx, [In] HANDLE geoHandle,
 			[In] HANDLE brushHandle, [Optional] HANDLE opacityBrushHandle);
 
@@ -226,12 +247,6 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawPolygonWithBrush(HANDLE ctx, D2DPoint[] points, UINT count,
 			D2DColor strokeColor, FLOAT strokeWidth, D2DDashStyle dashStyle, HANDLE brushHandler);
-
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HANDLE CreatePathGeometry(HANDLE ctx);
-
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void DestroyPathGeometry(HANDLE ctx);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SetPathStartPoint(HANDLE ctx, D2DPoint startPoint);

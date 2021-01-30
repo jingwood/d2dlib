@@ -59,5 +59,11 @@ namespace unvell.D2DLib
       D2D.GetGeometryBounds(this.Handle, ref rect);
       return rect;
     }
+
+    public override void Dispose()
+    {
+      if (this.Handle != IntPtr.Zero) D2D.DestroyGeometry(this.Handle);
+      this.handle = IntPtr.Zero;
+    }
   }
 }

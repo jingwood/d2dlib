@@ -58,10 +58,29 @@ typedef struct D2DContext
 	};
 
 	std::stack<D2D1_MATRIX_3X2_F>* matrixStack;
+	//std::stack<ID2D1Layer*> layerStack;
 
 	HRESULT lastErrorCode;
 	
 } D2DContext;
+
+typedef enum GeometryType {
+	GeoType_RectangleGeometry,
+	GeoType_PathGeometry,
+};
+
+typedef struct D2DGeometryContext {
+	D2DContext* d2context;
+	ID2D1Geometry* geometry;
+} D2DGeometryContext;
+
+typedef struct D2DPathContext : D2DGeometryContext
+{
+	ID2D1PathGeometry* path;
+	ID2D1GeometrySink* sink;
+	bool isOpen;
+	bool isClosed;
+} D2DPathContext;
 
 //typedef struct D2DBitmapRenderTargetContext
 //{
@@ -131,7 +150,8 @@ extern "C"
 
 	D2DLIB_API HANDLE CreateLayer(HANDLE context);
 	D2DLIB_API void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds = D2D1::InfiniteRect(),
-		 __in_opt ID2D1Brush *opacityBrush = NULL, D2D1_LAYER_OPTIONS layerOptions = D2D1_LAYER_OPTIONS_NONE);
+		__in_opt HANDLE geometryHandle = NULL, __in_opt ID2D1Brush *opacityBrush = NULL, 
+		D2D1_LAYER_OPTIONS layerOptions = D2D1_LAYER_OPTIONS_NONE);
 	D2DLIB_API void PopLayer(HANDLE ctx);
 
 	D2DLIB_API HRESULT GetLastErrorCode(HANDLE ctx);

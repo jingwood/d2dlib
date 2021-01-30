@@ -27,14 +27,11 @@
 #include "Brush.h"
 #include "Pen.h"
 
-typedef struct D2DPathContext
-{
-	D2DContext* d2context;
-	ID2D1PathGeometry* path;
-	ID2D1GeometrySink* sink;
-	bool isOpen;
-	bool isClosed;
-} D2DPathContext;
+void DestroyGeometry(HANDLE geometryHandle) {
+	D2DGeometryContext* context = reinterpret_cast<D2DGeometryContext*>(geometryHandle);
+	SafeRelease(&context->geometry);
+	delete context;
+}
 
 HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect)
 {
@@ -43,7 +40,25 @@ HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect)
 	ID2D1RectangleGeometry* rectGeo;
 	context->factory->CreateRectangleGeometry(rect, &rectGeo);
 
-	return (HANDLE)rectGeo;
+	D2DGeometryContext* pathCtx = new D2DGeometryContext();
+	pathCtx->d2context = context;
+	pathCtx->geometry = rectGeo;
+
+	return (HANDLE)pathCtx;
+}
+
+HANDLE CreateEllipseGeometry(HANDLE ctx, const D2D1_ELLIPSE& ellipse)
+{
+	RetrieveContext(ctx);
+
+	ID2D1EllipseGeometry* ellipseGeometry;
+	context->factory->CreateEllipseGeometry(ellipse, &ellipseGeometry);
+
+	D2DGeometryContext* pathCtx = new D2DGeometryContext();
+	pathCtx->d2context = context;
+	pathCtx->geometry = ellipseGeometry;
+
+	return (HANDLE)pathCtx;
 }
 
 HANDLE CreatePathGeometry(HANDLE ctx) 
@@ -51,7 +66,10 @@ HANDLE CreatePathGeometry(HANDLE ctx)
 	D2DContext* context = reinterpret_cast<D2DContext*>(ctx);
 
 	D2DPathContext* pathContext = new D2DPathContext();
+
 	context->factory->CreatePathGeometry(&pathContext->path);
+	pathContext->geometry = pathContext->path;
+
 	pathContext->path->Open(&pathContext->sink);
 
 	pathContext->sink->SetFillMode(D2D1_FILL_MODE_WINDING);
@@ -126,10 +144,10 @@ void AddPathEllipse(HANDLE ctx, const D2D1_ELLIPSE* ellipse)
 	if (!pathContext->isOpen)
 	{
 		D2D1_POINT_2F p;
-		p.x = ellipse->point.x;
-		p.y = ellipse->point.y - ellipse->radiusY / 2;
+		p.x = ellipse->point.x - ellipse->radiusX;
+		p.y = ellipse->point.y;
 
-		pathContext->sink->BeginFigure(p, D2D1_FIGURE_BEGIN_HOLLOW);
+		pathContext->sink->BeginFigure(p, D2D1_FIGURE_BEGIN_FILLED);
 		pathContext->isOpen = true;
 	}
 
@@ -198,7 +216,7 @@ void DrawPathWithPen(HANDLE pathCtx, HANDLE strokePen, FLOAT strokeWidth)
 {
 	D2DPen* pen = reinterpret_cast<D2DPen*>(strokePen);
 	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
-	ID2D1RenderTarget* renderTarget = pathContext->d2context->renderTarget;	
+	ID2D1RenderTarget* renderTarget = pathContext->d2context->renderTarget;
 	
 	if (pen->brush != NULL) {
 		renderTarget->DrawGeometry(pathContext->path, pen->brush, strokeWidth, pen->strokeStyle);
