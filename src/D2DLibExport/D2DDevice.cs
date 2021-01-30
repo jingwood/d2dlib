@@ -171,6 +171,11 @@ namespace unvell.D2DLib
 			return this.CreateBitmapFromGDIBitmap(bmp, useAlphaChannel);
 		}
 
+    public D2DLayer CreateLayer()
+    {
+      return new D2DLayer(D2D.CreateLayer(this.Handle));
+    }
+
 		[DllImport("gdi32.dll")]
 		public static extern bool DeleteObject(IntPtr obj);
 

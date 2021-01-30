@@ -231,9 +231,23 @@ namespace unvell.D2DLib
 			D2D.PopClip(this.Handle);
 		}
 
-    public void PushLayer() {
-      var layer = D2D.CreateLayer(this.Handle);
-      D2D.PushLayer(this.Handle, layer);
+    public D2DLayer PushLayer(D2DGeometry geometry = null)
+    {
+      // FIXME: resolve to not use magic number
+      D2DRect rectBounds = new D2DRect(-999999, -999999, 999999999, 999999999);
+
+      return PushLayer(rectBounds, geometry);
+    }
+
+    public D2DLayer PushLayer(D2DRect rectBounds, D2DGeometry geometry = null)
+    {
+      var layer = this.Device.CreateLayer();
+      return PushLayer(layer, rectBounds, geometry);
+    }
+
+    public D2DLayer PushLayer(D2DLayer layer, D2DRect rectBounds, D2DGeometry geometry = null) {
+      D2D.PushLayer(this.Handle, layer.Handle, ref rectBounds, geometry != null ? geometry.Handle : IntPtr.Zero);
+      return layer;
     }
 
     public void PopLayer()

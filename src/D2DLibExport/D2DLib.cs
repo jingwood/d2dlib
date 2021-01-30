@@ -126,13 +126,9 @@ namespace unvell.D2DLib
     [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
     public static extern HANDLE CreateLayer(HANDLE ctx);
     [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void PushLayer(HANDLE ctx, HANDLE layerHandle, ref D2DRect contentBounds,
-     [In, Optional] HANDLE opacityBrush, LayerOptions layerOptions = LayerOptions.InitializeForClearType);
-    public static void PushLayer(HANDLE ctx, HANDLE layerHandle)
-    {
-      var rect = new D2DRect(-FLOAT.MaxValue, -FLOAT.MaxValue, float.MaxValue, float.MaxValue);
-      D2D.PushLayer(ctx, layerHandle, ref rect, HANDLE.Zero);
-    }
+    public static extern HANDLE PushLayer(HANDLE ctx, HANDLE layerHandle, ref D2DRect contentBounds,
+      [In, Optional] HANDLE geometryHandle, [In, Optional] HANDLE opacityBrush, 
+      LayerOptions layerOptions = LayerOptions.InitializeForClearType);
     [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
     public static extern void PopLayer(HANDLE ctx);
 
