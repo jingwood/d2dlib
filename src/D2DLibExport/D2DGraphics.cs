@@ -231,6 +231,16 @@ namespace unvell.D2DLib
 			D2D.PopClip(this.Handle);
 		}
 
+    public void PushLayer() {
+      var layer = D2D.CreateLayer(this.Handle);
+      D2D.PushLayer(this.Handle, layer);
+    }
+
+    public void PopLayer()
+    {
+      D2D.PopLayer(this.Handle);
+    }
+
 		public void SetTransform(D2DMatrix3x2 mat)
 		{
 			D2D.SetTransform(this.Handle, ref mat);
