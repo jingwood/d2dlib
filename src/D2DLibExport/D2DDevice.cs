@@ -113,7 +113,13 @@ namespace unvell.D2DLib
 			return new D2DPathGeometry(this.Handle, geoHandle);
 		}
 
-		public D2DGeometry CreatePieGeometry(D2DPoint origin, D2DSize size, float startAngle, float endAngle)
+    public D2DGeometry CreateEllipseGeometry(D2DPoint origin, D2DSize size)
+    {
+      var ellipse = new D2DEllipse(origin, size);
+      return new D2DGeometry(this.Handle, D2D.CreateEllipseGeometry(this.Handle, ref ellipse));
+    }
+
+    public D2DGeometry CreatePieGeometry(D2DPoint origin, D2DSize size, float startAngle, float endAngle)
 		{
 			var path = this.CreatePathGeometry();
 
