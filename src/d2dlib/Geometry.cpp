@@ -144,10 +144,10 @@ void AddPathEllipse(HANDLE ctx, const D2D1_ELLIPSE* ellipse)
 	if (!pathContext->isOpen)
 	{
 		D2D1_POINT_2F p;
-		p.x = ellipse->point.x;
-		p.y = ellipse->point.y - ellipse->radiusY / 2;
+		p.x = ellipse->point.x - ellipse->radiusX;
+		p.y = ellipse->point.y;
 
-		pathContext->sink->BeginFigure(p, D2D1_FIGURE_BEGIN_HOLLOW);
+		pathContext->sink->BeginFigure(p, D2D1_FIGURE_BEGIN_FILLED);
 		pathContext->isOpen = true;
 	}
 

@@ -98,13 +98,13 @@ namespace unvell.D2DLib
 		public D2DRectangleGeometry CreateRectangleGeometry(FLOAT width, FLOAT height)
 		{
 			var rect = new D2DRect(0, 0, width, height);
-			return CreateRectangleGeometry(ref rect);
+			return CreateRectangleGeometry(rect);
 		}
 
-		public D2DRectangleGeometry CreateRectangleGeometry(ref D2DRect rect)
+		public D2DRectangleGeometry CreateRectangleGeometry(D2DRect rect)
 		{
-			HANDLE rectHandle = D2D.CreateRectangleGeometry(this.Handle, ref rect);
-			return new D2DRectangleGeometry(this.Handle, rectHandle);
+			HANDLE rectGeometryHandle = D2D.CreateRectangleGeometry(this.Handle, ref rect);
+			return new D2DRectangleGeometry(this.Handle, rectGeometryHandle);
 		}
 
 		public D2DPathGeometry CreatePathGeometry()
