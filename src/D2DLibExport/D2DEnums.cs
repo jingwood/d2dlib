@@ -299,6 +299,32 @@ namespace unvell.D2DLib
 		Custom = 5,
 	}
 
+	/// <summary>
+	/// From <c>D2D1_CAP_STYLE</c>.
+	/// </summary>
+	public enum D2DCapStyle
+	{
+		/// <summary>
+		/// Flat line cap.
+		/// </summary>
+		Flat = 0,
+		
+		/// <summary>
+		/// Square line cap.
+		/// </summary>
+		Square = 1,
+		
+		/// <summary>
+		/// Round line cap.
+		/// </summary>
+		Round = 2,
+		
+		/// <summary>
+		/// Triangle line cap.
+		/// </summary>
+		Triangle = 3
+	}
+
 	public enum D2D1_ARC_SIZE
 	{
 		D2D1_ARC_SIZE_SMALL = 0,
