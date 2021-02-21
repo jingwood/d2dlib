@@ -39,9 +39,9 @@ namespace unvell.D2DLib
 {
 	public class D2DGraphics
 	{
-		internal HANDLE Handle { get; private set; }
+		internal HANDLE Handle { get; }
 
-		public D2DDevice Device { get; private set; }
+		public D2DDevice Device { get; }
 
 		public D2DGraphics(D2DDevice context)
 			: this(context.Handle)
