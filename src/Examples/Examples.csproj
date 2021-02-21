@@ -17,6 +17,9 @@
     <Compile Update="SampleCode\ClipMaskDraw.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="SampleCode\LineCapStyle.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

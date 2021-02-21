@@ -28,7 +28,7 @@
 #include "Brush.h"
 
 void DrawLine(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLOR_F color,
-	FLOAT width, D2D1_DASH_STYLE dashStyle)
+	FLOAT width, D2D1_DASH_STYLE dashStyle, D2D1_CAP_STYLE startCap, D2D1_CAP_STYLE endCap)
 {
 	RetrieveContext(ctx);
 
@@ -39,11 +39,13 @@ void DrawLine(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLOR_F c
 
 	if (brush != NULL) {
 
-		if (dashStyle != D2D1_DASH_STYLE_SOLID)
+		if (dashStyle != D2D1_DASH_STYLE_SOLID ||
+			startCap != D2D1_CAP_STYLE_FLAT ||
+			endCap != D2D1_CAP_STYLE_FLAT)
 		{
 			context->factory->CreateStrokeStyle(D2D1::StrokeStyleProperties(
-				D2D1_CAP_STYLE_FLAT,
-				D2D1_CAP_STYLE_FLAT,
+				startCap,
+				endCap,
 				D2D1_CAP_STYLE_ROUND,
 				D2D1_LINE_JOIN_MITER,
 				10.0f,

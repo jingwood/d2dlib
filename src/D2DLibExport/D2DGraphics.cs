@@ -39,9 +39,9 @@ namespace unvell.D2DLib
 {
 	public class D2DGraphics
 	{
-		internal HANDLE Handle { get; private set; }
+		internal HANDLE Handle { get; }
 
-		public D2DDevice Device { get; private set; }
+		public D2DDevice Device { get; }
 
 		public D2DGraphics(D2DDevice context)
 			: this(context.Handle)
@@ -97,15 +97,17 @@ namespace unvell.D2DLib
 		}
 
 		public void DrawLine(FLOAT x1, FLOAT y1, FLOAT x2, FLOAT y2, D2DColor color,
-			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
+			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid,
+			D2DCapStyle startCap = D2DCapStyle.Flat, D2DCapStyle endCap = D2DCapStyle.Flat)
 		{
-			DrawLine(new D2DPoint(x1, y1), new D2DPoint(x2, y2), color, weight, dashStyle);
+			DrawLine(new D2DPoint(x1, y1), new D2DPoint(x2, y2), color, weight, dashStyle, startCap, endCap);
 		}
 
 		public void DrawLine(D2DPoint start, D2DPoint end, D2DColor color,
-			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
+			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid,
+			D2DCapStyle startCap = D2DCapStyle.Flat, D2DCapStyle endCap = D2DCapStyle.Flat)
 		{
-			D2D.DrawLine(this.Handle, start, end, color, weight, dashStyle);
+			D2D.DrawLine(this.Handle, start, end, color, weight, dashStyle, startCap, endCap);
 		}
 
 		public void DrawLines(D2DPoint[] points, D2DColor color, FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
