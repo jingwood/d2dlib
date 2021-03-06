@@ -177,6 +177,12 @@ namespace unvell.D2DLib
 		[DllImport("gdi32.dll")]
 		public static extern bool DeleteObject(IntPtr obj);
 
+		public D2DBitmap CreateBitmapFromHBitmap(HWND hbmp, bool useAlphaChannel)
+		{
+			HANDLE d2dbmp = D2D.CreateBitmapFromHBitmap(this.Handle, hbmp, useAlphaChannel);
+			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
+		}
+
 		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp)
 		{
 			bool useAlphaChannel =
