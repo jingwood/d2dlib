@@ -95,19 +95,6 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyBitmapRenderTarget([In] HANDLE context);
 
-		public static D2DBitmap CreateBitmapFromGDIBitmap(D2DDevice device, System.Drawing.Bitmap bmp)
-		{
-			bool useAlphaChannel =
-				(bmp.PixelFormat & System.Drawing.Imaging.PixelFormat.Alpha) == System.Drawing.Imaging.PixelFormat.Alpha;
-
-			return device.CreateBitmapFromGDIBitmap(bmp, useAlphaChannel);
-		}
-
-		public static D2DBitmap CreateBitmapFromGDIBitmap(D2DDevice device, System.Drawing.Bitmap bmp, bool useAlphaChannel)
-		{
-			HANDLE d2dbmp = D2D.CreateBitmapFromHBitmap(device.Handle, bmp.GetHbitmap(), useAlphaChannel);
-			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
-		}
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE ResizeContext([In] HANDLE context);
 

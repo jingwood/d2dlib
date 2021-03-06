@@ -169,14 +169,6 @@ namespace unvell.D2DLib
 			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
 		}
 
-		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp)
-		{
-			bool useAlphaChannel =
-				(bmp.PixelFormat & System.Drawing.Imaging.PixelFormat.Alpha) == System.Drawing.Imaging.PixelFormat.Alpha;
-
-			return this.CreateBitmapFromGDIBitmap(bmp, useAlphaChannel);
-		}
-
     public D2DLayer CreateLayer()
     {
       return new D2DLayer(D2D.CreateLayer(this.Handle));
@@ -184,6 +176,14 @@ namespace unvell.D2DLib
 
 		[DllImport("gdi32.dll")]
 		public static extern bool DeleteObject(IntPtr obj);
+
+		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp)
+		{
+			bool useAlphaChannel =
+				(bmp.PixelFormat & System.Drawing.Imaging.PixelFormat.Alpha) == System.Drawing.Imaging.PixelFormat.Alpha;
+
+			return this.CreateBitmapFromGDIBitmap(bmp, useAlphaChannel);
+		}
 
 		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp, bool useAlphaChannel)
 		{
