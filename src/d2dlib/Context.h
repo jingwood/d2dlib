@@ -64,7 +64,7 @@ typedef struct D2DContext
 	
 } D2DContext;
 
-typedef enum GeometryType {
+enum GeometryType {
 	GeoType_RectangleGeometry,
 	GeoType_PathGeometry,
 };
