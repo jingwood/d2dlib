@@ -105,7 +105,7 @@ namespace unvell.D2DLib.WinForm
 			}
 
 			this.graphics = new D2DGraphics(this.device);
-			//this.graphics.SetDPI(96, 96);
+			this.graphics.SetDPI(96, 96);
 
 			this.timer.Tick += (ss, ee) =>
 			{
