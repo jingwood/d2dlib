@@ -117,7 +117,10 @@ namespace unvell.D2DLib.WinForm
 			};
 		}
 
-		protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e) { }
+		protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e)
+		{
+			// prevent the .NET windows form to paint the original background
+		}
 		
 		protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
 		{
