@@ -112,7 +112,8 @@ namespace unvell.D2DLib.WinForm
 				if (AnimationDraw || SceneChanged)
 				{
 					OnFrame();
-					Invalidate(); SceneChanged = false;
+					Invalidate();
+					SceneChanged = false;
 				}
 			};
 		}
