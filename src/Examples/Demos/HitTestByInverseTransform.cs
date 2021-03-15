@@ -75,7 +75,7 @@ namespace unvell.D2DLib.Examples.Demos
 			g.DrawRectangle(rect, isHitted ? D2DColor.Red : D2DColor.Blue, 2);
 
       g.DrawText("Drag to move / Click to rotate / Scroll to scale", D2DColor.Black, this.Font.Name, 14, rect, 
-        DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_CENTER, DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+        DWriteTextAlignment.Center, DWriteParagraphAlignment.Center);
 
       g.ResetTransform();
 

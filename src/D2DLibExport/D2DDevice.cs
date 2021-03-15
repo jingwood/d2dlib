@@ -138,8 +138,8 @@ namespace unvell.D2DLib
 			path.AddLines(new D2DPoint[] { origin, startPoint });
 
 			path.AddArc(endPoint, halfSize, angleDiff,
-				angleDiff > 180 ? D2D1_ARC_SIZE.D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE.D2D1_ARC_SIZE_SMALL,
-				D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE);
+				angleDiff > 180 ? D2DArcSize.Large : D2DArcSize.Small,
+				D2DSweepDirection.Clockwise);
 
 			path.ClosePath();
 

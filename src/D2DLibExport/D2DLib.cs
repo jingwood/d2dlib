@@ -197,8 +197,8 @@ namespace unvell.D2DLib
 			CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawText([In] HANDLE context, [In] string text, [In] D2DColor color,
 			[In] string fontName, [In] FLOAT fontSize, [In] ref D2DRect rect,
-			[In] DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT.DWRITE_TEXT_ALIGNMENT_LEADING,
-			[In] DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT.DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading,
+			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
 
 		[DllImport(DLL_NAME, EntryPoint = "MeasureText", CharSet = CharSet.Unicode,
 			CallingConvention = CallingConvention.Cdecl)]
@@ -259,8 +259,8 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void AddPathArc(HANDLE ctx, D2DPoint endPoint, D2DSize size, FLOAT sweepAngle,
-			D2D1_ARC_SIZE arcSize = D2D1_ARC_SIZE.D2D1_ARC_SIZE_SMALL,
-			D2D1_SWEEP_DIRECTION sweepDirection = D2D1_SWEEP_DIRECTION.D2D1_SWEEP_DIRECTION_CLOCKWISE);
+			D2DArcSize arcSize = D2DArcSize.Small,
+			D2DSweepDirection sweepDirection = D2DSweepDirection.Clockwise);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawBeziers(HANDLE ctx, D2DBezierSegment[] bezierSegments, UINT count,
