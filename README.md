@@ -32,31 +32,7 @@ The Direct2D API is a platform-associated API that requires the application to b
 
 ## Install manually
 
-### Build from source code
-
-Use git to clone the source code repository
-
-```shell
-git clone https://github.com/jingwood/d2dlib
-```
-
-Open `d2dlib.sln` from the `src` folder with Visual Studio 2019 or later, choose `Build` -> `Batch Build...` menu, then click `Build` button.
-
-### Add project references
-
-1. Add `d2dlibexport.dll` and `d2dwinform.dll` as application references
-2. Put `d2dlib32.dll` in the `Debug`, `Release` or the folder where the application runs
-
-You can also add `d2dlib32.dll` as a project file, and set it's property `Copy to output folder` to `Copy if newer`.
-
-For different build configuration and platform target, the `d2dlib32.dll` is named as following:
-
-| Build configuration | Platform | Name |
-|---|---|---|
-| Debug | x86 (32bit) | d2dlib32d.dll |
-| Release | x86 (32bit) | d2dlib32.dll |
-| Debug | x64 (64bit) | d2dlib64d.dll |
-| Release | x64 (64bit) | d2dlib64.dll |
+Learn how to [install manually](../../wiki/Manual-installation)
 
 # Getting Started
 
