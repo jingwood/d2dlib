@@ -25,8 +25,11 @@
 #pragma once
 
 #include <Windows.h>
-#include <d2d1.h>
-#include <dwrite.h>
+//#include <d2d1.h>
+#include <d2d1_1.h>
+#include <d2d1_1helper.h>
+//#include <dwrite.h>
+#include <dwrite_1.h>
 #include "Wincodec.h"
 
 #include <stack>
