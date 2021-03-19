@@ -159,6 +159,11 @@ namespace unvell.D2DLib
 
 		public D2DBitmap LoadBitmap(string filepath)
 		{
+			return CreateBitmapFromFile(filepath);
+		}
+
+		public D2DBitmap CreateBitmapFromFile(string filepath)
+		{
 			var bitmapHandle = D2D.CreateBitmapFromFile(this.Handle, filepath);
 			return (bitmapHandle != HWND.Zero) ? new D2DBitmap(bitmapHandle) : null;
 		}
