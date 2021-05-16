@@ -49,7 +49,7 @@ namespace unvell.D2DLib
       }
       set
       {
-        D2D.SetSolidColorBrushColor(this.Handle, value);
+        D2D.SetSolidColorBrushColor(this.Handle, this.color = value);
       }
     }
 
