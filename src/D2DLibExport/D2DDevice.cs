@@ -46,9 +46,9 @@ namespace unvell.D2DLib
 			this.Handle = deviceHandle;
 		}
 
-		public static D2DDevice FromHwnd(HWND hwnd)
+		public static D2DDevice FromHwnd(HWND hwnd, bool useAlpha = false)
 		{
-			HANDLE contextHandle = D2D.CreateContext(hwnd);
+			HANDLE contextHandle = D2D.CreateContext(hwnd, useAlpha);
 			return new D2DDevice(contextHandle);
 		}
 

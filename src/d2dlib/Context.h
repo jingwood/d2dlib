@@ -121,7 +121,7 @@ inline void SafeRelease(Interface **ppInterfaceToRelease)
 
 extern "C" 
 {
-	D2DLIB_API HANDLE CreateContext(HWND hwnd);
+	D2DLIB_API HANDLE CreateContext(HWND hwnd, bool useAlpha = false);
 	D2DLIB_API void DestroyContext(HANDLE context);
 	D2DLIB_API void ResizeContext(HANDLE context);
 	

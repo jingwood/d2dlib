@@ -37,7 +37,7 @@ namespace unvell.D2DLib.WinForm
 				var hwnd = this.Handle;
 				if (this.device == null)
 				{
-					this.device = D2DDevice.FromHwnd(hwnd);
+					this.device = D2DDevice.FromHwnd(hwnd, useAlpha);
 				}
 				return this.device;
 			}
@@ -71,6 +71,12 @@ namespace unvell.D2DLib.WinForm
 
 		private Timer timer = new Timer() { Interval = 10 };
 		public bool EscapeKeyToClose { get; set; } = true;
+
+		private bool useAlpha = false;
+		public D2DForm(bool useAlpha = false)
+		{
+			this.useAlpha = useAlpha;
+		}
 
 		private bool animationDraw;
 		public bool AnimationDraw

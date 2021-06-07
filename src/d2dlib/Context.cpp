@@ -31,7 +31,7 @@
 #include <stack>
 using namespace std;
 
-HANDLE CreateContext(HWND hwnd)
+HANDLE CreateContext(HWND hwnd, bool useAlpha)
 {
 	D2DContext* context = new D2DContext();
 	ZeroMemory(context, sizeof(context));
@@ -68,10 +68,20 @@ HANDLE CreateContext(HWND hwnd)
 	//D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
 	D2D1_SIZE_U size = D2D1::SizeU(1024, 768);
 
-	hr = context->factory->CreateHwndRenderTarget(
-			D2D1::RenderTargetProperties(),
-			D2D1::HwndRenderTargetProperties(context->hwnd, size),
-			&context->renderTarget);
+	D2D1_RENDER_TARGET_PROPERTIES props;
+	
+	if (useAlpha) {
+		props = D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_DEFAULT,
+			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED));
+	}
+	else 
+	{
+		props = D2D1::RenderTargetProperties();
+	}
+
+	hr = context->factory->CreateHwndRenderTarget(props, 
+		D2D1::HwndRenderTargetProperties(context->hwnd, size),
+		&context->renderTarget);
 
 	if (!SUCCEEDED(hr)) {
 		context->lastErrorCode = hr;
