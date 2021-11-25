@@ -1,4 +1,4 @@
-![NuGet](https://img.shields.io/nuget/v/unvell.D2DLib.svg)
+[![GitHub](https://img.shields.io/github/license/jingwood/d2dlib)](https://github.com/jingwood/d2dlib/blob/master/LICENSE.md) [![Nuget](https://img.shields.io/nuget/v/unvell.D2DLib.svg)](https://www.nuget.org/packages/unvell.D2DLib)
 
 # d2dlib
 
