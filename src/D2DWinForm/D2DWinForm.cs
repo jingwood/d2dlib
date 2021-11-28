@@ -67,7 +67,7 @@ namespace unvell.D2DLib.WinForm
 		private int currentFps = 0;
 		private int lastFps = 0;
 		public bool ShowFPS { get; set; }
-		private DateTime lastFpsUpdate = DateTime.Now;
+		private DateTime lastFpsUpdate = DateTime.UtcNow;
 
 		private Timer timer = new Timer() { Interval = 10 };
 		public bool EscapeKeyToClose { get; set; } = true;
@@ -145,11 +145,11 @@ namespace unvell.D2DLib.WinForm
 
 				if (ShowFPS)
 				{
-					if (this.lastFpsUpdate.Second != DateTime.Now.Second)
+					if (this.lastFpsUpdate.Second != DateTime.UtcNow.Second)
 					{
 						this.lastFps = this.currentFps;
 						this.currentFps = 0;
-						this.lastFpsUpdate = DateTime.Now;
+						this.lastFpsUpdate = DateTime.UtcNow;
 					}
 					else
 					{
