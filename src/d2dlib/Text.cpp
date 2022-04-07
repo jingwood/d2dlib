@@ -84,6 +84,7 @@ D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, F
 		);
 
 		if (SUCCEEDED(hr) && textLayout != NULL) {
+			SafeRelease(&textFormat);
 			return (HANDLE)textLayout;
 		}
 	}
@@ -109,7 +110,7 @@ D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fo
 	SafeRelease(&textLayout);
 }
 
-void DrawGlyphRun(HANDLE ctx, D2D1_POINT_2F baselineOrigin, 
+void DrawGlyphRun(HANDLE ctx, D2D1_POINT_2F baselineOrigin,
 			const DWRITE_GLYPH_RUN *glyphRun, D2D1_COLOR_F color,
 			DWRITE_MEASURING_MODE measuringMode)
 {
@@ -121,6 +122,6 @@ void DrawGlyphRun(HANDLE ctx, D2D1_POINT_2F baselineOrigin,
 //  [in]  IDWriteTextLayout *textLayout,
 //  [in]  ID2D1Brush *defaultForegroundBrush,
 //  D2D1_DRAW_TEXT_OPTIONS options = D2D1_DRAW_TEXT_OPTIONS_NONE
-//) 
+//)
 //{
 //}
