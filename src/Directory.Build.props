@@ -20,6 +20,12 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)/d2dlib.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign>true</PublicSign>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Version>1.3.1</Version>
     <Authors>Jingwood</Authors>
     <Company>unvell.com</Company>
