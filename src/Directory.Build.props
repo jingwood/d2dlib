@@ -31,7 +31,7 @@
     <Company>unvell.com</Company>
     <Product>D2DLib</Product>
     <Description>A .NET library for hardware-accelerated, high performance, immediate mode rendering via Direct2D.</Description>
-    <Copyright>Copyright © 2009-2020 unvell.com, Jingwood. All rights reserved.</Copyright>
+    <Copyright>Copyright © 2009-2022 unvell.com, Jingwood. All rights reserved.</Copyright>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <DeterministicSourcePaths>true</DeterministicSourcePaths>
     <DebugType>portable</DebugType>
