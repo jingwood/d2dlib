@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,12 +20,18 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <Version>1.3.1</Version>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)/d2dlib.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign>true</PublicSign>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>1.3.2</Version>
     <Authors>Jingwood</Authors>
     <Company>unvell.com</Company>
     <Product>D2DLib</Product>
     <Description>A .NET library for hardware-accelerated, high performance, immediate mode rendering via Direct2D.</Description>
-    <Copyright>Copyright © 2009-2020 unvell.com, Jingwood. All rights reserved.</Copyright>
+    <Copyright>Copyright © 2009-2022 unvell.com, Jingwood. All rights reserved.</Copyright>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <DeterministicSourcePaths>true</DeterministicSourcePaths>
     <DebugType>portable</DebugType>
