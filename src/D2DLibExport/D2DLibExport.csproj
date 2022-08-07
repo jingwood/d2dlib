@@ -3,13 +3,13 @@
   <Import Project="..\NativeLibraries.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net35;netstandard2.0</TargetFrameworks>
     <RootNamespace>unvell.D2DLib</RootNamespace>
     <AssemblyName>d2dlibexport</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="4.7.1" Condition="'$(TargetFramework)' == 'netstandard2.0'" PrivateAssets="all" />
+    <PackageReference Include="System.Drawing.Common" Version="3.5.0" Condition="'$(TargetFramework)' == 'netstandard2.0'" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>
