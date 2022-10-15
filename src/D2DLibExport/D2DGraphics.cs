@@ -247,9 +247,9 @@ namespace unvell.D2DLib
       return PushLayer(layer, rectBounds, geometry);
     }
 
-    public D2DLayer PushLayer(D2DLayer layer, D2DRect rectBounds, D2DGeometry geometry = null, D2DBrush opacityBrush = IntPtr.Zero)
+    public D2DLayer PushLayer(D2DLayer layer, D2DRect rectBounds, D2DGeometry geometry = null, D2DBrush opacityBrush = null)
     {
-      D2D.PushLayer(this.Handle, layer.Handle, ref rectBounds, geometry != null ? geometry.Handle : IntPtr.Zero, opacityBrush.Handle);
+      D2D.PushLayer(this.Handle, layer.Handle, ref rectBounds, geometry != null ? geometry.Handle : IntPtr.Zero, opacityBrush != null ? opacityBrush.Handle : IntPtr.Zero);
       return layer;
     }
 

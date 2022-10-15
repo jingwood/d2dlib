@@ -310,19 +310,24 @@ HANDLE CreateLayer(HANDLE ctx)
 }
 
 void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds, __in_opt HANDLE geometryHandle,
-		__in_opt ID2D1Brush* opacityBrush, D2D1_LAYER_OPTIONS layerOptions)
+		__in_opt HANDLE opacityBrush, D2D1_LAYER_OPTIONS layerOptions)
 {
 	RetrieveContext(ctx);
 
 	ID2D1Geometry* geometry = NULL;
-
 	if (geometryHandle != NULL) {
 		D2DGeometryContext* geometryContext = reinterpret_cast<D2DGeometryContext*>(geometryHandle);
 		geometry = geometryContext->geometry;
 	}
 
+	ID2D1Brush* brush = NULL;
+	if (geometryHandle != NULL) {
+		D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(opacityBrush);
+		brush = brushContext->brush;
+	}
+
 	D2D1_LAYER_PARAMETERS params = D2D1::LayerParameters(contentBounds, geometry,
-		D2D1_ANTIALIAS_MODE_PER_PRIMITIVE, D2D1::IdentityMatrix(), 1, opacityBrush, layerOptions);
+		D2D1_ANTIALIAS_MODE_PER_PRIMITIVE, D2D1::IdentityMatrix(), 1, brush, layerOptions);
 
 	ID2D1Layer* layer = reinterpret_cast<ID2D1Layer*>(layerHandle);
 	context->renderTarget->PushLayer(&params, layer);

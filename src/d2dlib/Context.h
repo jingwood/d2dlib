@@ -74,6 +74,21 @@ typedef struct D2DGeometryContext {
 	ID2D1Geometry* geometry;
 } D2DGeometryContext;
 
+enum BrushType {
+	BrushType_SolidBrush,
+	BrushType_LinearGradientBrush,
+	BrushType_RadialGradientBrush,
+};
+
+struct D2DBrushContext {
+	D2DContext* context;
+	ID2D1Brush* brush;
+	BrushType type;
+	union {
+		ID2D1GradientStopCollection* gradientStops = NULL;
+	};
+};
+
 typedef struct D2DPathContext : D2DGeometryContext
 {
 	ID2D1PathGeometry* path;
