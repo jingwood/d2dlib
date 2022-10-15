@@ -216,7 +216,7 @@ void FillRectangleWithBrush(HANDLE ctx, D2D1_RECT_F* rect, HANDLE brushHandle)
 {
 	RetrieveContext(ctx);
 
-	BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandle);
 	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brushContext->brush);
 
 	if (brush != NULL) {
@@ -272,7 +272,7 @@ D2DLIB_API void DrawRoundedRectWithBrush(HANDLE ctx, D2D1_ROUNDED_RECT* roundedR
 	RetrieveContext(ctx);
 
 	D2DPen* pen = reinterpret_cast<D2DPen*>(strokePen);
-	BrushContext* brushContext = reinterpret_cast<BrushContext*>(fillBrush);
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(fillBrush);
 	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brushContext->brush);
 
 	if (pen != NULL) {
@@ -334,7 +334,7 @@ void FillEllipseWithBrush(HANDLE ctx, D2D1_ELLIPSE* ellipse, HANDLE brushHandle)
 {
 	RetrieveContext(ctx);
 
-	BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandle);
 	ID2D1Brush* brush = reinterpret_cast<ID2D1Brush*>(brushContext->brush);
 
 	context->renderTarget->FillEllipse(ellipse, brush);

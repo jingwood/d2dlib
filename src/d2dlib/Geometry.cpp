@@ -304,7 +304,7 @@ void DrawPolygon(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 	}
 
 	if (fillBrush != NULL) {
-		BrushContext brushCtx;
+		D2DBrushContext brushCtx;
 		brushCtx.brush = fillBrush;
 		DrawPolygonWithBrush(ctx, points, count, strokeColor, strokeWidth, dashStyle, &brushCtx);
 		SafeRelease(&fillBrush);
@@ -339,7 +339,7 @@ void DrawPolygonWithBrush(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 
 	ID2D1Brush* brush = NULL;
 	if (brushHandle != NULL) {
-		BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
+		D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandle);
 		brush = brushContext->brush;
 		renderTarget->FillGeometry(path, brush);
 	}
@@ -379,7 +379,7 @@ void DrawPolygonWithBrush(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 void FillPathWithBrush(HANDLE ctx, HANDLE brushHandle)
 {
 	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(ctx);
-	BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandle);
 	D2DContext* context = pathContext->d2context;
 
 	context->renderTarget->FillGeometry(pathContext->path, brushContext->brush);
@@ -390,8 +390,8 @@ void FillGeometryWithBrush(HANDLE ctx, HANDLE geoHandle, _In_ HANDLE brushHandle
 	RetrieveContext(ctx);
 
 	ID2D1Geometry* geometry = reinterpret_cast<ID2D1Geometry*>(geoHandle);
-	BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
-	BrushContext* opacityBrushContext = reinterpret_cast<BrushContext*>(opacityBrushHandle);
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandle);
+	D2DBrushContext* opacityBrushContext = reinterpret_cast<D2DBrushContext*>(opacityBrushHandle);
 
 	context->renderTarget->FillGeometry(geometry, brushContext->brush,
 		opacityBrushContext == NULL ? NULL : opacityBrushContext->brush);
