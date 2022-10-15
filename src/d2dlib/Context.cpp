@@ -321,7 +321,7 @@ void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds, __in_
 	}
 
 	ID2D1Brush* brush = NULL;
-	if (geometryHandle != NULL) {
+	if (opacityBrush != NULL) {
 		D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(opacityBrush);
 		brush = brushContext->brush;
 	}
