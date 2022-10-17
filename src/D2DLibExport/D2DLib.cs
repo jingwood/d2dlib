@@ -113,7 +113,7 @@ namespace unvell.D2DLib
     [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
     public static extern HANDLE CreateLayer(HANDLE ctx);
     [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-    public static extern HANDLE PushLayer(HANDLE ctx, HANDLE layerHandle, ref D2DRect contentBounds,
+    public static extern HANDLE PushLayer(HANDLE ctx, HANDLE layerHandle, D2DRect contentBounds,
       [In, Optional] HANDLE geometryHandle, [In, Optional] HANDLE opacityBrush, 
       LayerOptions layerOptions = LayerOptions.InitializeForClearType);
     [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]

@@ -309,7 +309,7 @@ HANDLE CreateLayer(HANDLE ctx)
 	return (HANDLE)layer;
 }
 
-void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds, __in_opt HANDLE geometryHandle,
+void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F contentBounds, __in_opt HANDLE geometryHandle,
 		__in_opt HANDLE opacityBrush, D2D1_LAYER_OPTIONS layerOptions)
 {
 	RetrieveContext(ctx);

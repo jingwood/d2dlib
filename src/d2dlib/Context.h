@@ -164,7 +164,7 @@ extern "C"
 	D2DLIB_API void PopClip(HANDLE context);
 
 	D2DLIB_API HANDLE CreateLayer(HANDLE context);
-	D2DLIB_API void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds = D2D1::InfiniteRect(),
+	D2DLIB_API void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F contentBounds = D2D1::InfiniteRect(),
 		__in_opt HANDLE geometryHandle = NULL, __in_opt HANDLE opacityBrush = NULL, 
 		D2D1_LAYER_OPTIONS layerOptions = D2D1_LAYER_OPTIONS_NONE);
 	D2DLIB_API void PopLayer(HANDLE ctx);
