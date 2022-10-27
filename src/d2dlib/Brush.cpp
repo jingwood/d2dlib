@@ -50,7 +50,7 @@ HANDLE CreateSolidColorBrush(HANDLE ctx, D2D1_COLOR_F color)
 	ID2D1SolidColorBrush* brush;
 	context->renderTarget->CreateSolidColorBrush(color, &brush);
 	
-	BrushContext* brushContext = new BrushContext();
+	D2DBrushContext* brushContext = new D2DBrushContext();
 	brushContext->context = context;
 	brushContext->type = BrushType::BrushType_SolidBrush;
 	brushContext->brush = brush;
@@ -60,7 +60,7 @@ HANDLE CreateSolidColorBrush(HANDLE ctx, D2D1_COLOR_F color)
 
 void SetSolidColorBrushColor(HANDLE brushHandle, D2D1_COLOR_F color)
 {
-	BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandle);
 	ID2D1SolidColorBrush* brush = reinterpret_cast<ID2D1SolidColorBrush*>(brushContext->brush);
 	brush->SetColor(color);
 }
@@ -77,7 +77,7 @@ HANDLE CreateLinearGradientBrush(HANDLE ctx, D2D1_POINT_2F startPoint, D2D1_POIN
 	hr = renderTarget->CreateGradientStopCollection(gradientStops, gradientStopCount, &gradientStopCollection);
 
 	ID2D1LinearGradientBrush* brush = NULL;
-	BrushContext* brushContext = NULL;
+	D2DBrushContext* brushContext = NULL;
 
 	if (SUCCEEDED(hr))
 	{
@@ -85,7 +85,7 @@ HANDLE CreateLinearGradientBrush(HANDLE ctx, D2D1_POINT_2F startPoint, D2D1_POIN
 			D2D1::LinearGradientBrushProperties(startPoint, endPoint), gradientStopCollection, &brush);
 
 		if (SUCCEEDED(hr)) {
-			brushContext = new BrushContext();
+			brushContext = new D2DBrushContext();
 			brushContext->context = context;
 			brushContext->type = BrushType::BrushType_LinearGradientBrush;
 			brushContext->brush = brush;
@@ -110,7 +110,7 @@ HANDLE CreateRadialGradientBrush(HANDLE ctx, D2D1_POINT_2F origin, D2D1_POINT_2F
 		gradientStops, gradientStopCount, &gradientStopCollection);
 	
 	ID2D1RadialGradientBrush* brush = NULL;
-	BrushContext* brushContext = NULL;
+	D2DBrushContext* brushContext = NULL;
 
 	if (SUCCEEDED(hr)) 
 	{
@@ -118,7 +118,7 @@ HANDLE CreateRadialGradientBrush(HANDLE ctx, D2D1_POINT_2F origin, D2D1_POINT_2F
 			origin, offset, radiusX, radiusY), gradientStopCollection, &brush);
 
 		if (SUCCEEDED(hr)) {
-			brushContext = new BrushContext();
+			brushContext = new D2DBrushContext();
 			brushContext->context = context;
 			brushContext->type = BrushType::BrushType_RadialGradientBrush;
 			brushContext->brush = brush;
@@ -131,7 +131,7 @@ HANDLE CreateRadialGradientBrush(HANDLE ctx, D2D1_POINT_2F origin, D2D1_POINT_2F
 
 void ReleaseBrush(HANDLE brushHandle)
 {
-	BrushContext* brushContext = reinterpret_cast<BrushContext*>(brushHandle);
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandle);
 
 	switch (brushContext->type)
 	{

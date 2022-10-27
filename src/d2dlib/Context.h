@@ -74,6 +74,21 @@ typedef struct D2DGeometryContext {
 	ID2D1Geometry* geometry;
 } D2DGeometryContext;
 
+enum BrushType {
+	BrushType_SolidBrush,
+	BrushType_LinearGradientBrush,
+	BrushType_RadialGradientBrush,
+};
+
+struct D2DBrushContext {
+	D2DContext* context;
+	ID2D1Brush* brush;
+	BrushType type;
+	union {
+		ID2D1GradientStopCollection* gradientStops = NULL;
+	};
+};
+
 typedef struct D2DPathContext : D2DGeometryContext
 {
 	ID2D1PathGeometry* path;
@@ -149,8 +164,8 @@ extern "C"
 	D2DLIB_API void PopClip(HANDLE context);
 
 	D2DLIB_API HANDLE CreateLayer(HANDLE context);
-	D2DLIB_API void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F& contentBounds = D2D1::InfiniteRect(),
-		__in_opt HANDLE geometryHandle = NULL, __in_opt ID2D1Brush *opacityBrush = NULL, 
+	D2DLIB_API void PushLayer(HANDLE ctx, HANDLE layerHandle, D2D1_RECT_F contentBounds = D2D1::InfiniteRect(),
+		__in_opt HANDLE geometryHandle = NULL, __in_opt HANDLE opacityBrush = NULL, 
 		D2D1_LAYER_OPTIONS layerOptions = D2D1_LAYER_OPTIONS_NONE);
 	D2DLIB_API void PopLayer(HANDLE ctx);
 
