@@ -57,7 +57,15 @@ namespace unvell.D2DLib
 			if (Handle != HANDLE.Zero) D2D.ResizeContext(this.Handle);
 		}
 
-		public D2DPen CreatePen(D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid, 
+        public D2DStrokeStyle CreateStrokeStyle(float[] dashes = null, float dashOffset = 0.0f,
+            D2DCapStyle startCap = D2DCapStyle.Flat, D2DCapStyle endCap = D2DCapStyle.Flat)
+        {
+            HANDLE handle = D2D.CreateStrokeStyle(this.Handle, dashes, dashes != null ? (uint)dashes.Length : 0, dashOffset, startCap, endCap);
+
+            return handle == HANDLE.Zero ? null : new D2DStrokeStyle(this, handle, dashes, dashOffset, startCap, endCap);
+        }
+
+        public D2DPen CreatePen(D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid, 
 			float[] customDashes = null, float dashOffset = 0.0f)
 		{
 			HANDLE handle = D2D.CreatePen(this.Handle, color, dashStyle,

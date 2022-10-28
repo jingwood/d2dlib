@@ -29,13 +29,25 @@
 extern "C" 
 {
 	D2DLIB_API void DrawString(HANDLE handle, LPCWSTR text, D2D1_COLOR_F color,
-														 LPCWSTR fontName, FLOAT fontSize, D2D1_RECT_F* rect,
+														 LPCWSTR fontName, FLOAT fontSize, 
+												     D2D1_RECT_F rect,
+														 DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL, 
+														 DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL,
+														 DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL,
 														 DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_LEADING,
 														 DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT::DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 
-	D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size);
+	D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, 
+		__out D2D1_SIZE_F* size,
+		DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL,
+		DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL);
 
-	D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size);
+	D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, 
+		__out D2D1_SIZE_F* size,
+		DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL,
+		DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL);
 
 	D2DLIB_API void DrawGlyphRun(HANDLE ctx, D2D1_POINT_2F baselineOrigin, 
 			const DWRITE_GLYPH_RUN *glyphRun, D2D1_COLOR_F color,
