@@ -37,25 +37,25 @@ using BOOL = System.Int32;
 
 namespace unvell.D2DLib
 {
-    public class D2DStrokeStyle : D2DObject
-    {
+	public class D2DStrokeStyle : D2DObject
+	{
 		public D2DDevice Device { get; private set; }
 
-        public float[] Dashes { get; private set; }
+		public float[] Dashes { get; private set; }
 
-        public float DashOffset { get; private set; }
+		public float DashOffset { get; private set; }
 
-        public D2DCapStyle StartCap { get; private set; } = D2DCapStyle.Flat;
+		public D2DCapStyle StartCap { get; private set; } = D2DCapStyle.Flat;
 
-        public D2DCapStyle EndCap { get; private set; } = D2DCapStyle.Flat;
+		public D2DCapStyle EndCap { get; private set; } = D2DCapStyle.Flat;
 
-        internal D2DStrokeStyle(D2DDevice Device, HANDLE handle, float[] dashes, float dashOffset, D2DCapStyle startCap, D2DCapStyle endCap)
-          : base(handle)
-        {
-            this.Dashes = dashes;
-            this.DashOffset = dashOffset;
-            this.StartCap = startCap;
-            this.EndCap = endCap;
-        }
-    }
+		internal D2DStrokeStyle(D2DDevice Device, HANDLE handle, float[] dashes, float dashOffset, D2DCapStyle startCap, D2DCapStyle endCap)
+			: base(handle)
+		{
+			this.Dashes = dashes;
+			this.DashOffset = dashOffset;
+			this.StartCap = startCap;
+			this.EndCap = endCap;
+		}
+	}
 }
