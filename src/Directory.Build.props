@@ -26,8 +26,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.4</Version>
-    <Authors>Jingwood</Authors>
+    <Version>1.4.1</Version>
+    <Authors>Jingwood, All Contributions</Authors>
     <Company>unvell inc.</Company>
     <Product>D2DLib</Product>
     <Description>A .NET library for hardware-accelerated, high performance, immediate mode rendering via Direct2D.</Description>
