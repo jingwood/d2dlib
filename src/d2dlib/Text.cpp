@@ -50,7 +50,7 @@ D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 		hr = (context->renderTarget)->CreateSolidColorBrush(color, &brush);
 
 		if (SUCCEEDED(hr) && brush != NULL) {
-			context->renderTarget->DrawText(text, wcslen(text), textFormat, rect, brush);
+			context->renderTarget->DrawText(text, (UINT32)wcslen(text), textFormat, rect, brush);
 		}
 	}
 
@@ -76,7 +76,7 @@ D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, F
 
 		hr = context->writeFactory->CreateTextLayout(
 			text,      // The string to be laid out and formatted.
-			wcslen(text),  // The length of the string.
+			(UINT32)wcslen(text),  // The length of the string.
 			textFormat,  // The text format to apply to the string (contains font information, etc).
 			size->width,         // The width of the layout box.
 			size->height,        // The height of the layout box.
