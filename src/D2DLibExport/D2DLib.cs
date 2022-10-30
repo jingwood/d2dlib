@@ -35,6 +35,7 @@ using HANDLE = System.IntPtr;
 using HRESULT = System.Int64;
 using BOOL = System.Int32;
 using System.Drawing.Drawing2D;
+using System.Drawing;
 
 namespace unvell.D2DLib
 {
@@ -110,16 +111,16 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PopClip([In] HANDLE context);
 
-    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-    public static extern HANDLE CreateLayer(HANDLE ctx);
-    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-    public static extern HANDLE PushLayer(HANDLE ctx, HANDLE layerHandle, D2DRect contentBounds,
-      [In, Optional] HANDLE geometryHandle, [In, Optional] HANDLE opacityBrush, 
-      LayerOptions layerOptions = LayerOptions.InitializeForClearType);
-    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void PopLayer(HANDLE ctx);
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateLayer(HANDLE ctx);
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE PushLayer(HANDLE ctx, HANDLE layerHandle, D2DRect contentBounds,
+			[In, Optional] HANDLE geometryHandle, [In, Optional] HANDLE opacityBrush,
+			LayerOptions layerOptions = LayerOptions.InitializeForClearType);
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void PopLayer(HANDLE ctx);
 
-    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PushTransform([In] HANDLE context);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PopTransform([In] HANDLE context);
@@ -196,14 +197,22 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, EntryPoint = "DrawString", CharSet = CharSet.Unicode,
 			CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawText([In] HANDLE context, [In] string text, [In] D2DColor color,
-			[In] string fontName, [In] FLOAT fontSize, [In] ref D2DRect rect,
+			[In] string fontName, [In] FLOAT fontSize, [In] D2DRect rect,
+			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal,
+			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal,
+			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal,
 			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading,
 			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
 
 		[DllImport(DLL_NAME, EntryPoint = "MeasureText", CharSet = CharSet.Unicode,
 			CallingConvention = CallingConvention.Cdecl)]
 		public static extern void MeasureText([In] HANDLE ctx, [In] string text, [In] string fontName,
-			[In] FLOAT fontSize, ref D2DSize size);
+			[In] FLOAT fontSize, ref D2DSize size,
+			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal,
+			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal,
+			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal,
+			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading,
+			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
 
 		#endregion // Text
 
@@ -212,19 +221,19 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateRectangleGeometry([In] HANDLE ctx, [In] ref D2DRect rect);
 
-    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void DestroyGeometry(HANDLE geometryContext);
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DestroyGeometry(HANDLE geometryContext);
 
-    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-    public static extern HANDLE CreateEllipseGeometry(HANDLE ctx, ref D2DEllipse ellipse);
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateEllipseGeometry(HANDLE ctx, ref D2DEllipse ellipse);
 
-    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-    public static extern HANDLE CreatePathGeometry(HANDLE ctx);
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreatePathGeometry(HANDLE ctx);
 
-    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void DestroyPathGeometry(HANDLE ctx);
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DestroyPathGeometry(HANDLE ctx);
 
-    [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillGeometryWithBrush([In] HANDLE ctx, [In] HANDLE geoHandle,
 			[In] HANDLE brushHandle, [Optional] HANDLE opacityBrushHandle);
 
@@ -295,10 +304,16 @@ namespace unvell.D2DLib
 
 		#endregion // Geometry
 
+		#region Style
+		[DllImport(DLL_NAME, EntryPoint = "CreateStrokeStyle", CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateStrokeStyle(HANDLE ctx, FLOAT[] dashes = null, UINT dashCount = 0, FLOAT dashOffset = 0.0f,
+				D2DCapStyle startCap = D2DCapStyle.Flat, D2DCapStyle endCap = D2DCapStyle.Flat);
+		#endregion Style
+
 		#region Pen
 		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke", CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid,
-			FLOAT[] dashes = null, UINT dashCount = 0, FLOAT dashOffset = 0.0f);
+	FLOAT[] dashes = null, UINT dashCount = 0, FLOAT dashOffset = 0.0f);
 
 		[DllImport(DLL_NAME, EntryPoint = "DestroyPenStroke", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyPen(HANDLE pen);
