@@ -57,23 +57,23 @@ namespace unvell.D2DLib
 			if (Handle != HANDLE.Zero) D2D.ResizeContext(this.Handle);
 		}
 
-        public D2DStrokeStyle CreateStrokeStyle(float[] dashes = null, float dashOffset = 0.0f,
-            D2DCapStyle startCap = D2DCapStyle.Flat, D2DCapStyle endCap = D2DCapStyle.Flat)
-        {
-            HANDLE handle = D2D.CreateStrokeStyle(this.Handle, dashes, dashes != null ? (uint)dashes.Length : 0, dashOffset, startCap, endCap);
+		public D2DStrokeStyle CreateStrokeStyle(float[] dashes = null, float dashOffset = 0.0f,
+			D2DCapStyle startCap = D2DCapStyle.Flat, D2DCapStyle endCap = D2DCapStyle.Flat)
+		{
+			HANDLE handle = D2D.CreateStrokeStyle(this.Handle, dashes, dashes != null ? (uint)dashes.Length : 0, dashOffset, startCap, endCap);
 
-            return handle == HANDLE.Zero ? null : new D2DStrokeStyle(this, handle, dashes, dashOffset, startCap, endCap);
-        }
+			return handle == HANDLE.Zero ? null : new D2DStrokeStyle(this, handle, dashes, dashOffset, startCap, endCap);
+		}
 
-        public D2DPen CreatePen(D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid, 
+		public D2DPen CreatePen(D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid,
 			float[] customDashes = null, float dashOffset = 0.0f)
 		{
 			HANDLE handle = D2D.CreatePen(this.Handle, color, dashStyle,
-				customDashes, customDashes != null ? (uint)customDashes.Length : 0, dashOffset);
+			customDashes, customDashes != null ? (uint)customDashes.Length : 0, dashOffset);
 
 			return handle == HANDLE.Zero ? null : new D2DPen(this, handle, color, dashStyle, customDashes, dashOffset);
 		}
-	
+
 		internal void DestroyPen(D2DPen pen)
 		{
 			if (pen == null) throw new ArgumentNullException(nameof(pen));
@@ -87,15 +87,15 @@ namespace unvell.D2DLib
 		}
 
 		public D2DLinearGradientBrush CreateLinearGradientBrush(D2DPoint startPoint, D2DPoint endPoint,
-																														D2DGradientStop[] gradientStops)
+			D2DGradientStop[] gradientStops)
 		{
 			HANDLE handle = D2D.CreateLinearGradientBrush(this.Handle, startPoint, endPoint, gradientStops, (uint)gradientStops.Length);
 			return new D2DLinearGradientBrush(handle, gradientStops);
 		}
 
 		public D2DRadialGradientBrush CreateRadialGradientBrush(D2DPoint origin, D2DPoint offset,
-																														FLOAT radiusX, FLOAT radiusY,
-																														D2DGradientStop[] gradientStops)
+			FLOAT radiusX, FLOAT radiusY,
+			D2DGradientStop[] gradientStops)
 		{
 			HANDLE handle = D2D.CreateRadialGradientBrush(this.Handle, origin, offset, radiusX, radiusY,
 				gradientStops, (uint)gradientStops.Length);
@@ -121,13 +121,13 @@ namespace unvell.D2DLib
 			return new D2DPathGeometry(this.Handle, geoHandle);
 		}
 
-    public D2DGeometry CreateEllipseGeometry(D2DPoint origin, D2DSize size)
-    {
-      var ellipse = new D2DEllipse(origin, size);
-      return new D2DGeometry(this.Handle, D2D.CreateEllipseGeometry(this.Handle, ref ellipse));
-    }
+		public D2DGeometry CreateEllipseGeometry(D2DPoint origin, D2DSize size)
+		{
+			var ellipse = new D2DEllipse(origin, size);
+			return new D2DGeometry(this.Handle, D2D.CreateEllipseGeometry(this.Handle, ref ellipse));
+		}
 
-    public D2DGeometry CreatePieGeometry(D2DPoint origin, D2DSize size, float startAngle, float endAngle)
+		public D2DGeometry CreatePieGeometry(D2DPoint origin, D2DSize size, float startAngle, float endAngle)
 		{
 			var path = this.CreatePathGeometry();
 
@@ -182,10 +182,10 @@ namespace unvell.D2DLib
 			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
 		}
 
-    public D2DLayer CreateLayer()
-    {
-      return new D2DLayer(D2D.CreateLayer(this.Handle));
-    }
+		public D2DLayer CreateLayer()
+		{
+			return new D2DLayer(D2D.CreateLayer(this.Handle));
+		}
 
 		[DllImport("gdi32.dll")]
 		public static extern bool DeleteObject(IntPtr obj);
