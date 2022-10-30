@@ -89,7 +89,7 @@ namespace unvell.D2DLib
 				if (this.antialias != value)
 				{
 					D2D.SetContextProperties(this.Handle,
-						value ? D2DAntialiasMode.PerPrimitive : D2DAntialiasMode.Aliased);
+							value ? D2DAntialiasMode.PerPrimitive : D2DAntialiasMode.Aliased);
 
 					this.antialias = value;
 				}
@@ -180,8 +180,8 @@ namespace unvell.D2DLib
 		}
 
 		public void DrawBeziers(D2DBezierSegment[] bezierSegments,
-														D2DColor strokeColor, FLOAT strokeWidth = 1,
-														D2DDashStyle dashStyle = D2DDashStyle.Solid)
+			D2DColor strokeColor, FLOAT strokeWidth = 1,
+			D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
 			D2D.DrawBeziers(Handle, bezierSegments, (uint)bezierSegments.Length, strokeColor, strokeWidth, dashStyle);
 		}
@@ -204,14 +204,14 @@ namespace unvell.D2DLib
 			D2D.DrawPolygonWithBrush(Handle, points, (uint)points.Length, strokeColor, strokeWidth, dashStyle, fillBrush.Handle);
 		}
 
-    [Obsolete("FillPolygon will be removed from later versions. Use DrawPolygon instead")]
-    public void FillPolygon(D2DPoint[] points, D2DColor fillColor)
+		[Obsolete("FillPolygon will be removed from later versions. Use DrawPolygon instead")]
+		public void FillPolygon(D2DPoint[] points, D2DColor fillColor)
 		{
 			this.DrawPolygon(points, D2DColor.Transparent, 0, D2DDashStyle.Solid, fillColor);
 		}
 
-    [Obsolete("FillPolygon will be removed from later versions. Use DrawPolygon instead")]
-    public void FillPolygon(D2DPoint[] points, D2DBrush brush)
+		[Obsolete("FillPolygon will be removed from later versions. Use DrawPolygon instead")]
+		public void FillPolygon(D2DPoint[] points, D2DBrush brush)
 		{
 			D2D.DrawPolygonWithBrush(this.Handle, points, (uint)points.Length, D2DColor.Transparent, 0, D2DDashStyle.Solid, brush.Handle);
 		}
@@ -233,30 +233,30 @@ namespace unvell.D2DLib
 			D2D.PopClip(this.Handle);
 		}
 
-    public D2DLayer PushLayer(D2DGeometry geometry = null)
-    {
-      // FIXME: resolve to not use magic number
-      D2DRect rectBounds = new D2DRect(-999999, -999999, 999999999, 999999999);
+		public D2DLayer PushLayer(D2DGeometry geometry = null)
+		{
+			// FIXME: resolve to not use magic number
+			D2DRect rectBounds = new D2DRect(-999999, -999999, 999999999, 999999999);
 
-      return PushLayer(rectBounds, geometry);
-    }
+			return PushLayer(rectBounds, geometry);
+		}
 
-    public D2DLayer PushLayer(D2DRect rectBounds, D2DGeometry geometry = null)
-    {
-      var layer = this.Device.CreateLayer();
-      return PushLayer(layer, rectBounds, geometry);
-    }
+		public D2DLayer PushLayer(D2DRect rectBounds, D2DGeometry geometry = null)
+		{
+			var layer = this.Device.CreateLayer();
+			return PushLayer(layer, rectBounds, geometry);
+		}
 
-    public D2DLayer PushLayer(D2DLayer layer, D2DRect rectBounds, D2DGeometry geometry = null, D2DBrush opacityBrush = null)
-    {
-      D2D.PushLayer(this.Handle, layer.Handle, rectBounds, geometry != null ? geometry.Handle : IntPtr.Zero, opacityBrush != null ? opacityBrush.Handle : IntPtr.Zero);
-      return layer;
-    }
+		public D2DLayer PushLayer(D2DLayer layer, D2DRect rectBounds, D2DGeometry geometry = null, D2DBrush opacityBrush = null)
+		{
+			D2D.PushLayer(this.Handle, layer.Handle, rectBounds, geometry != null ? geometry.Handle : IntPtr.Zero, opacityBrush != null ? opacityBrush.Handle : IntPtr.Zero);
+			return layer;
+		}
 
-    public void PopLayer()
-    {
-      D2D.PopLayer(this.Handle);
-    }
+		public void PopLayer()
+		{
+			D2D.PopLayer(this.Handle);
+		}
 
 		public void SetTransform(D2DMatrix3x2 mat)
 		{
@@ -355,7 +355,7 @@ namespace unvell.D2DLib
 			D2D.FillRectangleWithBrush(this.Handle, ref rect, brush.Handle);
 		}
 
-		public void DrawRoundedRectangle(D2DRoundedRect roundedRect, D2DColor strokeColor, D2DColor fillColor, 
+		public void DrawRoundedRectangle(D2DRoundedRect roundedRect, D2DColor strokeColor, D2DColor fillColor,
 			FLOAT strokeWidth = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
 			D2D.DrawRoundedRect(this.Handle, ref roundedRect, strokeColor, fillColor, strokeWidth, dashStyle);
@@ -403,19 +403,46 @@ namespace unvell.D2DLib
 				DWriteTextAlignment.Center, DWriteParagraphAlignment.Center);
 		}
 
-    public void DrawText(string text, D2DColor color, string fontName, float fontSize, FLOAT x, FLOAT y,
-      DWriteTextAlignment halign = DWriteTextAlignment.Leading,
-      DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near)
-    {
-      D2DRect rect = new D2DRect(x, y, 9999999, 9999999);  // FIXME: avoid magic number
-      D2D.DrawText(this.Handle, text, color, fontName, fontSize, ref rect, halign, valign);
-    }
-
-    public void DrawText(string text, D2DColor color, string fontName, float fontSize, D2DRect rect,
+		public void DrawText(string text, D2DColor color, string fontName, float fontSize, FLOAT x, FLOAT y,
 			DWriteTextAlignment halign = DWriteTextAlignment.Leading,
 			DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near)
 		{
-			D2D.DrawText(this.Handle, text, color, fontName, fontSize, ref rect, halign, valign);
+			D2DRect rect = new D2DRect(x, y, 9999999, 9999999);  // FIXME: avoid magic number
+			D2D.DrawText(this.Handle, text, color, fontName, fontSize, rect, 
+				D2DFontWeight.Normal,
+				D2DFontStyle.Normal,
+				D2DFontStretch.Normal,
+				halign, valign);
+		}
+
+		public void DrawText(string text, D2DColor color, string fontName, float fontSize, D2DRect rect,
+			DWriteTextAlignment halign = DWriteTextAlignment.Leading,
+			DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near)
+		{
+			D2D.DrawText(this.Handle, text, color, fontName, fontSize, rect,
+				D2DFontWeight.Normal,
+				D2DFontStyle.Normal,
+				D2DFontStretch.Normal,
+				halign, valign);
+		}
+
+		public void DrawText(string text, D2DColor color, string fontName, float fontSize,
+			D2DFontWeight fontWeight, D2DRect rect,
+			DWriteTextAlignment halign = DWriteTextAlignment.Leading,
+			DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near)
+		{
+			D2D.DrawText(this.Handle, text, color, fontName, fontSize, rect,
+				fontWeight, D2DFontStyle.Normal, D2DFontStretch.Normal, halign, valign);
+		}
+
+		public void DrawText(string text, D2DColor color, string fontName, float fontSize,
+			D2DFontWeight fontWeight, D2DFontStyle fontStyle, D2DFontStretch fontStretch,
+			D2DRect rect,
+			DWriteTextAlignment halign = DWriteTextAlignment.Leading,
+			DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near)
+		{
+			D2D.DrawText(this.Handle, text, color, fontName, fontSize, rect,
+				fontWeight, fontStyle, fontStretch, halign, valign);
 		}
 
 		public D2DSize MeasureText(string text, string fontName, float fontSize, D2DSize placeSize)
@@ -430,7 +457,7 @@ namespace unvell.D2DLib
 		{
 			D2D.DrawPath(path.Handle, strokeColor, strokeWidth, dashStyle);
 		}
-		
+
 		public void DrawPath(D2DGeometry path, D2DPen strokePen, FLOAT strokeWidth = 1f)
 		{
 			D2D.DrawPathWithPen(path.Handle, strokePen.Handle, strokeWidth);

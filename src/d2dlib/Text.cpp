@@ -26,8 +26,10 @@
 #include "Text.h"
 
 D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
-													 LPCWSTR fontName, FLOAT fontSize, D2D1_RECT_F* rect,
-													 DWRITE_TEXT_ALIGNMENT halign, DWRITE_PARAGRAPH_ALIGNMENT valign)
+	LPCWSTR fontName, FLOAT fontSize, D2D1_RECT_F rect,
+	DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle,
+	DWRITE_FONT_STRETCH fontStretch,
+	DWRITE_TEXT_ALIGNMENT halign, DWRITE_PARAGRAPH_ALIGNMENT valign)
 {
 	RetrieveContext(ctx);
 
@@ -36,7 +38,7 @@ D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 
 	HRESULT hr = context->writeFactory->CreateTextFormat(fontName,
 		NULL,
-		DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL,
+		fontWeight, fontStyle, fontStretch,
 		fontSize,
 		L"", //locale
 		&textFormat);
@@ -58,7 +60,8 @@ D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 	SafeRelease(&textFormat);
 }
 
-D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size) {
+D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size,
+	DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, DWRITE_FONT_STRETCH fontStretch) {
 	RetrieveContext(ctx);
 
 	IDWriteTextFormat* textFormat = NULL;
@@ -94,7 +97,8 @@ D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, F
 	return NULL;
 }
 
-D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size) {
+D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size,
+	DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, DWRITE_FONT_STRETCH fontStretch) {
 	RetrieveContext(ctx);
 
 	IDWriteTextLayout* textLayout = (IDWriteTextLayout*)CreateTextLayout(ctx, text, fontName, fontSize, size);
@@ -111,8 +115,8 @@ D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fo
 }
 
 void DrawGlyphRun(HANDLE ctx, D2D1_POINT_2F baselineOrigin,
-			const DWRITE_GLYPH_RUN *glyphRun, D2D1_COLOR_F color,
-			DWRITE_MEASURING_MODE measuringMode)
+	const DWRITE_GLYPH_RUN* glyphRun, D2D1_COLOR_F color,
+	DWRITE_MEASURING_MODE measuringMode)
 {
 	D2DContext* context = reinterpret_cast<D2DContext*>(ctx);
 
