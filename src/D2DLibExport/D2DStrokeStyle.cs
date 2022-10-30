@@ -39,19 +39,20 @@ namespace unvell.D2DLib
 {
 	public class D2DStrokeStyle : D2DObject
 	{
-		public D2DDevice Device { get; private set; }
+		public D2DDevice Device { get; }
 
-		public float[] Dashes { get; private set; }
+		public float[] Dashes { get; }
 
-		public float DashOffset { get; private set; }
+		public float DashOffset { get; }
 
-		public D2DCapStyle StartCap { get; private set; } = D2DCapStyle.Flat;
+		public D2DCapStyle StartCap { get; } = D2DCapStyle.Flat;
 
-		public D2DCapStyle EndCap { get; private set; } = D2DCapStyle.Flat;
+		public D2DCapStyle EndCap { get; } = D2DCapStyle.Flat;
 
 		internal D2DStrokeStyle(D2DDevice Device, HANDLE handle, float[] dashes, float dashOffset, D2DCapStyle startCap, D2DCapStyle endCap)
 			: base(handle)
 		{
+			this.Device = Device;
 			this.Dashes = dashes;
 			this.DashOffset = dashOffset;
 			this.StartCap = startCap;
