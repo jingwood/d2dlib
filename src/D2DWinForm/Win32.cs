@@ -42,12 +42,8 @@
 // Disable variable not used warning
 #pragma warning disable 0649
 
-using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace unvell.D2DLib.WinForm
 {

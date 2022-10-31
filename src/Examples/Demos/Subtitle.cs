@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-using System;
-using System.Drawing;
 using unvell.D2DLib.WinForm;
 using unvell.D2DLib.Examples.Properties;
 

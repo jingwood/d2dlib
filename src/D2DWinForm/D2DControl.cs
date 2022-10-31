@@ -22,9 +22,6 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Windows.Forms;
-
 namespace unvell.D2DLib.WinForm
 {
 	public class D2DControl : System.Windows.Forms.Control

@@ -22,20 +22,7 @@
  * SOFTWARE.
  */
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
-
-using FLOAT = System.Single;
-using UINT = System.UInt32;
-using UINT32 = System.UInt32;
-using HWND = System.IntPtr;
-using HANDLE = System.IntPtr;
-using HRESULT = System.Int64;
-using BOOL = System.Int32;
-using System.Drawing.Drawing2D;
-using System.Drawing;
 
 namespace unvell.D2DLib
 {

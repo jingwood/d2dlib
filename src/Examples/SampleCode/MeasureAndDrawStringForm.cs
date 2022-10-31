@@ -22,11 +22,6 @@
  * SOFTWARE.
  */
 
-using System;
-using System.Drawing;
-using unvell.D2DLib.WinForm;
-using unvell.D2DLib.Examples.Properties;
-
 namespace unvell.D2DLib.Examples.SampleCode
 {
 	public partial class MeasureAndDrawStringForm : ExampleForm

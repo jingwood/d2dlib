@@ -22,10 +22,7 @@
 * SOFTWARE.
 */
 
-using System;
 using System.Runtime.InteropServices;
-
-using FLOAT = System.Single;
 
 namespace unvell.D2DLib
 {
