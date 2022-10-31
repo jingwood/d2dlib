@@ -15,6 +15,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.IO" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Threading" />
+    <Using Include="System.Threading.Tasks" />
+    <Using Include="System.Single" Alias="FLOAT" />
+    <Using Include="System.UInt32" Alias="UINT" />
+    <Using Include="System.UInt32" Alias="UINT32" />
+    <Using Include="System.IntPtr" Alias="HWND" />
+    <Using Include="System.IntPtr" Alias="HANDLE" />
+    <Using Include="System.Int64" Alias="HRESULT" />
+    <Using Include="System.Int32" Alias="BOOL" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Required for DeterministicSourcePaths -->
     <SourceRoot Include="$(MSBuildThisFileDirectory)/"/>
   </ItemGroup>

@@ -13,4 +13,9 @@
     <ProjectReference Include="..\D2DWinForm\D2DWinForm.csproj" IncludeAssets="contentFiles" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="System.Drawing" />
+    <Using Include="System.Windows.Forms" />
+  </ItemGroup>
+
 </Project>

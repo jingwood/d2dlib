@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <Import Project="..\NativeLibraries.props" />
-  
+
   <!-- Build properties -->
   <PropertyGroup>
     <TargetFrameworks>net462;netcoreapp3.1</TargetFrameworks>
@@ -25,6 +25,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\D2DLibExport\D2DLibExport.csproj" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System.Drawing" />
+    <Using Include="System.Windows.Forms" />
   </ItemGroup>
 
   <ItemGroup>
