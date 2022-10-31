@@ -31,7 +31,7 @@ namespace unvell.D2DLib
 		{
 		}
 
-		public D2DBitmap GetBitmap()
+		public D2DBitmap? GetBitmap()
 		{
 			HANDLE bitmapHandle = D2D.GetBitmapRenderTargetBitmap(this.Handle);
 			return bitmapHandle == HANDLE.Zero ? null : new D2DBitmap(bitmapHandle);

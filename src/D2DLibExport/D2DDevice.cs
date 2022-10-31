@@ -46,7 +46,7 @@ namespace unvell.D2DLib
 			if (Handle != HANDLE.Zero) D2D.ResizeContext(this.Handle);
 		}
 
-		public D2DStrokeStyle CreateStrokeStyle(float[] dashes = null, float dashOffset = 0.0f,
+		public D2DStrokeStyle? CreateStrokeStyle(float[]? dashes = null, float dashOffset = 0.0f,
 			D2DCapStyle startCap = D2DCapStyle.Flat, D2DCapStyle endCap = D2DCapStyle.Flat)
 		{
 			HANDLE handle = D2D.CreateStrokeStyle(this.Handle, dashes, dashes != null ? (uint)dashes.Length : 0, dashOffset, startCap, endCap);
@@ -54,8 +54,8 @@ namespace unvell.D2DLib
 			return handle == HANDLE.Zero ? null : new D2DStrokeStyle(this, handle, dashes, dashOffset, startCap, endCap);
 		}
 
-		public D2DPen CreatePen(D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid,
-			float[] customDashes = null, float dashOffset = 0.0f)
+		public D2DPen? CreatePen(D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid,
+			float[]? customDashes = null, float dashOffset = 0.0f)
 		{
 			HANDLE handle = D2D.CreatePen(this.Handle, color, dashStyle,
 			customDashes, customDashes != null ? (uint)customDashes.Length : 0, dashOffset);
@@ -69,7 +69,7 @@ namespace unvell.D2DLib
 			D2D.DestroyPen(pen.Handle);
 		}
 
-		public D2DSolidColorBrush CreateSolidColorBrush(D2DColor color)
+		public D2DSolidColorBrush? CreateSolidColorBrush(D2DColor color)
 		{
 			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
 			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
@@ -143,29 +143,29 @@ namespace unvell.D2DLib
 			return path;
 		}
 
-		public D2DBitmap LoadBitmap(byte[] buffer)
+		public D2DBitmap? LoadBitmap(byte[] buffer)
 		{
 			return this.LoadBitmap(buffer, 0, (uint)buffer.Length);
 		}
 
-		public D2DBitmap LoadBitmap(byte[] buffer, UINT offset, UINT length)
+		public D2DBitmap? LoadBitmap(byte[] buffer, UINT offset, UINT length)
 		{
 			var bitmapHandle = D2D.CreateBitmapFromBytes(this.Handle, buffer, offset, length);
 			return (bitmapHandle != HWND.Zero) ? new D2DBitmap(bitmapHandle) : null;
 		}
 
-		public D2DBitmap LoadBitmap(string filepath)
+		public D2DBitmap? LoadBitmap(string filepath)
 		{
 			return CreateBitmapFromFile(filepath);
 		}
 
-		public D2DBitmap CreateBitmapFromFile(string filepath)
+		public D2DBitmap? CreateBitmapFromFile(string filepath)
 		{
 			var bitmapHandle = D2D.CreateBitmapFromFile(this.Handle, filepath);
 			return (bitmapHandle != HWND.Zero) ? new D2DBitmap(bitmapHandle) : null;
 		}
 
-		public D2DBitmap CreateBitmapFromMemory(UINT width, UINT height, UINT stride, IntPtr buffer, UINT offset, UINT length)
+		public D2DBitmap? CreateBitmapFromMemory(UINT width, UINT height, UINT stride, IntPtr buffer, UINT offset, UINT length)
 		{
 			HANDLE d2dbmp = D2D.CreateBitmapFromMemory(this.Handle, width, height, stride, buffer, offset, length);
 			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
@@ -179,13 +179,13 @@ namespace unvell.D2DLib
 		[DllImport("gdi32.dll")]
 		public static extern bool DeleteObject(IntPtr obj);
 
-		public D2DBitmap CreateBitmapFromHBitmap(HWND hbmp, bool useAlphaChannel)
+		public D2DBitmap? CreateBitmapFromHBitmap(HWND hbmp, bool useAlphaChannel)
 		{
 			HANDLE d2dbmp = D2D.CreateBitmapFromHBitmap(this.Handle, hbmp, useAlphaChannel);
 			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
 		}
 
-		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp)
+		public D2DBitmap? CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp)
 		{
 			bool useAlphaChannel =
 				(bmp.PixelFormat & System.Drawing.Imaging.PixelFormat.Alpha) == System.Drawing.Imaging.PixelFormat.Alpha;
@@ -193,7 +193,7 @@ namespace unvell.D2DLib
 			return this.CreateBitmapFromGDIBitmap(bmp, useAlphaChannel);
 		}
 
-		public D2DBitmap CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp, bool useAlphaChannel)
+		public D2DBitmap? CreateBitmapFromGDIBitmap(System.Drawing.Bitmap bmp, bool useAlphaChannel)
 		{
 			HANDLE d2dbmp = HANDLE.Zero;
 			HANDLE hbitmap = bmp.GetHbitmap();
@@ -207,17 +207,17 @@ namespace unvell.D2DLib
 			return d2dbmp == HANDLE.Zero ? null : new D2DBitmap(d2dbmp);
 		}
 
-		public D2DBitmapGraphics CreateBitmapGraphics()
+		public D2DBitmapGraphics? CreateBitmapGraphics()
 		{
 			return CreateBitmapGraphics(D2DSize.Empty);
 		}
 
-		public D2DBitmapGraphics CreateBitmapGraphics(float width, float height)
+		public D2DBitmapGraphics? CreateBitmapGraphics(float width, float height)
 		{
 			return CreateBitmapGraphics(new D2DSize(width, height));
 		}
 
-		public D2DBitmapGraphics CreateBitmapGraphics(D2DSize size)
+		public D2DBitmapGraphics? CreateBitmapGraphics(D2DSize size)
 		{
 			HANDLE bitmapRenderTargetHandle = D2D.CreateBitmapRenderTarget(this.Handle, size);
 			return bitmapRenderTargetHandle == HANDLE.Zero ? null

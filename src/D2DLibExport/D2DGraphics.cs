@@ -30,7 +30,7 @@ namespace unvell.D2DLib
 	{
 		internal HANDLE Handle { get; }
 
-		public D2DDevice Device { get; }
+		public D2DDevice? Device { get; }
 
 		public D2DGraphics(D2DDevice context)
 			: this(context.Handle)
@@ -222,7 +222,7 @@ namespace unvell.D2DLib
 			D2D.PopClip(this.Handle);
 		}
 
-		public D2DLayer PushLayer(D2DGeometry geometry = null)
+		public D2DLayer PushLayer(D2DGeometry? geometry = null)
 		{
 			// FIXME: resolve to not use magic number
 			D2DRect rectBounds = new D2DRect(-999999, -999999, 999999999, 999999999);
@@ -230,13 +230,14 @@ namespace unvell.D2DLib
 			return PushLayer(rectBounds, geometry);
 		}
 
-		public D2DLayer PushLayer(D2DRect rectBounds, D2DGeometry geometry = null)
+		public D2DLayer PushLayer(D2DRect rectBounds, D2DGeometry? geometry = null)
 		{
+			Assumes.NotNull(this.Device);
 			var layer = this.Device.CreateLayer();
 			return PushLayer(layer, rectBounds, geometry);
 		}
 
-		public D2DLayer PushLayer(D2DLayer layer, D2DRect rectBounds, D2DGeometry geometry = null, D2DBrush opacityBrush = null)
+		public D2DLayer PushLayer(D2DLayer layer, D2DRect rectBounds, D2DGeometry? geometry = null, D2DBrush? opacityBrush = null)
 		{
 			D2D.PushLayer(this.Handle, layer.Handle, rectBounds, geometry != null ? geometry.Handle : IntPtr.Zero, opacityBrush != null ? opacityBrush.Handle : IntPtr.Zero);
 			return layer;
@@ -464,11 +465,13 @@ namespace unvell.D2DLib
 
 		public void GetDPI(out float dpiX, out float dpiY)
 		{
+			Assumes.NotNull(this.Device);
 			D2D.GetDPI(this.Device.Handle, out dpiX, out dpiY);
 		}
 
 		public void SetDPI(float dpiX, float dpiY)
 		{
+			Assumes.NotNull(this.Device);
 			D2D.SetDPI(this.Device.Handle, dpiX, dpiY);
 		}
 	}

@@ -32,12 +32,12 @@ namespace unvell.D2DLib
 
 		public D2DDashStyle DashStyle { get; private set; }
 
-		public float[] CustomDashes { get; private set; }
+		public float[]? CustomDashes { get; private set; }
 
 		public float DashOffset { get; private set; }
 
 		internal D2DPen(D2DDevice Device, HANDLE handle, D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid,
-			float[] customDashes = null, float dashOffset = 0f)
+			float[]? customDashes = null, float dashOffset = 0f)
 			: base(handle)
 		{
 			this.Device = Device;

@@ -26,7 +26,7 @@ namespace unvell.D2DLib.WinForm
 {
 	public class D2DControl : System.Windows.Forms.Control
 	{
-		private D2DDevice device;
+		private D2DDevice? device;
 
 		public D2DDevice Device
 		{
@@ -41,7 +41,7 @@ namespace unvell.D2DLib.WinForm
 			}
 		}
 
-		private D2DGraphics graphics;
+		private D2DGraphics? graphics;
 
 		private int currentFps = 0;
 		private int lastFps = 0;
@@ -62,9 +62,9 @@ namespace unvell.D2DLib.WinForm
 			this.graphics = new D2DGraphics(this.device);
 		}
 
-		private D2DBitmap backgroundImage = null;
+		private D2DBitmap? backgroundImage = null;
 
-		public new D2DBitmap BackgroundImage
+		public new D2DBitmap? BackgroundImage
 		{
 			get { return this.backgroundImage; }
 			set
@@ -85,6 +85,8 @@ namespace unvell.D2DLib.WinForm
 
 		protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
 		{
+			Assumes.NotNull(this.graphics);
+
 			if (this.backgroundImage != null)
 			{
 				this.graphics.BeginRender(this.backgroundImage);
@@ -120,7 +122,7 @@ namespace unvell.D2DLib.WinForm
 		protected override void DestroyHandle()
 		{
 			base.DestroyHandle();
-			this.device.Dispose();
+			this.device?.Dispose();
 		}
 
 		protected virtual void OnRender(D2DGraphics g) { }

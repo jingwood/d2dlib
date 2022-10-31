@@ -24,6 +24,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\D2DLibExport\Assumes.cs" Link="Assumes.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\D2DLibExport\D2DLibExport.csproj" PrivateAssets="all" />
   </ItemGroup>
 

@@ -28,7 +28,7 @@ namespace unvell.D2DLib
 	{
 		public D2DDevice Device { get; }
 
-		public float[] Dashes { get; }
+		public float[]? Dashes { get; }
 
 		public float DashOffset { get; }
 
@@ -36,7 +36,7 @@ namespace unvell.D2DLib
 
 		public D2DCapStyle EndCap { get; } = D2DCapStyle.Flat;
 
-		internal D2DStrokeStyle(D2DDevice Device, HANDLE handle, float[] dashes, float dashOffset, D2DCapStyle startCap, D2DCapStyle endCap)
+		internal D2DStrokeStyle(D2DDevice Device, HANDLE handle, float[]? dashes, float dashOffset, D2DCapStyle startCap, D2DCapStyle endCap)
 			: base(handle)
 		{
 			this.Device = Device;
