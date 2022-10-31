@@ -29,7 +29,7 @@ namespace unvell.D2DLib.Examples.Demos
 	{
 		public TransparentMemoryBitmapDraw()
 		{
-			Text = "Transparenct Images Draw - d2dlib Examples";
+			Text = "Transparent Images Draw - d2dlib Examples";
 			WindowState = FormWindowState.Maximized;
 
 			AnimationDraw = true;
