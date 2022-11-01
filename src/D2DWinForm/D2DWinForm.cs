@@ -22,14 +22,13 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace unvell.D2DLib.WinForm
 {
 	public class D2DForm : Form
 	{
-		private D2DDevice device;
+		private D2DDevice? device;
 		public D2DDevice Device
 		{
 			get
@@ -43,9 +42,9 @@ namespace unvell.D2DLib.WinForm
 			}
 		}
 
-		private D2DBitmap backgroundImage = null;
+		private D2DBitmap? backgroundImage = null;
 
-		public new D2DBitmap BackgroundImage
+		public new D2DBitmap? BackgroundImage
 		{
 			get { return this.backgroundImage; }
 			set
@@ -62,7 +61,7 @@ namespace unvell.D2DLib.WinForm
 			}
 		}
 
-		private D2DGraphics graphics;
+		private D2DGraphics? graphics;
 
 		private int currentFps = 0;
 		private int lastFps = 0;
@@ -132,6 +131,8 @@ namespace unvell.D2DLib.WinForm
 			}
 			else
 			{
+				Assumes.NotNull(this.graphics);
+
 				if (this.backgroundImage != null)
 				{
 					this.graphics.BeginRender(this.backgroundImage);

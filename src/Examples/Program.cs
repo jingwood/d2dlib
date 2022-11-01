@@ -22,10 +22,6 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-
 namespace unvell.D2DLib.Examples
 {
 	static class Program

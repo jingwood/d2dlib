@@ -22,10 +22,6 @@
  * SOFTWARE.
  */
 
-using System;
-using System.Windows.Forms;
-using unvell.D2DLib.WinForm;
-
 namespace unvell.D2DLib.Examples.Demos
 {
 	class ImageTest : DemoForm

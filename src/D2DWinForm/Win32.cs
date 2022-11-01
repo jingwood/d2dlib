@@ -42,12 +42,8 @@
 // Disable variable not used warning
 #pragma warning disable 0649
 
-using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace unvell.D2DLib.WinForm
 {
@@ -1179,7 +1175,7 @@ namespace unvell.D2DLib.WinForm
 			public byte lfQuality = 0;
 			public byte lfPitchAndFamily = 0;
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x20)]
-			public string lfFaceName;
+			public string? lfFaceName;
 		}
 
 		[DllImport("gdi32.dll")]

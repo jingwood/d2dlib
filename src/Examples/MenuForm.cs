@@ -22,14 +22,6 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
 namespace unvell.D2DLib.Examples
 {
 	public partial class MenuForm : Form

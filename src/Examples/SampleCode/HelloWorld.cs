@@ -22,12 +22,6 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using unvell.D2DLib.WinForm;
-
 namespace unvell.D2DLib.Examples.SampleCode
 {
 	public partial class HelloWorld : ExampleForm

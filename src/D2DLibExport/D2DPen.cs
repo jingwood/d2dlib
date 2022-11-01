@@ -22,19 +22,6 @@
  * SOFTWARE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
-using FLOAT = System.Single;
-using UINT = System.UInt32;
-using UINT32 = System.UInt32;
-using HWND = System.IntPtr;
-using HANDLE = System.IntPtr;
-using HRESULT = System.Int64;
-using BOOL = System.Int32;
-
 namespace unvell.D2DLib
 {
 	public class D2DPen : D2DObject
@@ -45,12 +32,12 @@ namespace unvell.D2DLib
 
 		public D2DDashStyle DashStyle { get; private set; }
 
-		public float[] CustomDashes { get; private set; }
+		public float[]? CustomDashes { get; private set; }
 
 		public float DashOffset { get; private set; }
 
 		internal D2DPen(D2DDevice Device, HANDLE handle, D2DColor color, D2DDashStyle dashStyle = D2DDashStyle.Solid,
-			float[] customDashes = null, float dashOffset = 0f)
+			float[]? customDashes = null, float dashOffset = 0f)
 			: base(handle)
 		{
 			this.Device = Device;

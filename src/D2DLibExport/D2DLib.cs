@@ -22,20 +22,7 @@
  * SOFTWARE.
  */
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
-
-using FLOAT = System.Single;
-using UINT = System.UInt32;
-using UINT32 = System.UInt32;
-using HWND = System.IntPtr;
-using HANDLE = System.IntPtr;
-using HRESULT = System.Int64;
-using BOOL = System.Int32;
-using System.Drawing.Drawing2D;
-using System.Drawing;
 
 namespace unvell.D2DLib
 {
@@ -306,14 +293,14 @@ namespace unvell.D2DLib
 
 		#region Style
 		[DllImport(DLL_NAME, EntryPoint = "CreateStrokeStyle", CallingConvention = CallingConvention.Cdecl)]
-		public static extern HANDLE CreateStrokeStyle(HANDLE ctx, FLOAT[] dashes = null, UINT dashCount = 0, FLOAT dashOffset = 0.0f,
+		public static extern HANDLE CreateStrokeStyle(HANDLE ctx, FLOAT[]? dashes = null, UINT dashCount = 0, FLOAT dashOffset = 0.0f,
 				D2DCapStyle startCap = D2DCapStyle.Flat, D2DCapStyle endCap = D2DCapStyle.Flat);
 		#endregion Style
 
 		#region Pen
 		[DllImport(DLL_NAME, EntryPoint = "CreatePenStroke", CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreatePen(HANDLE ctx, D2DColor strokeColor, D2DDashStyle dashStyle = D2DDashStyle.Solid,
-	FLOAT[] dashes = null, UINT dashCount = 0, FLOAT dashOffset = 0.0f);
+	FLOAT[]? dashes = null, UINT dashCount = 0, FLOAT dashOffset = 0.0f);
 
 		[DllImport(DLL_NAME, EntryPoint = "DestroyPenStroke", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyPen(HANDLE pen);

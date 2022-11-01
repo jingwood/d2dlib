@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <Platforms>x86;x64</Platforms>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,6 +13,26 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Nullable" Version="1.3.1" Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'netstandard2.0'">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.IO" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Threading" />
+    <Using Include="System.Threading.Tasks" />
+    <Using Include="System.Single" Alias="FLOAT" />
+    <Using Include="System.UInt32" Alias="UINT" />
+    <Using Include="System.UInt32" Alias="UINT32" />
+    <Using Include="System.IntPtr" Alias="HWND" />
+    <Using Include="System.IntPtr" Alias="HANDLE" />
+    <Using Include="System.Int64" Alias="HRESULT" />
+    <Using Include="System.Int32" Alias="BOOL" />
   </ItemGroup>
 
   <ItemGroup>

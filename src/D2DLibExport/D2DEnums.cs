@@ -22,10 +22,6 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace unvell.D2DLib
 {
 	enum D2DDebugLevel
