@@ -148,7 +148,21 @@ namespace unvell.D2DLib
 			D2DFontStyle fontStyle = D2DFontStyle.Normal, 
 			D2DFontStretch fontStretch = D2DFontStretch.Normal)
 		{
-			var pathHandler = D2D.CreateTextPathGeometry(this.Handle, text, fontName, fontSize, fontWeight, fontStyle, fontStretch);
+			var fontFace = D2D.CreateFontFace(this.Handle, fontName, fontWeight, fontStyle, fontStretch);
+			if (fontFace == IntPtr.Zero)
+			{
+				throw new CreateFontFaceFailedException(fontName);
+			}
+
+			var pathHandler = D2D.CreateTextPathGeometry(this.Handle, text, fontFace, fontSize);
+
+			D2D.DestroyFontFace(fontFace);
+
+			if (pathHandler == IntPtr.Zero)
+			{
+				throw new CreatePathGeometryFailedException();
+			}
+
 			return new D2DPathGeometry(this, pathHandler);
 		}
 
