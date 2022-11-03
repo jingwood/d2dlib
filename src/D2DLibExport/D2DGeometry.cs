@@ -26,12 +26,12 @@ namespace unvell.D2DLib
 {
   public class D2DGeometry : D2DObject
   {
-    internal HANDLE DeviceHandle { get; private set; }
+    internal D2DDevice Device { get; private set; }
 
-    internal D2DGeometry(HANDLE deviceHandle, HANDLE geoHandle)
+    internal D2DGeometry(D2DDevice device, HANDLE geoHandle)
       : base(geoHandle)
     {
-      this.DeviceHandle = deviceHandle;
+      this.Device = device;
     }
 
     // FIXME: TO be implemented

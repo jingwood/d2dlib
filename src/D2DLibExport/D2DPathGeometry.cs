@@ -26,8 +26,8 @@ namespace unvell.D2DLib
 {
 	public class D2DPathGeometry : D2DGeometry
 	{
-		internal D2DPathGeometry(HANDLE deviceHandle, HANDLE pathHandle)
-			: base(deviceHandle, pathHandle)
+		internal D2DPathGeometry(D2DDevice device, HANDLE pathHandle)
+			: base(device, pathHandle)
 		{
 		}
 
