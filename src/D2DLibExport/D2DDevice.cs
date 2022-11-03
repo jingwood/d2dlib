@@ -143,6 +143,15 @@ namespace unvell.D2DLib
 			return path;
 		}
 
+		public D2DPathGeometry CreateTextPathGeometry(string text, string fontName, float fontSize,
+			D2DFontWeight fontWeight = D2DFontWeight.Normal, 
+			D2DFontStyle fontStyle = D2DFontStyle.Normal, 
+			D2DFontStretch fontStretch = D2DFontStretch.Normal)
+		{
+			var pathHandler = D2D.CreateTextPathGeometry(this.Handle, text, fontName, fontSize, fontWeight, fontStyle, fontStretch);
+			return new D2DPathGeometry(this, pathHandler);
+		}
+
 		public D2DBitmap? LoadBitmap(byte[] buffer)
 		{
 			return this.LoadBitmap(buffer, 0, (uint)buffer.Length);

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * MIT License
  *
  * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
@@ -96,6 +96,81 @@ D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, F
 
 	return NULL;
 }
+
+D2DLIB_API HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, 
+	DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, DWRITE_FONT_STRETCH fontStretch) {
+
+	RetrieveContext(ctx);
+
+	int textLength = wcslen(text);
+
+	UINT* codePoints = new UINT[textLength];
+	UINT16* glyphIndices = new UINT16[textLength];
+	ZeroMemory(codePoints, sizeof(UINT) * textLength);
+	ZeroMemory(glyphIndices, sizeof(UINT16) * textLength);
+
+	DWRITE_GLYPH_OFFSET* offsets = new DWRITE_GLYPH_OFFSET[textLength];
+
+	for (int i = 0; i < textLength; i++)
+	{
+		codePoints[i] = text[i];
+		offsets[i].advanceOffset = i * 20;
+		offsets[i].ascenderOffset = i * 20;
+	}
+	
+	IDWriteFontCollection* coll;
+	context->writeFactory->GetSystemFontCollection(&coll);
+
+	UINT32 fontIndex;
+	BOOL fontIndexFound;
+	coll->FindFamilyName(fontName, &fontIndex, &fontIndexFound);
+
+	IDWriteFontFamily* fontFamily;
+	coll->GetFontFamily(fontIndex, &fontFamily);
+
+	IDWriteFont* font;
+	fontFamily->GetFirstMatchingFont(fontWeight, fontStretch, fontStyle, &font);
+	IDWriteFontFace* fontFace;
+	font->CreateFontFace(&fontFace);
+
+	fontFace->GetGlyphIndicesW(codePoints, textLength, glyphIndices);
+
+
+
+	ID2D1PathGeometry* pathGeometry = NULL;
+	ID2D1GeometrySink* sink = NULL;
+
+	//Create the path geometry
+	context->factory->CreatePathGeometry(&pathGeometry);
+
+	pathGeometry->Open((ID2D1GeometrySink**)&sink);
+
+	fontFace->GetGlyphRunOutline(fontSize * 96.0 / 72.0, glyphIndices, NULL, NULL,
+		textLength, FALSE, FALSE, sink);
+
+	//sink->SetFillMode(D2D1_FILL_MODE_WINDING);
+
+	sink->Close();
+
+	D2DPathContext* pathContext = new D2DPathContext();
+	
+	pathContext->path = pathGeometry;
+	pathContext->geometry = pathContext->path;
+	pathContext->d2context = context;
+
+	SafeRelease(&fontFace);
+	SafeRelease(&font);
+	SafeRelease(&fontFamily);
+	SafeRelease(&coll);
+	
+	delete[] codePoints;
+	codePoints = NULL;
+	delete[] glyphIndices;
+	glyphIndices = NULL;
+
+	return (HANDLE)pathContext;
+}
+
 
 D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size,
 	DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, DWRITE_FONT_STRETCH fontStretch) {

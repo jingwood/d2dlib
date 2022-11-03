@@ -201,6 +201,14 @@ namespace unvell.D2DLib
 			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading,
 			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
 
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextPathGeometry", CharSet = CharSet.Unicode,
+			CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateTextPathGeometry([In] HANDLE context, [In] string text,
+			[In] string fontName, [In] FLOAT fontSize, 
+			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal,
+			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal,
+			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal);
+
 		#endregion // Text
 
 		#region Geometry
