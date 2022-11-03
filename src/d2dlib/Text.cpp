@@ -25,6 +25,8 @@
 #include "stdafx.h"
 #include "Text.h"
 
+#define NIF(expr) if (!SUCCESSED(HR)) return NULL
+
 D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 	LPCWSTR fontName, FLOAT fontSize, D2D1_RECT_F rect,
 	DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle,
@@ -36,12 +38,8 @@ D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 	ID2D1SolidColorBrush* brush = NULL;
 	IDWriteTextFormat* textFormat = NULL;
 
-	HRESULT hr = context->writeFactory->CreateTextFormat(fontName,
-		NULL,
-		fontWeight, fontStyle, fontStretch,
-		fontSize,
-		L"", //locale
-		&textFormat);
+	HRESULT hr = context->writeFactory->CreateTextFormat(fontName, NULL, 
+		fontWeight, fontStyle, fontStretch, fontSize, L"", &textFormat);
 
 	if (SUCCEEDED(hr) && textFormat != NULL)
 	{
@@ -97,10 +95,75 @@ D2DLIB_API HANDLE CreateTextLayout(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, F
 	return NULL;
 }
 
-D2DLIB_API HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, 
+D2DLIB_API HANDLE CreateFontFace(HANDLE ctx, LPCWSTR fontName,
 	DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, DWRITE_FONT_STRETCH fontStretch) {
 
 	RetrieveContext(ctx);
+	HRESULT hr = NULL;
+	D2DFontFace* d2dFontFace = NULL;
+
+	IDWriteFontCollection* coll;
+	hr = context->writeFactory->GetSystemFontCollection(&coll);
+
+	if (SUCCEEDED(hr))
+	{
+		UINT32 fontIndex;
+		BOOL fontIndexFound;
+		coll->FindFamilyName(fontName, &fontIndex, &fontIndexFound);
+
+		if (fontIndexFound) {
+
+			IDWriteFontFamily* fontFamily;
+			hr = coll->GetFontFamily(fontIndex, &fontFamily);
+
+			if (SUCCEEDED(hr))
+			{
+				IDWriteFont* font;
+				hr = fontFamily->GetFirstMatchingFont(fontWeight, fontStretch, fontStyle, &font);
+
+				if (SUCCEEDED(hr)) {
+					IDWriteFontFace* fontFace;
+					hr = font->CreateFontFace(&fontFace);
+
+					if (SUCCEEDED(hr)) {
+						d2dFontFace = new D2DFontFace();
+						d2dFontFace->font = font;
+						d2dFontFace->fontFace = fontFace;
+					}
+				}
+
+				SafeRelease(&fontFamily);
+			}
+		}
+	}
+
+	SafeRelease(&coll);
+
+	return d2dFontFace;
+}
+
+void DestroyFontFace(HANDLE fontFaceHandle) {
+	D2DFontFace* fontFace = reinterpret_cast<D2DFontFace*>(fontFaceHandle);
+
+	if (fontFace != NULL) {
+		SafeRelease(&fontFace->font);
+		SafeRelease(&fontFace->fontFace);
+		delete fontFace;
+	}
+}
+
+HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, FLOAT fontSize) {
+
+	RetrieveContext(ctx);
+	D2DFontFace* fontFaceWrap = reinterpret_cast<D2DFontFace*>(fontFaceHandle);
+
+	if (fontFaceWrap == NULL) {
+		return NULL;
+	}
+
+	HRESULT hr = NULL;
+	D2DPathContext* pathContext = NULL;
+	IDWriteFontFace* fontFace = fontFaceWrap->fontFace;
 
 	int textLength = wcslen(text);
 
@@ -118,55 +181,48 @@ D2DLIB_API HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, LPCWSTR fontN
 		offsets[i].ascenderOffset = i * 20;
 	}
 	
-	IDWriteFontCollection* coll;
-	context->writeFactory->GetSystemFontCollection(&coll);
+	hr = fontFace->GetGlyphIndicesW(codePoints, textLength, glyphIndices);
 
-	UINT32 fontIndex;
-	BOOL fontIndexFound;
-	coll->FindFamilyName(fontName, &fontIndex, &fontIndexFound);
+	if (SUCCEEDED(hr)) {
 
-	IDWriteFontFamily* fontFamily;
-	coll->GetFontFamily(fontIndex, &fontFamily);
+		ID2D1PathGeometry* path = NULL;
+		ID2D1GeometrySink* sink = NULL;
 
-	IDWriteFont* font;
-	fontFamily->GetFirstMatchingFont(fontWeight, fontStretch, fontStyle, &font);
-	IDWriteFontFace* fontFace;
-	font->CreateFontFace(&fontFace);
+		hr = context->factory->CreatePathGeometry(&path);
+		if (SUCCEEDED(hr)) {
 
-	fontFace->GetGlyphIndicesW(codePoints, textLength, glyphIndices);
+			hr = path->Open(&sink);
+			if (SUCCEEDED(hr)) {
 
+				hr = fontFace->GetGlyphRunOutline(fontSize * 96.0 / 72.0, glyphIndices,
+					NULL, NULL, textLength, FALSE, FALSE, sink);
 
+				//sink->SetFillMode(D2D1_FILL_MODE_WINDING);
 
-	ID2D1PathGeometry* pathGeometry = NULL;
-	ID2D1GeometrySink* sink = NULL;
+				sink->Close();
+				SafeRelease(&sink);
 
-	//Create the path geometry
-	context->factory->CreatePathGeometry(&pathGeometry);
+				if (SUCCEEDED(hr)) {
+					pathContext = new D2DPathContext();
 
-	pathGeometry->Open((ID2D1GeometrySink**)&sink);
+					pathContext->path = path;
+					pathContext->geometry = pathContext->path;
+					pathContext->d2context = context;
+				}
+			}
 
-	fontFace->GetGlyphRunOutline(fontSize * 96.0 / 72.0, glyphIndices, NULL, NULL,
-		textLength, FALSE, FALSE, sink);
-
-	//sink->SetFillMode(D2D1_FILL_MODE_WINDING);
-
-	sink->Close();
-
-	D2DPathContext* pathContext = new D2DPathContext();
-	
-	pathContext->path = pathGeometry;
-	pathContext->geometry = pathContext->path;
-	pathContext->d2context = context;
-
-	SafeRelease(&fontFace);
-	SafeRelease(&font);
-	SafeRelease(&fontFamily);
-	SafeRelease(&coll);
+			if (pathContext == NULL) {
+				SafeRelease(&path);
+			}
+		}
+	}
 	
 	delete[] codePoints;
 	codePoints = NULL;
 	delete[] glyphIndices;
 	glyphIndices = NULL;
+
+	
 
 	return (HANDLE)pathContext;
 }

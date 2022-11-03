@@ -26,6 +26,17 @@
 
 #include "Context.h"
 
+typedef struct D2DFontFace {
+	//WCHAR fontName[128];
+	//FLOAT fontSize;
+	//DWRITE_FONT_WEIGHT fontWeight;
+	//DWRITE_FONT_STYLE fontStyle;
+	//DWRITE_FONT_STRETCH fontStretch;
+	//IDWriteFontFamily* fontFamily;
+	IDWriteFont* font;
+	IDWriteFontFace* fontFace;
+};
+
 extern "C" 
 {
 	D2DLIB_API void DrawString(HANDLE handle, LPCWSTR text, D2D1_COLOR_F color,
@@ -53,8 +64,12 @@ extern "C"
 			const DWRITE_GLYPH_RUN *glyphRun, D2D1_COLOR_F color,
 			DWRITE_MEASURING_MODE measuringMode = DWRITE_MEASURING_MODE_NATURAL);
 
-	D2DLIB_API HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize,
+	D2DLIB_API HANDLE CreateFontFace(HANDLE ctx, LPCWSTR fontName,
 		DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL);
+
+	D2DLIB_API void DestroyFontFace(HANDLE fontFaceHandle);
+
+	D2DLIB_API HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, FLOAT fontSize);
 }
