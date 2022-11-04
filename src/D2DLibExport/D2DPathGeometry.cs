@@ -26,15 +26,15 @@ namespace unvell.D2DLib
 {
 	public class D2DPathGeometry : D2DGeometry
 	{
-		internal D2DPathGeometry(HANDLE deviceHandle, HANDLE pathHandle)
-			: base(deviceHandle, pathHandle)
+		internal D2DPathGeometry(D2DDevice device, HANDLE pathHandle)
+			: base(device, pathHandle)
 		{
 		}
 
-    public void SetStartPoint(FLOAT x, FLOAT y)
-    {
-      this.SetStartPoint(new D2DPoint(x, y));
-    }
+		public void SetStartPoint(FLOAT x, FLOAT y)
+		{
+			this.SetStartPoint(new D2DPoint(x, y));
+		}
 
 		public void SetStartPoint(D2DPoint startPoint)
 		{
@@ -51,15 +51,15 @@ namespace unvell.D2DLib
 			D2D.AddPathBeziers(this.Handle, bezierSegments);
 		}
 
-    // TODO: unnecessary API and it doesn't work very well, consider to remove
-    //public void AddEllipse(D2DEllipse ellipse)
-    //{
-    //	D2D.AddPathEllipse(this.Handle, ref ellipse);
-    //}
+		// TODO: unnecessary API and it doesn't work very well, consider to remove
+		//public void AddEllipse(D2DEllipse ellipse)
+		//{
+		//	D2D.AddPathEllipse(this.Handle, ref ellipse);
+		//}
 
-    public void AddArc(D2DPoint endPoint, D2DSize size, FLOAT sweepAngle,
-			D2DArcSize arcSize = D2DArcSize.Small,
-			D2DSweepDirection sweepDirection = D2DSweepDirection.Clockwise)
+		public void AddArc(D2DPoint endPoint, D2DSize size, FLOAT sweepAngle,
+				D2DArcSize arcSize = D2DArcSize.Small,
+				D2DSweepDirection sweepDirection = D2DSweepDirection.Clockwise)
 		{
 			D2D.AddPathArc(this.Handle, endPoint, size, sweepAngle, arcSize, sweepDirection);
 		}
@@ -81,8 +81,8 @@ namespace unvell.D2DLib
 
 		public override void Dispose()
 		{
-      if (this.Handle != IntPtr.Zero) D2D.DestroyPathGeometry(this.Handle);
-      this.handle = IntPtr.Zero;
+			if (this.Handle != IntPtr.Zero) D2D.DestroyPathGeometry(this.Handle);
+			this.handle = IntPtr.Zero;
 		}
 	}
 }

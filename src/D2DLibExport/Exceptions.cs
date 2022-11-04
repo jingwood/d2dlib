@@ -1,18 +1,18 @@
 ﻿/*
  * MIT License
- * 
- * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
- * 
+ *
+ * Copyright (c) 2009-2022 Jingwood, unvell.com. All right reserved.
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,19 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 namespace unvell.D2DLib
 {
-	public class D2DPieGeometry : D2DGeometry
+	public class CreateFontFaceFailedException : Exception
 	{
-		internal D2DPieGeometry(D2DDevice device, HANDLE pathHandle)
-			: base(device, pathHandle)
+		public CreateFontFaceFailedException(string fontName) :
+			base("Create font face failed by specified font name: " + fontName)
 		{
 		}
+	}
 
-    public override void Dispose()
+	public class CreatePathGeometryFailedException : Exception
+	{
+		public CreatePathGeometryFailedException()
 		{
-			D2D.DestroyPathGeometry(this.Handle);
 		}
 	}
 }

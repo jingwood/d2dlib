@@ -435,6 +435,38 @@ namespace unvell.D2DLib
 				fontWeight, fontStyle, fontStretch, halign, valign);
 		}
 
+		public void DrawStrokedText(string text, D2DPoint location,
+			D2DColor strokeColor, float strokeWidth,
+			D2DColor fillColor,
+			string fontName, float fontSize,
+			D2DFontWeight fontWeight = D2DFontWeight.Normal,
+			D2DFontStyle fontStyle = D2DFontStyle.Normal,
+			D2DFontStretch fontStretch = D2DFontStretch.Normal)
+		{
+			this.DrawStrokedText(text, location.x, location.y, strokeColor, strokeWidth, fillColor,
+				fontName, fontSize, fontWeight, fontStyle, fontStretch);
+		}
+		
+		public void DrawStrokedText(string text, float x, float y,
+			D2DColor strokeColor, float strokeWidth,
+			D2DColor fillColor,
+			string fontName, float fontSize,
+			D2DFontWeight fontWeight = D2DFontWeight.Normal,
+			D2DFontStyle fontStyle = D2DFontStyle.Normal,
+			D2DFontStretch fontStretch = D2DFontStretch.Normal)
+		{
+			using (var textPath = this.Device.CreateTextPathGeometry(text, fontName, fontSize,
+				fontWeight, fontStyle, fontStretch))
+			{
+				this.TranslateTransform(x, y);
+
+				this.FillPath(textPath, fillColor);
+				this.DrawPath(textPath, strokeColor, strokeWidth);
+		
+				this.TranslateTransform(-x, -y);
+			}
+		}
+		
 		public D2DSize MeasureText(string text, string fontName, float fontSize, D2DSize placeSize)
 		{
 			D2DSize outputSize = placeSize;

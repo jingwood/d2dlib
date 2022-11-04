@@ -101,19 +101,19 @@ namespace unvell.D2DLib
 		public D2DRectangleGeometry CreateRectangleGeometry(D2DRect rect)
 		{
 			HANDLE rectGeometryHandle = D2D.CreateRectangleGeometry(this.Handle, ref rect);
-			return new D2DRectangleGeometry(this.Handle, rectGeometryHandle);
+			return new D2DRectangleGeometry(this, rectGeometryHandle);
 		}
 
 		public D2DPathGeometry CreatePathGeometry()
 		{
 			HANDLE geoHandle = D2D.CreatePathGeometry(this.Handle);
-			return new D2DPathGeometry(this.Handle, geoHandle);
+			return new D2DPathGeometry(this, geoHandle);
 		}
 
 		public D2DGeometry CreateEllipseGeometry(D2DPoint origin, D2DSize size)
 		{
 			var ellipse = new D2DEllipse(origin, size);
-			return new D2DGeometry(this.Handle, D2D.CreateEllipseGeometry(this.Handle, ref ellipse));
+			return new D2DGeometry(this, D2D.CreateEllipseGeometry(this.Handle, ref ellipse));
 		}
 
 		public D2DGeometry CreatePieGeometry(D2DPoint origin, D2DSize size, float startAngle, float endAngle)
@@ -141,6 +141,29 @@ namespace unvell.D2DLib
 			path.ClosePath();
 
 			return path;
+		}
+
+		public D2DPathGeometry CreateTextPathGeometry(string text, string fontName, float fontSize,
+			D2DFontWeight fontWeight = D2DFontWeight.Normal, 
+			D2DFontStyle fontStyle = D2DFontStyle.Normal, 
+			D2DFontStretch fontStretch = D2DFontStretch.Normal)
+		{
+			var fontFace = D2D.CreateFontFace(this.Handle, fontName, fontWeight, fontStyle, fontStretch);
+			if (fontFace == IntPtr.Zero)
+			{
+				throw new CreateFontFaceFailedException(fontName);
+			}
+
+			var pathHandler = D2D.CreateTextPathGeometry(this.Handle, text, fontFace, fontSize);
+
+			D2D.DestroyFontFace(fontFace);
+
+			if (pathHandler == IntPtr.Zero)
+			{
+				throw new CreatePathGeometryFailedException();
+			}
+
+			return new D2DPathGeometry(this, pathHandler);
 		}
 
 		public D2DBitmap? LoadBitmap(byte[] buffer)
