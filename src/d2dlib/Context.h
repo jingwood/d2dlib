@@ -129,7 +129,7 @@ inline void SafeRelease(Interface **ppInterfaceToRelease)
 }
 
 #define RetrieveContext(ctx) D2DContext* context = reinterpret_cast<D2DContext*>(ctx)
-#define RetrieveD2DBitmap(ctx) ID2D1Bitmap* d2dbitmap = reinterpret_cast<ID2D1Bitmap*>(d2dbitmapHandle)
+#define RetrieveD2DBitmap(ctx, handle) ID2D1Bitmap* ctx = reinterpret_cast<ID2D1Bitmap*>(handle)
 //#define RetrieveContext(ctx) D2DContext* context = (D2DContext*)(ctx)
 
 //extern D2DLIB_API HRESULT LastResultCode;
