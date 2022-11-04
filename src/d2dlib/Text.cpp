@@ -25,8 +25,6 @@
 #include "stdafx.h"
 #include "Text.h"
 
-#define NIF(expr) if (!SUCCESSED(HR)) return NULL
-
 D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 	LPCWSTR fontName, FLOAT fontSize, D2D1_RECT_F rect,
 	DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle,
@@ -172,13 +170,9 @@ HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, F
 	ZeroMemory(codePoints, sizeof(UINT) * textLength);
 	ZeroMemory(glyphIndices, sizeof(UINT16) * textLength);
 
-	DWRITE_GLYPH_OFFSET* offsets = new DWRITE_GLYPH_OFFSET[textLength];
-
 	for (int i = 0; i < textLength; i++)
 	{
 		codePoints[i] = text[i];
-		offsets[i].advanceOffset = i * 20;
-		offsets[i].ascenderOffset = i * 20;
 	}
 	
 	hr = fontFace->GetGlyphIndicesW(codePoints, textLength, glyphIndices);
@@ -221,8 +215,6 @@ HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, F
 	codePoints = NULL;
 	delete[] glyphIndices;
 	glyphIndices = NULL;
-
-	
 
 	return (HANDLE)pathContext;
 }
