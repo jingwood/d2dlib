@@ -323,6 +323,16 @@ namespace unvell.D2DLib
 
 		public static readonly D2DSize Empty = new D2DSize(0, 0);
 
+		public static implicit operator D2DSize(Vector2 v)
+		{
+			return new D2DSize(v.X, v.Y);
+		}
+
+		public static implicit operator Vector2(D2DSize v)
+		{
+			return new Vector2(v.width, v.height);
+		}
+
 		public static implicit operator D2DSize(System.Drawing.Size wsize)
 		{
 			return new D2DSize(wsize.Width, wsize.Height);
