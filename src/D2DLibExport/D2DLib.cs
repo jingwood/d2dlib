@@ -123,9 +123,9 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SkewTransform([In] HANDLE ctx, [In] FLOAT angleX, [In] FLOAT angleY, [Optional] D2DPoint center);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SetTransform([In] HANDLE context, [In] ref D2DMatrix3x2 mat);
+		public static extern void SetTransform([In] HANDLE context, [In] ref Matrix3x2 mat);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void GetTransform([In] HANDLE context, [Out] out D2DMatrix3x2 mat);
+		public static extern void GetTransform([In] HANDLE context, [Out] out Matrix3x2 mat);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ResetTransform([In] HANDLE context);
 
@@ -300,7 +300,7 @@ namespace unvell.D2DLib
 		public static extern void GetGeometryBounds(HANDLE pathCtx, ref D2DRect rect);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void GetGeometryTransformedBounds(HANDLE pathCtx, ref D2DMatrix3x2 mat3x2, ref D2DRect rect);
+		public static extern void GetGeometryTransformedBounds(HANDLE pathCtx, ref Matrix3x2 mat3x2, ref D2DRect rect);
 
 		#endregion // Geometry
 

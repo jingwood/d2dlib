@@ -248,14 +248,14 @@ namespace unvell.D2DLib
 			D2D.PopLayer(this.Handle);
 		}
 
-		public void SetTransform(D2DMatrix3x2 mat)
+		public void SetTransform(Matrix3x2 mat)
 		{
 			D2D.SetTransform(this.Handle, ref mat);
 		}
 
-		public D2DMatrix3x2 GetTransform()
+		public Matrix3x2 GetTransform()
 		{
-			D2DMatrix3x2 mat;
+			Matrix3x2 mat;
 			D2D.GetTransform(this.Handle, out mat);
 			return mat;
 		}
