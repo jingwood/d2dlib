@@ -24,11 +24,11 @@
 
 namespace unvell.D2DLib
 {
-  public class D2DRectangleGeometry : D2DGeometry
-  {
-    internal D2DRectangleGeometry(D2DDevice device, HANDLE geoHandle)
-      : base(device, geoHandle)
-    {
-    }
-  }
+	public class D2DRectangleGeometry : D2DGeometry
+	{
+		internal D2DRectangleGeometry(D2DDevice device, HANDLE geoHandle)
+		  : base(device, geoHandle)
+		{
+		}
+	}
 }

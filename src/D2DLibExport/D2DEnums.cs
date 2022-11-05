@@ -32,7 +32,7 @@ namespace unvell.D2DLib
 		Information = 3,
 	}
 
-	enum D2DFactoryType 
+	enum D2DFactoryType
 	{
 		//
 		// The resulting factory and derived resources may only be invoked serially.
@@ -290,17 +290,17 @@ namespace unvell.D2DLib
 		/// Flat line cap.
 		/// </summary>
 		Flat = 0,
-		
+
 		/// <summary>
 		/// Square line cap.
 		/// </summary>
 		Square = 1,
-		
+
 		/// <summary>
 		/// Round line cap.
 		/// </summary>
 		Round = 2,
-		
+
 		/// <summary>
 		/// Triangle line cap.
 		/// </summary>

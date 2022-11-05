@@ -211,7 +211,7 @@ namespace unvell.D2DLib
 		public static extern void DestroyFontFace(HANDLE fontFaceHandle);
 
 		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HANDLE CreateTextPathGeometry(HANDLE ctx, [In] string text, 
+		public static extern HANDLE CreateTextPathGeometry(HANDLE ctx, [In] string text,
 			HANDLE fontFaceHandle, FLOAT fontSize);
 
 		#endregion // Text

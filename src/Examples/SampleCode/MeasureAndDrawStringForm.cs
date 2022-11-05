@@ -37,17 +37,17 @@ namespace unvell.D2DLib.Examples.SampleCode
 
 		protected override void OnRender(D2DGraphics g)
 		{
-      var text = "Hello World";
+			var text = "Hello World";
 
-      var rect = new Rectangle(100, 100, 500, 500);
+			var rect = new Rectangle(100, 100, 500, 500);
 
-      var measuredSize = g.MeasureText(text, font1.Name, font1.Size, rect.Size);
+			var measuredSize = g.MeasureText(text, font1.Name, font1.Size, rect.Size);
 
-      var measuredRect = new D2DRect(rect.X, rect.Y, measuredSize.width, measuredSize.height);
+			var measuredRect = new D2DRect(rect.X, rect.Y, measuredSize.width, measuredSize.height);
 
-      g.DrawText(text, D2DColor.Black, font1.Name, font1.Size, rect);
+			g.DrawText(text, D2DColor.Black, font1.Name, font1.Size, rect);
 
-      g.DrawRectangle(measuredRect, D2DColor.Blue);
+			g.DrawRectangle(measuredRect, D2DColor.Blue);
 		}
 	}
 }

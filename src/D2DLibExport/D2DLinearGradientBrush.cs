@@ -24,14 +24,14 @@
 
 namespace unvell.D2DLib
 {
-  public class D2DLinearGradientBrush : D2DBrush
-  {
-    public D2DGradientStop[] GradientStops { get; private set; }
+	public class D2DLinearGradientBrush : D2DBrush
+	{
+		public D2DGradientStop[] GradientStops { get; private set; }
 
-    internal D2DLinearGradientBrush(HANDLE handle, D2DGradientStop[] gradientStops)
-      : base(handle)
-    {
-      this.GradientStops = gradientStops;
-    }
-  }
+		internal D2DLinearGradientBrush(HANDLE handle, D2DGradientStop[] gradientStops)
+		  : base(handle)
+		{
+			this.GradientStops = gradientStops;
+		}
+	}
 }

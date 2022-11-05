@@ -398,7 +398,7 @@ namespace unvell.D2DLib
 			DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near)
 		{
 			D2DRect rect = new D2DRect(x, y, 9999999, 9999999);  // FIXME: avoid magic number
-			D2D.DrawText(this.Handle, text, color, fontName, fontSize, rect, 
+			D2D.DrawText(this.Handle, text, color, fontName, fontSize, rect,
 				D2DFontWeight.Normal,
 				D2DFontStyle.Normal,
 				D2DFontStretch.Normal,
@@ -446,7 +446,7 @@ namespace unvell.D2DLib
 			this.DrawStrokedText(text, location.x, location.y, strokeColor, strokeWidth, fillColor,
 				fontName, fontSize, fontWeight, fontStyle, fontStretch);
 		}
-		
+
 		public void DrawStrokedText(string text, float x, float y,
 			D2DColor strokeColor, float strokeWidth,
 			D2DColor fillColor,
@@ -462,11 +462,11 @@ namespace unvell.D2DLib
 
 				this.FillPath(textPath, fillColor);
 				this.DrawPath(textPath, strokeColor, strokeWidth);
-		
+
 				this.TranslateTransform(-x, -y);
 			}
 		}
-		
+
 		public D2DSize MeasureText(string text, string fontName, float fontSize, D2DSize placeSize)
 		{
 			D2DSize outputSize = placeSize;

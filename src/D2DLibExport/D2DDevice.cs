@@ -144,8 +144,8 @@ namespace unvell.D2DLib
 		}
 
 		public D2DPathGeometry CreateTextPathGeometry(string text, string fontName, float fontSize,
-			D2DFontWeight fontWeight = D2DFontWeight.Normal, 
-			D2DFontStyle fontStyle = D2DFontStyle.Normal, 
+			D2DFontWeight fontWeight = D2DFontWeight.Normal,
+			D2DFontStyle fontStyle = D2DFontStyle.Normal,
 			D2DFontStretch fontStretch = D2DFontStretch.Normal)
 		{
 			var fontFace = D2D.CreateFontFace(this.Handle, fontName, fontWeight, fontStyle, fontStretch);

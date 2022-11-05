@@ -24,26 +24,26 @@
 
 namespace unvell.D2DLib
 {
-  public class D2DSolidColorBrush : D2DBrush
-  {
-    private D2DColor color;
+	public class D2DSolidColorBrush : D2DBrush
+	{
+		private D2DColor color;
 
-    public D2DColor Color
-    {
-      get
-      {
-        return color;
-      }
-      set
-      {
-        D2D.SetSolidColorBrushColor(this.Handle, this.color = value);
-      }
-    }
+		public D2DColor Color
+		{
+			get
+			{
+				return color;
+			}
+			set
+			{
+				D2D.SetSolidColorBrushColor(this.Handle, this.color = value);
+			}
+		}
 
-    internal D2DSolidColorBrush(HANDLE handle, D2DColor color)
-      : base(handle)
-    {
-      this.color = color;
-    }
-  }
+		internal D2DSolidColorBrush(HANDLE handle, D2DColor color)
+		  : base(handle)
+		{
+			this.color = color;
+		}
+	}
 }

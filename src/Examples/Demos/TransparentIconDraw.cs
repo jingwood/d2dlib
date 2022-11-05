@@ -95,7 +95,8 @@ namespace unvell.D2DLib.Examples.Demos
 			{
 				icon.Y += icon.Speed;
 
-				if (icon.Y > ClientRectangle.Height) {
+				if (icon.Y > ClientRectangle.Height)
+				{
 					icon.Reset(this.ClientRectangle);
 				}
 			}

@@ -55,7 +55,7 @@ namespace unvell.D2DLib.Examples
 		protected override void OnKeyUp(KeyEventArgs e)
 		{
 			base.OnKeyUp(e);
-			
+
 			switch (e.KeyCode)
 			{
 				case Keys.Escape:
@@ -139,13 +139,13 @@ namespace unvell.D2DLib.Examples
 		}
 	}
 
-  public class ExampleForm : D2DForm
-  {
-    public ExampleForm()
-    {
-      var screenSize = Screen.FromControl(this).WorkingArea.Size;
-      Size = new System.Drawing.Size((int)(screenSize.Width * 0.6f), (int)(screenSize.Height * 0.7f));
-      StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-    }
-  }
+	public class ExampleForm : D2DForm
+	{
+		public ExampleForm()
+		{
+			var screenSize = Screen.FromControl(this).WorkingArea.Size;
+			Size = new System.Drawing.Size((int)(screenSize.Width * 0.6f), (int)(screenSize.Height * 0.7f));
+			StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+		}
+	}
 }

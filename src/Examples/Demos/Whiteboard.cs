@@ -39,7 +39,7 @@ namespace unvell.D2DLib.Examples.Demos
 			Location = new Point(0, 0);
 			DesktopLocation = new Point(0, 0);
 			Size = Screen.GetBounds(this).Size;
-			
+
 			ShowFPS = true;
 		}
 
@@ -53,7 +53,7 @@ namespace unvell.D2DLib.Examples.Demos
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			base.OnKeyDown(e);
-			
+
 			switch (e.KeyCode)
 			{
 				case Keys.Oemtilde:
@@ -135,12 +135,13 @@ namespace unvell.D2DLib.Examples.Demos
 			{
 				// switch to eraser
 				// backup last pen color
-				if (this.penColor != D2DColor.White) {
+				if (this.penColor != D2DColor.White)
+				{
 					this.lastPenColor = this.penColor;
 				}
 				this.penColor = D2DColor.White;
 			}
-			
+
 			this.isDrawing = true;
 			this.lastPoint = e.Location;
 			this.cursorPoint = e.Location;

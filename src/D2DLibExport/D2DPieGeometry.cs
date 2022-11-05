@@ -31,7 +31,7 @@ namespace unvell.D2DLib
 		{
 		}
 
-    public override void Dispose()
+		public override void Dispose()
 		{
 			D2D.DestroyPathGeometry(this.Handle);
 		}

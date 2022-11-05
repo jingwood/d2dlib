@@ -36,7 +36,7 @@ D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 	ID2D1SolidColorBrush* brush = NULL;
 	IDWriteTextFormat* textFormat = NULL;
 
-	HRESULT hr = context->writeFactory->CreateTextFormat(fontName, NULL, 
+	HRESULT hr = context->writeFactory->CreateTextFormat(fontName, NULL,
 		fontWeight, fontStyle, fontStretch, fontSize, L"", &textFormat);
 
 	if (SUCCEEDED(hr) && textFormat != NULL)
@@ -174,7 +174,7 @@ HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, F
 	{
 		codePoints[i] = text[i];
 	}
-	
+
 	hr = fontFace->GetGlyphIndicesW(codePoints, textLength, glyphIndices);
 
 	if (SUCCEEDED(hr)) {
@@ -210,7 +210,7 @@ HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, F
 			}
 		}
 	}
-	
+
 	delete[] codePoints;
 	codePoints = NULL;
 	delete[] glyphIndices;
@@ -218,7 +218,6 @@ HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, F
 
 	return (HANDLE)pathContext;
 }
-
 
 D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, D2D1_SIZE_F* size,
 	DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, DWRITE_FONT_STRETCH fontStretch) {

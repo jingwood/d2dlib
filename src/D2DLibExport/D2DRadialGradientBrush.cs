@@ -26,28 +26,28 @@ using System.Runtime.InteropServices;
 
 namespace unvell.D2DLib
 {
-  public class D2DRadialGradientBrush : D2DBrush
-  {
-    public D2DGradientStop[] GradientStops { get; private set; }
+	public class D2DRadialGradientBrush : D2DBrush
+	{
+		public D2DGradientStop[] GradientStops { get; private set; }
 
-    internal D2DRadialGradientBrush(HANDLE handle, D2DGradientStop[] gradientStops)
-      : base(handle)
-    {
-      this.GradientStops = gradientStops;
-    }
-  }
+		internal D2DRadialGradientBrush(HANDLE handle, D2DGradientStop[] gradientStops)
+		  : base(handle)
+		{
+			this.GradientStops = gradientStops;
+		}
+	}
 
-  [Serializable]
-  [StructLayout(LayoutKind.Sequential)]
-  public struct D2DGradientStop
-  {
-    public FLOAT position;
-    public D2DColor color;
+	[Serializable]
+	[StructLayout(LayoutKind.Sequential)]
+	public struct D2DGradientStop
+	{
+		public FLOAT position;
+		public D2DColor color;
 
-    public D2DGradientStop(FLOAT position, D2DColor color)
-    {
-      this.position = position;
-      this.color = color;
-    }
-  }
+		public D2DGradientStop(FLOAT position, D2DColor color)
+		{
+			this.position = position;
+			this.color = color;
+		}
+	}
 }

@@ -24,17 +24,17 @@
 
 namespace unvell.D2DLib
 {
-  public class D2DBitmap : D2DObject
-  {
-    public D2DSize Size { get; private set; }
+	public class D2DBitmap : D2DObject
+	{
+		public D2DSize Size { get; private set; }
 
-    public FLOAT Height { get { return this.Size.height; } }
-    public FLOAT Width { get { return this.Size.width; } }
+		public FLOAT Height { get { return this.Size.height; } }
+		public FLOAT Width { get { return this.Size.width; } }
 
-    internal D2DBitmap(HANDLE handle)
-      : base(handle)
-    {
-      this.Size = D2D.GetBitmapSize(handle);
-    }
-  }
+		internal D2DBitmap(HANDLE handle)
+		  : base(handle)
+		{
+			this.Size = D2D.GetBitmapSize(handle);
+		}
+	}
 }
