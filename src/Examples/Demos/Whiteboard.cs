@@ -101,7 +101,7 @@ namespace unvell.D2DLib.Examples.Demos
 		}
 
 		private D2DBitmapGraphics memg;
-		private Vector2 lastPoint, cursorPoint;
+		private Point lastPoint, cursorPoint;
 		private bool isDrawing;
 		private Size penSize = new Size(5, 5);
 		private D2DColor penColor = D2DColor.Blue;  // use white as eraser, other else as normal pen
@@ -143,9 +143,9 @@ namespace unvell.D2DLib.Examples.Demos
 			}
 
 			this.isDrawing = true;
-			this.lastPoint = new Vector2(e.X, e.Y);
-			this.cursorPoint = new Vector2(e.X, e.Y);
-			drawPen(new Vector2(e.Location.X, e.Location.Y));
+			this.lastPoint = e.Location;
+			this.cursorPoint = e.Location;
+			drawPen(e.Location);
 			this.showGettingStart = false;
 
 			// when we're in the eraser, we want to invalidate since the eraser is animated
@@ -156,14 +156,14 @@ namespace unvell.D2DLib.Examples.Demos
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			this.cursorPoint = new Vector2(e.X, e.Y);
+			this.cursorPoint = e.Location;
 			if (this.isDrawing)
 			{
-				drawPen(new Vector2(e.Location.X, e.Location.Y));
+				drawPen(e.Location);
 			}
 			else
 			{
-				cursorPoint = new Vector2(e.X, e.Y);
+				cursorPoint = e.Location;
 			}
 			this.Invalidate();
 		}
@@ -171,7 +171,7 @@ namespace unvell.D2DLib.Examples.Demos
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			this.isDrawing = false;
-			this.cursorPoint = new Vector2(e.X, e.Y);
+			this.cursorPoint = e.Location;
 		}
 
 		protected override void OnMouseEnter(EventArgs e)
@@ -202,7 +202,7 @@ namespace unvell.D2DLib.Examples.Demos
 			this.Invalidate();
 		}
 
-		private void drawPen(Vector2 currentPoint)
+		private void drawPen(Point currentPoint)
 		{
 			var diff = new Vector2(currentPoint.X - this.lastPoint.X, currentPoint.Y - this.lastPoint.Y);
 
@@ -240,7 +240,7 @@ namespace unvell.D2DLib.Examples.Demos
 
 		private float eraserDashOffset = 0.0f;
 
-		private void drawCursor(D2DGraphics g, Vector2 p)
+		private void drawCursor(D2DGraphics g, Point p)
 		{
 			if (this.penColor == D2DColor.White)
 			{
@@ -257,7 +257,7 @@ namespace unvell.D2DLib.Examples.Demos
 			else
 			{
 				// else draw pen
-				g.DrawEllipse(p, this.penSize, this.penColor, 2.0f);
+				g.DrawEllipse(new Vector2(p.X, p.Y), this.penSize, this.penColor, 2.0f);
 			}
 		}
 	}
