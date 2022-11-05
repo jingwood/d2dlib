@@ -33,6 +33,8 @@
     <Using Include="System.IntPtr" Alias="HANDLE" />
     <Using Include="System.Int64" Alias="HRESULT" />
     <Using Include="System.Int32" Alias="BOOL" />
+    <Using Include="System.Numerics" />
+    <using Include="System.Numerics.Vector2" Alias="D2DPoint" />
   </ItemGroup>
 
   <ItemGroup>

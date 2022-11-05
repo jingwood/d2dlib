@@ -101,7 +101,7 @@ namespace unvell.D2DLib.Examples.Demos
 		}
 
 		private D2DBitmapGraphics memg;
-		private Point lastPoint, cursorPoint;
+		private Vector2 lastPoint, cursorPoint;
 		private bool isDrawing;
 		private Size penSize = new Size(5, 5);
 		private D2DColor penColor = D2DColor.Blue;  // use white as eraser, other else as normal pen
@@ -143,9 +143,9 @@ namespace unvell.D2DLib.Examples.Demos
 			}
 
 			this.isDrawing = true;
-			this.lastPoint = e.Location;
-			this.cursorPoint = e.Location;
-			drawPen(e.Location);
+			this.lastPoint = new Vector2(e.X, e.Y);
+			this.cursorPoint = new Vector2(e.X, e.Y);
+			drawPen(new Vector2(e.Location.X, e.Location.Y));
 			this.showGettingStart = false;
 
 			// when we're in the eraser, we want to invalidate since the eraser is animated
@@ -156,14 +156,14 @@ namespace unvell.D2DLib.Examples.Demos
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			this.cursorPoint = e.Location;
+			this.cursorPoint = new Vector2(e.X, e.Y);
 			if (this.isDrawing)
 			{
-				drawPen(e.Location);
+				drawPen(new Vector2(e.Location.X, e.Location.Y));
 			}
 			else
 			{
-				cursorPoint = e.Location;
+				cursorPoint = new Vector2(e.X, e.Y);
 			}
 			this.Invalidate();
 		}
@@ -171,7 +171,7 @@ namespace unvell.D2DLib.Examples.Demos
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			this.isDrawing = false;
-			this.cursorPoint = e.Location;
+			this.cursorPoint = new Vector2(e.X, e.Y);
 		}
 
 		protected override void OnMouseEnter(EventArgs e)
@@ -202,9 +202,9 @@ namespace unvell.D2DLib.Examples.Demos
 			this.Invalidate();
 		}
 
-		private void drawPen(Point currentPoint)
+		private void drawPen(Vector2 currentPoint)
 		{
-			var diff = new Point(currentPoint.X - this.lastPoint.X, currentPoint.Y - this.lastPoint.Y);
+			var diff = new Vector2(currentPoint.X - this.lastPoint.X, currentPoint.Y - this.lastPoint.Y);
 
 			memg.BeginRender();
 			D2DEllipse ellipse = new D2DEllipse(D2DPoint.Zero, this.penSize);
@@ -236,10 +236,11 @@ namespace unvell.D2DLib.Examples.Demos
 			this.lastPoint = currentPoint;
 		}
 
-
 		private readonly float[] eraserPenDashes = new[] { 2f, 2f };
+
 		private float eraserDashOffset = 0.0f;
-		private void drawCursor(D2DGraphics g, Point p)
+
+		private void drawCursor(D2DGraphics g, Vector2 p)
 		{
 			if (this.penColor == D2DColor.White)
 			{

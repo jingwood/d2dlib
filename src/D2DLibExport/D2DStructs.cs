@@ -211,10 +211,10 @@ namespace unvell.D2DLib
 			{
 				FLOAT width = this.right - this.left;
 				FLOAT height = this.bottom - this.top;
-				this.left = value.x;
-				this.right = value.x + width;
-				this.top = value.y;
-				this.bottom = value.y + height;
+				this.left = value.X;
+				this.right = value.X + width;
+				this.top = value.Y;
+				this.bottom = value.Y + height;
 			}
 		}
 
@@ -307,75 +307,6 @@ namespace unvell.D2DLib
 	}
 	#endregion Rounded Rect
 
-	#region Point
-	[Serializable]
-	[StructLayout(LayoutKind.Sequential)]
-	public struct D2DPoint
-	{
-		public FLOAT x;
-		public FLOAT y;
-
-		public D2DPoint(FLOAT x, FLOAT y)
-		{
-			this.x = x;
-			this.y = y;
-		}
-
-		public void Offset(FLOAT offx, FLOAT offy)
-		{
-			this.x += offx;
-			this.y += offy;
-		}
-
-		public static readonly D2DPoint Zero = new D2DPoint(0, 0);
-		public static readonly D2DPoint One = new D2DPoint(1, 1);
-
-		public override bool Equals(object obj)
-		{
-			if (!(obj is D2DPoint)) return false;
-
-			var p2 = (D2DPoint)obj;
-
-			return x == p2.x && y == p2.y;
-		}
-
-		public static bool operator ==(D2DPoint p1, D2DPoint p2)
-		{
-			return p1.x == p2.x && p1.y == p2.y;
-		}
-
-		public static bool operator !=(D2DPoint p1, D2DPoint p2)
-		{
-			return p1.x != p2.x || p1.y != p2.y;
-		}
-
-		public static implicit operator D2DPoint(System.Drawing.Point p)
-		{
-			return new D2DPoint(p.X, p.Y);
-		}
-
-		public static implicit operator D2DPoint(System.Drawing.PointF p)
-		{
-			return new D2DPoint(p.X, p.Y);
-		}
-
-		public static implicit operator System.Drawing.PointF(D2DPoint p)
-		{
-			return new System.Drawing.PointF(p.x, p.y);
-		}
-
-		public static explicit operator System.Drawing.Point(D2DPoint p)
-		{
-			return System.Drawing.Point.Round(p);
-		}
-
-		public override int GetHashCode()
-		{
-			return (int)((this.x * 0xff) + this.y);
-		}
-	}
-	#endregion
-
 	#region Size
 	[Serializable]
 	[StructLayout(LayoutKind.Sequential)]
@@ -446,8 +377,8 @@ namespace unvell.D2DLib
 		{
 		}
 
-		public FLOAT X { get { return origin.x; } set { origin.x = value; } }
-		public FLOAT Y { get { return origin.y; } set { origin.y = value; } }
+		public FLOAT X { get { return origin.X; } set { origin.X = value; } }
+		public FLOAT Y { get { return origin.Y; } set { origin.Y = value; } }
 	}
 	#endregion
 
