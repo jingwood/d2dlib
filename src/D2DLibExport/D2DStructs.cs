@@ -180,7 +180,7 @@ namespace unvell.D2DLib
 		public static readonly D2DColor HotPink = D2DColor.FromGDIColor(System.Drawing.Color.HotPink);
 		public static readonly D2DColor LightPink = D2DColor.FromGDIColor(System.Drawing.Color.LightPink);
 	}
-	#endregion
+	#endregion // D2DColor
 
 	#region Rect
 	[Serializable]
@@ -201,8 +201,9 @@ namespace unvell.D2DLib
 		}
 
 		public D2DRect(D2DPoint origin, D2DSize size)
-			: this(origin.x - size.width * 0.5f, origin.y - size.height * 0.5f, size.width, size.height)
-		{ }
+			: this(origin.X - size.width * 0.5f, origin.Y - size.height * 0.5f, size.width, size.height)
+		{
+		}
 
 		public D2DPoint Location
 		{
@@ -293,7 +294,7 @@ namespace unvell.D2DLib
 			return System.Drawing.Rectangle.Round(rect);
 		}
 	}
-	#endregion Rect
+	#endregion // Rect
 
 	#region Rounded Rect
 
