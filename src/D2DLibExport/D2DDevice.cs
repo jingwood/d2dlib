@@ -126,11 +126,11 @@ namespace unvell.D2DLib
 			var eangle = endAngle * Math.PI / 180f;
 			var angleDiff = endAngle - startAngle;
 
-			var startPoint = new D2DPoint((float)(origin.x + halfSize.width * Math.Cos(sangle)),
-				(float)(origin.y + halfSize.height * Math.Sin(sangle)));
+			var startPoint = new D2DPoint((float)(origin.X + halfSize.width * Math.Cos(sangle)),
+				(float)(origin.Y + halfSize.height * Math.Sin(sangle)));
 
-			var endPoint = new D2DPoint((float)(origin.x + halfSize.width * Math.Cos(eangle)),
-				(float)(origin.y + halfSize.height * Math.Sin(eangle)));
+			var endPoint = new D2DPoint((float)(origin.X + halfSize.width * Math.Cos(eangle)),
+				(float)(origin.Y + halfSize.height * Math.Sin(eangle)));
 
 			path.AddLines(new D2DPoint[] { origin, startPoint });
 

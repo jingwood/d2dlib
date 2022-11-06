@@ -180,7 +180,7 @@ namespace unvell.D2DLib
 		public static readonly D2DColor HotPink = D2DColor.FromGDIColor(System.Drawing.Color.HotPink);
 		public static readonly D2DColor LightPink = D2DColor.FromGDIColor(System.Drawing.Color.LightPink);
 	}
-	#endregion
+	#endregion // D2DColor
 
 	#region Rect
 	[Serializable]
@@ -201,8 +201,9 @@ namespace unvell.D2DLib
 		}
 
 		public D2DRect(D2DPoint origin, D2DSize size)
-			: this(origin.x - size.width * 0.5f, origin.y - size.height * 0.5f, size.width, size.height)
-		{ }
+			: this(origin.X - size.width * 0.5f, origin.Y - size.height * 0.5f, size.width, size.height)
+		{
+		}
 
 		public D2DPoint Location
 		{
@@ -211,10 +212,10 @@ namespace unvell.D2DLib
 			{
 				FLOAT width = this.right - this.left;
 				FLOAT height = this.bottom - this.top;
-				this.left = value.x;
-				this.right = value.x + width;
-				this.top = value.y;
-				this.bottom = value.y + height;
+				this.left = value.X;
+				this.right = value.X + width;
+				this.top = value.Y;
+				this.bottom = value.Y + height;
 			}
 		}
 
@@ -293,7 +294,7 @@ namespace unvell.D2DLib
 			return System.Drawing.Rectangle.Round(rect);
 		}
 	}
-	#endregion Rect
+	#endregion // Rect
 
 	#region Rounded Rect
 
@@ -306,75 +307,6 @@ namespace unvell.D2DLib
 		public FLOAT radiusY;
 	}
 	#endregion Rounded Rect
-
-	#region Point
-	[Serializable]
-	[StructLayout(LayoutKind.Sequential)]
-	public struct D2DPoint
-	{
-		public FLOAT x;
-		public FLOAT y;
-
-		public D2DPoint(FLOAT x, FLOAT y)
-		{
-			this.x = x;
-			this.y = y;
-		}
-
-		public void Offset(FLOAT offx, FLOAT offy)
-		{
-			this.x += offx;
-			this.y += offy;
-		}
-
-		public static readonly D2DPoint Zero = new D2DPoint(0, 0);
-		public static readonly D2DPoint One = new D2DPoint(1, 1);
-
-		public override bool Equals(object obj)
-		{
-			if (!(obj is D2DPoint)) return false;
-
-			var p2 = (D2DPoint)obj;
-
-			return x == p2.x && y == p2.y;
-		}
-
-		public static bool operator ==(D2DPoint p1, D2DPoint p2)
-		{
-			return p1.x == p2.x && p1.y == p2.y;
-		}
-
-		public static bool operator !=(D2DPoint p1, D2DPoint p2)
-		{
-			return p1.x != p2.x || p1.y != p2.y;
-		}
-
-		public static implicit operator D2DPoint(System.Drawing.Point p)
-		{
-			return new D2DPoint(p.X, p.Y);
-		}
-
-		public static implicit operator D2DPoint(System.Drawing.PointF p)
-		{
-			return new D2DPoint(p.X, p.Y);
-		}
-
-		public static implicit operator System.Drawing.PointF(D2DPoint p)
-		{
-			return new System.Drawing.PointF(p.x, p.y);
-		}
-
-		public static explicit operator System.Drawing.Point(D2DPoint p)
-		{
-			return System.Drawing.Point.Round(p);
-		}
-
-		public override int GetHashCode()
-		{
-			return (int)((this.x * 0xff) + this.y);
-		}
-	}
-	#endregion
 
 	#region Size
 	[Serializable]
@@ -391,6 +323,16 @@ namespace unvell.D2DLib
 		}
 
 		public static readonly D2DSize Empty = new D2DSize(0, 0);
+
+		public static implicit operator D2DSize(Vector2 v)
+		{
+			return new D2DSize(v.X, v.Y);
+		}
+
+		public static implicit operator Vector2(D2DSize v)
+		{
+			return new Vector2(v.width, v.height);
+		}
 
 		public static implicit operator D2DSize(System.Drawing.Size wsize)
 		{
@@ -446,8 +388,8 @@ namespace unvell.D2DLib
 		{
 		}
 
-		public FLOAT X { get { return origin.x; } set { origin.x = value; } }
-		public FLOAT Y { get { return origin.y; } set { origin.y = value; } }
+		public FLOAT X { get { return origin.X; } set { origin.X = value; } }
+		public FLOAT Y { get { return origin.Y; } set { origin.Y = value; } }
 	}
 	#endregion
 
@@ -474,24 +416,6 @@ namespace unvell.D2DLib
 			this.point3 = new D2DPoint(x3, y3);
 		}
 	}
-	#endregion
+	#endregion // BezierSegment
 
-	#region Matrix
-	[Serializable]
-	[StructLayout(LayoutKind.Sequential)]
-	public struct D2DMatrix3x2
-	{
-		public FLOAT a1, b1;
-		public FLOAT a2, b2;
-		public FLOAT a3, b3;
-
-		public D2DMatrix3x2(float a1, float b1, float a2, float b2, float a3, float b3)
-		{
-			this.a1 = a1; this.b1 = b1;
-			this.a2 = a2; this.b2 = b2;
-			this.a3 = a3; this.b3 = b3;
-		}
-	}
-
-	#endregion // Matrix
 }

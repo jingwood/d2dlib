@@ -204,7 +204,7 @@ namespace unvell.D2DLib.Examples.Demos
 
 		private void drawPen(Point currentPoint)
 		{
-			var diff = new Point(currentPoint.X - this.lastPoint.X, currentPoint.Y - this.lastPoint.Y);
+			var diff = new Vector2(currentPoint.X - this.lastPoint.X, currentPoint.Y - this.lastPoint.Y);
 
 			memg.BeginRender();
 			D2DEllipse ellipse = new D2DEllipse(D2DPoint.Zero, this.penSize);
@@ -236,9 +236,10 @@ namespace unvell.D2DLib.Examples.Demos
 			this.lastPoint = currentPoint;
 		}
 
-
 		private readonly float[] eraserPenDashes = new[] { 2f, 2f };
+
 		private float eraserDashOffset = 0.0f;
+
 		private void drawCursor(D2DGraphics g, Point p)
 		{
 			if (this.penColor == D2DColor.White)
@@ -256,7 +257,7 @@ namespace unvell.D2DLib.Examples.Demos
 			else
 			{
 				// else draw pen
-				g.DrawEllipse(p, this.penSize, this.penColor, 2.0f);
+				g.DrawEllipse(new Vector2(p.X, p.Y), this.penSize, this.penColor, 2.0f);
 			}
 		}
 	}

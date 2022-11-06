@@ -58,8 +58,8 @@ namespace unvell.D2DLib
 		//}
 
 		public void AddArc(D2DPoint endPoint, D2DSize size, FLOAT sweepAngle,
-				D2DArcSize arcSize = D2DArcSize.Small,
-				D2DSweepDirection sweepDirection = D2DSweepDirection.Clockwise)
+			D2DArcSize arcSize = D2DArcSize.Small,
+			D2DSweepDirection sweepDirection = D2DSweepDirection.Clockwise)
 		{
 			D2D.AddPathArc(this.Handle, endPoint, size, sweepAngle, arcSize, sweepDirection);
 		}

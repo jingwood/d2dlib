@@ -64,7 +64,7 @@ namespace unvell.D2DLib.Examples.Demos
 			base.OnRender(g);
 
 			// set the transform before draw rect
-			g.SetTransform(mat.toD2DMatrix3x2());
+			g.SetTransform(mat);
 
 			g.FillRectangle(rect, isHitted ? D2DColor.LightYellow : D2DColor.LightGray);
 			g.DrawRectangle(rect, isHitted ? D2DColor.Red : D2DColor.Blue, 2);
@@ -165,22 +165,5 @@ namespace unvell.D2DLib.Examples.Demos
 			return new D2DRect(r.X, r.Y, r.Width, r.Height);
 		}
 	}
-	#endregion /* Rect2D */
-
-	public static class NumericExtension
-	{
-		public static D2DMatrix3x2 toD2DMatrix3x2(this Matrix3x2 mat)
-		{
-			D2DMatrix3x2 d2dmat;
-
-			d2dmat.a1 = mat.M11;
-			d2dmat.b1 = mat.M12;
-			d2dmat.a2 = mat.M21;
-			d2dmat.b2 = mat.M22;
-			d2dmat.a3 = mat.M31;
-			d2dmat.b3 = mat.M32;
-
-			return d2dmat;
-		}
-	}
+	#endregion // Rect2D
 }
