@@ -89,6 +89,21 @@ void DestroyPathGeometry(HANDLE ctx)
 	delete pathContext;
 }
 
+D2DLIB_API HANDLE CreateCombinedGeometry(HANDLE d2dCtx, HANDLE pathCtx1, HANDLE pathCtx2, 
+	D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance)
+{
+	D2DContext* d2dContext = reinterpret_cast<D2DContext*>(d2dCtx);
+	D2DPathContext* pResultPath = reinterpret_cast<D2DPathContext*>(CreatePathGeometry(d2dContext));
+
+	D2DPathContext* pGeo1Path = reinterpret_cast<D2DPathContext*>(pathCtx1);
+	D2DPathContext* pGeo2Path = reinterpret_cast<D2DPathContext*>(pathCtx2);
+
+	HRESULT hr = pGeo1Path->geometry->CombineWithGeometry(pGeo2Path->geometry, combineMode, NULL, pResultPath->sink);
+	pResultPath->sink->Close();
+
+	return (HANDLE)pResultPath;
+}
+
 void SetPathStartPoint(HANDLE ctx, D2D1_POINT_2F startPoint) {
 	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(ctx);
 
