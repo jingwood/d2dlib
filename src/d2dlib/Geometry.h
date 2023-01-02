@@ -1,4 +1,4 @@
-/*
+﻿/*
 * MIT License
 *
 * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
@@ -36,6 +36,9 @@ extern "C"
 
 	D2DLIB_API HANDLE CreatePathGeometry(HANDLE ctx);
 	D2DLIB_API void DestroyPathGeometry(HANDLE handle);
+
+	D2DLIB_API HANDLE CreateCombinedGeometry(HANDLE d2dCtx, HANDLE pathCtx1, HANDLE pathCtx2,
+		D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance = 10.f);
 
 	D2DLIB_API void SetPathStartPoint(HANDLE handle, D2D1_POINT_2F startPoint);
 	D2DLIB_API void ClosePath(HANDLE handle);

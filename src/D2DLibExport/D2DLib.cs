@@ -231,6 +231,10 @@ namespace unvell.D2DLib
 		public static extern HANDLE CreatePathGeometry(HANDLE ctx);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateCombinedGeometry(HANDLE d2dCtx, HANDLE pathCtx1, HANDLE pathCtx2,
+			D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance = 10f);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyPathGeometry(HANDLE ctx);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
