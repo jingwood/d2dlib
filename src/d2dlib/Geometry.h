@@ -57,7 +57,7 @@ extern "C"
 	D2DLIB_API void DrawPath(HANDLE geoCtx, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle);
 	D2DLIB_API void DrawPathWithPen(HANDLE geoCtx, HANDLE strokePen, FLOAT strokeWidth);
 	D2DLIB_API void FillPathD(HANDLE geoCtx, D2D1_COLOR_F fillColor);
-
+	D2DLIB_API void FillPathWithBrush(HANDLE geoCtx, HANDLE brushHandle);
 	D2DLIB_API void FillGeometryWithBrush(HANDLE ctx, HANDLE geoHandle, 
 		__in HANDLE brushHandle, __in_opt HANDLE opacityBrushHandle = NULL);
 

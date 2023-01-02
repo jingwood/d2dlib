@@ -287,6 +287,9 @@ namespace unvell.D2DLib
 		public static extern void FillPathD(HANDLE path, D2DColor fillColor);
 		
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FillPathWithBrush(HANDLE path, HANDLE fillBrush);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillGeometryWithBrush(HANDLE path, HANDLE brush);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]

@@ -489,7 +489,12 @@ namespace unvell.D2DLib
 		{
 			D2D.FillPathD(path.Handle, fillColor);
 		}
-		
+
+		public void FillPath(D2DGeometry path, D2DBrush fillBrush)
+		{
+			D2D.FillPathWithBrush(path.Handle, fillBrush.Handle);
+		}
+
 		public void Clear(D2DColor color)
 		{
 			D2D.Clear(Handle, color);
