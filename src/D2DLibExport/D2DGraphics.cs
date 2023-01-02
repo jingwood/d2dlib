@@ -489,7 +489,7 @@ namespace unvell.D2DLib
 		{
 			D2D.FillPathD(path.Handle, fillColor);
 		}
-
+		
 		public void Clear(D2DColor color)
 		{
 			D2D.Clear(Handle, color);

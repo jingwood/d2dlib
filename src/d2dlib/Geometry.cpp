@@ -181,10 +181,10 @@ void AddPathArc(HANDLE ctx, D2D1_POINT_2F endPoint, D2D1_SIZE_F size, FLOAT swee
 	pathContext->sink->AddArc(&seg);
 }
 
-void DrawPath(HANDLE pathCtx, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle)
+void DrawPath(HANDLE geoCtx, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle)
 {
-	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
-	D2DContext* context = pathContext->d2context;
+	D2DGeometryContext* geometryContext = reinterpret_cast<D2DGeometryContext*>(geoCtx);
+	D2DContext* context = geometryContext->d2context;
 	
 	ID2D1Factory* factory = context->factory;
 	ID2D1RenderTarget* renderTarget = context->renderTarget;
@@ -206,27 +206,27 @@ void DrawPath(HANDLE pathCtx, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_
           0.0f), NULL, 0, &strokeStyle);
 	}
 
-	renderTarget->DrawGeometry(pathContext->path, strokeBrush, strokeWidth, strokeStyle);
+	renderTarget->DrawGeometry(geometryContext->geometry, strokeBrush, strokeWidth, strokeStyle);
 
 	SafeRelease(&strokeBrush);
 	SafeRelease(&strokeStyle);
 }
 
-void DrawPathWithPen(HANDLE pathCtx, HANDLE strokePen, FLOAT strokeWidth)
+void DrawPathWithPen(HANDLE geoCtx, HANDLE strokePen, FLOAT strokeWidth)
 {
 	D2DPen* pen = reinterpret_cast<D2DPen*>(strokePen);
-	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
-	ID2D1RenderTarget* renderTarget = pathContext->d2context->renderTarget;
+	D2DGeometryContext* geometryContext = reinterpret_cast<D2DGeometryContext*>(geoCtx);
+	ID2D1RenderTarget* renderTarget = geometryContext->d2context->renderTarget;
 	
 	if (pen->brush != NULL) {
-		renderTarget->DrawGeometry(pathContext->path, pen->brush, strokeWidth, pen->strokeStyle);
+		renderTarget->DrawGeometry(geometryContext->geometry, pen->brush, strokeWidth, pen->strokeStyle);
 	}
 }
 
-void FillPathD(HANDLE pathCtx, D2D1_COLOR_F fillColor)
+void FillPathD(HANDLE geoCtx, D2D1_COLOR_F fillColor)
 {
-	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
-	ID2D1RenderTarget* renderTarget = pathContext->d2context->renderTarget;
+	D2DGeometryContext* geometryContext = reinterpret_cast<D2DGeometryContext*>(geoCtx);
+	ID2D1RenderTarget* renderTarget = geometryContext->d2context->renderTarget;
 
 	if (fillColor.a > 0)
 	{
@@ -234,7 +234,7 @@ void FillPathD(HANDLE pathCtx, D2D1_COLOR_F fillColor)
 		renderTarget->CreateSolidColorBrush(fillColor, &fillBrush);
 	
 		if (fillBrush != NULL) {
-			renderTarget->FillGeometry(pathContext->path, fillBrush);
+			renderTarget->FillGeometry(geometryContext->geometry, fillBrush);
 		}
 	
 		SafeRelease(&fillBrush);
@@ -376,13 +376,13 @@ void DrawPolygonWithBrush(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 
 }
 
-void FillPathWithBrush(HANDLE ctx, HANDLE brushHandle)
+void FillPathWithBrush(HANDLE geoCtx, HANDLE brushHandle)
 {
-	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(ctx);
+	D2DGeometryContext* geoContext = reinterpret_cast<D2DGeometryContext*>(geoCtx);
 	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandle);
-	D2DContext* context = pathContext->d2context;
+	D2DContext* context = geoContext->d2context;
 
-	context->renderTarget->FillGeometry(pathContext->path, brushContext->brush);
+	context->renderTarget->FillGeometry(geoContext->geometry, brushContext->brush);
 }
 
 void FillGeometryWithBrush(HANDLE ctx, HANDLE geoHandle, _In_ HANDLE brushHandle, _In_opt_ HANDLE opacityBrushHandle)
@@ -397,21 +397,21 @@ void FillGeometryWithBrush(HANDLE ctx, HANDLE geoHandle, _In_ HANDLE brushHandle
 		opacityBrushContext == NULL ? NULL : opacityBrushContext->brush);
 }
 
-bool PathFillContainsPoint(HANDLE pathCtx, D2D1_POINT_2F point)
+bool PathFillContainsPoint(HANDLE geoCtx, D2D1_POINT_2F point)
 {
-	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
+	D2DGeometryContext* geoContext = reinterpret_cast<D2DGeometryContext*>(geoCtx);
 
 	BOOL contain = FALSE;
-	pathContext->path->FillContainsPoint(point, NULL, &contain);
+	geoContext->geometry->FillContainsPoint(point, NULL, &contain);
 
 	return contain == TRUE;
 }
 
-bool PathStrokeContainsPoint(HANDLE pathCtx, D2D1_POINT_2F point, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle)
+bool PathStrokeContainsPoint(HANDLE geoCtx, D2D1_POINT_2F point, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle)
 {
-	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
-	
-	ID2D1Factory* factory = pathContext->d2context->factory;
+	D2DGeometryContext* geoContext = reinterpret_cast<D2DGeometryContext*>(geoCtx);
+
+	ID2D1Factory* factory = geoContext->d2context->factory;
 	ID2D1StrokeStyle *strokeStyle = NULL;
 	
 	if (dashStyle != D2D1_DASH_STYLE_SOLID)
@@ -427,7 +427,7 @@ bool PathStrokeContainsPoint(HANDLE pathCtx, D2D1_POINT_2F point, FLOAT strokeWi
 	}
 
 	BOOL contain = FALSE;
-	pathContext->path->StrokeContainsPoint(point, strokeWidth, strokeStyle, NULL, &contain);
+	geoContext->geometry->StrokeContainsPoint(point, strokeWidth, strokeStyle, NULL, &contain);
 
 	SafeRelease(&strokeStyle);
 
@@ -435,14 +435,14 @@ bool PathStrokeContainsPoint(HANDLE pathCtx, D2D1_POINT_2F point, FLOAT strokeWi
 }
 
 
-void GetGeometryBounds(HANDLE pathCtx, __out D2D1_RECT_F* rect)
+void GetGeometryBounds(HANDLE geoCtx, __out D2D1_RECT_F* rect)
 {
-	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
-	pathContext->path->GetBounds(NULL, rect);
+	D2DGeometryContext* geoContext = reinterpret_cast<D2DGeometryContext*>(geoCtx);
+	geoContext->geometry->GetBounds(NULL, rect);
 }
 
-void GetGeometryTransformedBounds(HANDLE pathCtx, __in D2D1_MATRIX_3X2_F* mat3x2, __out D2D1_RECT_F* rect)
+void GetGeometryTransformedBounds(HANDLE geoCtx, __in D2D1_MATRIX_3X2_F* mat3x2, __out D2D1_RECT_F* rect)
 {
-	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
-	pathContext->path->GetBounds(mat3x2, rect);
+	D2DGeometryContext* geoContext = reinterpret_cast<D2DGeometryContext*>(geoCtx);
+	geoContext->geometry->GetBounds(mat3x2, rect);
 }
