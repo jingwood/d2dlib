@@ -57,19 +57,19 @@ extern "C"
 															D2D1_COLOR_F strokeColor, FLOAT strokeWidth = 1, 
 															D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);
 
-	D2DLIB_API void DrawPath(HANDLE pathCtx, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle);
-	D2DLIB_API void DrawPathWithPen(HANDLE pathCtx, HANDLE strokePen, FLOAT strokeWidth);
-	D2DLIB_API void FillPathD(HANDLE pathCtx, D2D1_COLOR_F fillColor);
+	D2DLIB_API void DrawPath(HANDLE geoCtx, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle);
+	D2DLIB_API void DrawPathWithPen(HANDLE geoCtx, HANDLE strokePen, FLOAT strokeWidth);
+	D2DLIB_API void FillPathD(HANDLE geoCtx, D2D1_COLOR_F fillColor);
 
 	D2DLIB_API void FillGeometryWithBrush(HANDLE ctx, HANDLE geoHandle, 
 		__in HANDLE brushHandle, __in_opt HANDLE opacityBrushHandle = NULL);
 
-	D2DLIB_API bool PathFillContainsPoint(HANDLE pathCtx, D2D1_POINT_2F point);
-	D2DLIB_API bool PathStrokeContainsPoint(HANDLE pathCtx, D2D1_POINT_2F point, FLOAT strokeWidth = 1,
+	D2DLIB_API bool PathFillContainsPoint(HANDLE geoCtx, D2D1_POINT_2F point);
+	D2DLIB_API bool PathStrokeContainsPoint(HANDLE geoCtx, D2D1_POINT_2F point, FLOAT strokeWidth = 1,
 		D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);
 
-	D2DLIB_API void GetGeometryBounds(HANDLE pathCtx, __out D2D1_RECT_F* rect);
-	D2DLIB_API void GetGeometryTransformedBounds(HANDLE pathCtx, __in D2D1_MATRIX_3X2_F* mat3x2, __out D2D1_RECT_F* rect);
+	D2DLIB_API void GetGeometryBounds(HANDLE geoCtx, __out D2D1_RECT_F* rect);
+	D2DLIB_API void GetGeometryTransformedBounds(HANDLE geoCtx, __in D2D1_MATRIX_3X2_F* mat3x2, __out D2D1_RECT_F* rect);
 
 	D2DLIB_API void DrawPolygon(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 		D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle, D2D1_COLOR_F fillColor);
