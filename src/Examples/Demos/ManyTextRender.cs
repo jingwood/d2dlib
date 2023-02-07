@@ -69,7 +69,7 @@ namespace unvell.D2DLib.Examples.Demos
 			{
 				foreach (var node in nodes)
 				{
-					using (var brush = this.Device.CreateSolidColorBrush(node.color))
+					using (var brush = this.Device.CreateSolidColorBrushContext(node.color))
 					{
 						var rect = node.rect;
 

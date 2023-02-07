@@ -45,7 +45,7 @@ namespace unvell.D2DLib.Examples.Demos
 
 			// create a device brush in advance rather than pass color 
 			// during render to get better performance
-			brush = Device.CreateSolidColorBrush(D2DColor.Silver);
+			brush = Device.CreateSolidColorBrushContext(D2DColor.Silver);
 
 			for (int i = 0; i < StarCount; i++)
 			{

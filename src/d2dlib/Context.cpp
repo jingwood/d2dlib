@@ -347,6 +347,7 @@ HRESULT GetLastErrorCode(HANDLE ctx)
 
 void ReleaseObject(HANDLE handle)
 {
-	ID2D1Resource* object = reinterpret_cast<ID2D1Resource*>(handle);
-	SafeRelease(&object);
+	IUnknown* object = reinterpret_cast<IUnknown*>(handle);
+	if (object != NULL)
+		SafeRelease(&object);
 }

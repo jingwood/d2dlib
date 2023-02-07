@@ -435,6 +435,11 @@ namespace unvell.D2DLib
 				fontWeight, fontStyle, fontStretch, halign, valign);
 		}
 
+		public void DrawText(string text, D2DSolidColorBrush brush, D2DFontFormat fontFormat, D2DRect rect)
+		{
+			D2D.DrawStringWithFormat(this.Handle, text, brush.Handle, fontFormat.Handle, rect);
+		}
+
 		public void DrawStrokedText(string text, D2DPoint location,
 			D2DColor strokeColor, float strokeWidth,
 			D2DColor fillColor,
