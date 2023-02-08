@@ -69,15 +69,15 @@ namespace unvell.D2DLib
 			D2D.DestroyPen(pen.Handle);
 		}
 
-		public D2DSolidColorBrush? CreateSolidColorBrushContext(D2DColor color)
-		{
-			HANDLE handle = D2D.CreateSolidColorBrushContext(this.Handle, color);
-			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
-		}
 		public D2DSolidColorBrush? CreateSolidColorBrush(D2DColor color)
 		{
-			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
+			HANDLE handle = D2D.CreateSolidColorBrushCtx(this.Handle, color);
 			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
+		}
+		public D2DSolidColorTextBrush? CreateSolidColorTextBrush(D2DColor color)
+		{
+			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
+			return handle == HANDLE.Zero ? null : new D2DSolidColorTextBrush(handle, color);
 		}
 
 		public D2DLinearGradientBrush CreateLinearGradientBrush(D2DPoint startPoint, D2DPoint endPoint,

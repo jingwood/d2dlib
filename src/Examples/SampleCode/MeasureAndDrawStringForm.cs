@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-
 namespace unvell.D2DLib.Examples.SampleCode
 {
 	public partial class MeasureAndDrawStringForm : ExampleForm
@@ -34,38 +33,31 @@ namespace unvell.D2DLib.Examples.SampleCode
 			Text = "Measure and draw string";
 
 			Size = new Size(1280, 800);
-			brush = Device.CreateSolidColorBrush(D2DColor.BlueViolet);
+			brush = Device.CreateSolidColorTextBrush(D2DColor.BlueViolet);
 			brushBack = Device.CreateSolidColorBrush(D2DColor.DarkGray);
-			textFormat = Device.CreateFontFormat(Font.Name, 34);
+			fontFormat = Device.CreateFontFormat(Font.Name, 34);
 
 			szString = new D2DSize(60, 20);
-			dispstrings = new List<string>();
+			dispstrings = new List<string>(2000);
 			AnimationDraw = true;
 			ShowFPS = true;
+
+			CreateStrings();
 		}
 
 
 		D2DSize szString;
-		D2DSolidColorBrush brush;
+		D2DSolidColorTextBrush brush;
 		D2DSolidColorBrush brushBack;
-		D2DFontFormat textFormat;
-		int ColCount;
-		int RowCount;
+		D2DFontFormat fontFormat;
+
 		List<string> dispstrings;
 		D2DPoint ptLeftTop = new D2DPoint(0, 0);
-
-		private void ReSize()
-        {
-			ColCount = (int)Math.Floor(Size.Width / szString.width);
-			RowCount = (int)Math.Floor(Size.Height / szString.height);
-		}
+		D2DRect rect = new D2DRect(0, 0, 0, 0);
 
 		private void CreateStrings()
         {
-			ReSize();
-
-			dispstrings.Clear();
-			for (int count = ColCount * RowCount; count >= 0; count--)
+			for (int count = 0; count < 1000; ++count)
             {
 				dispstrings.Add(Guid.NewGuid().ToString().Substring(20, 8));
 			}
@@ -74,24 +66,26 @@ namespace unvell.D2DLib.Examples.SampleCode
         protected override void OnFrame()
         {
             base.OnFrame();
-			CreateStrings();
 		}
 
         protected override void OnRender(D2DGraphics g)
 		{
 			g.FillRectangle(ClientRectangle, brushBack);
-			int pos = 0;
-			for (int row = 0; row < RowCount; row++)
+			var ratio = (double)(ClientRectangle.Width) / ClientRectangle.Height;
+			
+			for (int i = 0; i < dispstrings.Count; i++)
             {
-				ptLeftTop.Y = szString.height * row + 10;
-				for (int col = 0; col < ColCount; col++)
-                {
-					ptLeftTop.X = szString.width * col + 30;
-					D2DRect rcText = new D2DRect(ptLeftTop, szString);
-					//g.DrawText(dispstrings[pos++], D2DColor.Black, "Times New Roman", 34, rcText);
-					g.DrawText(dispstrings[pos++], brush, textFormat, rcText);
-					//g.DrawText(dispstrings[pos++], D2DColor.BlueViolet, Font.Name, Font.Size * 96F / 72F, rcText);
-				}
+				var str = dispstrings[i];
+				var sz = g.MeasureText(str, fontFormat, new D2DSize(500, 200)); //cached textFormat
+				//var sz = g.MeasureText(str, font1.Name, font1.Size, new D2DSize(999,200)); //not cached
+
+				rect.left = (rect.left + rect.Width + sz.width) % (ClientSize.Width );
+				rect.top = (rect.top + rect.Height + sz.height) % (ClientSize.Height );
+				rect.Width = sz.width;
+				rect.Height = sz.height;
+
+				//g.DrawText(str, D2DColor.BlueViolet, font1.Name, font1.Size, rect); //32 fps + measure text not cached
+				g.DrawText(str, brush, fontFormat, rect ); //45fps + measure text not cached, 64fp with measure text cached
 			}
 		}
         protected override void OnFormClosed(FormClosedEventArgs e)
@@ -99,7 +93,7 @@ namespace unvell.D2DLib.Examples.SampleCode
             base.OnFormClosed(e);
 			brush.Dispose();
 			brushBack.Dispose();
-			textFormat.Dispose();
+			fontFormat.Dispose();
 		}
         
     }

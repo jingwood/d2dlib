@@ -200,6 +200,12 @@ namespace unvell.D2DLib
 			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading,
 			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
 
+		[DllImport(DLL_NAME, EntryPoint = "MeasureTextWithFormat", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void MeasureTextWithFormat([In] HANDLE ctx, [In] string text, [In] HANDLE textFormat, ref D2DSize size);
+
+		[DllImport(DLL_NAME, EntryPoint = "MeasureTextWithLayout", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void MeasureTextWithLayout([In] HANDLE ctx, [In] HANDLE textLayout, ref D2DSize size);
+
 		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateFontFace([In] HANDLE context, [In] string fontName,
 		[In] D2DFontWeight fontWeight = D2DFontWeight.Normal,
@@ -232,10 +238,6 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CharSet = CharSet.Unicode)]
 		public static extern void DrawStringWithFormat([In] HANDLE context, [In] string text, [In] HANDLE brush,
-			[In] HANDLE textFormat, [In] D2DRect rect);
-
-		[DllImport(DLL_NAME, EntryPoint = "DrawStringWithFormatAndColor", CharSet = CharSet.Unicode)]
-		public static extern void DrawStringWithFormatAndColor([In] HANDLE context, [In] string text, [In] D2DColor color,
 			[In] HANDLE textFormat, [In] D2DRect rect);
 
 		#endregion // Text
@@ -349,8 +351,8 @@ namespace unvell.D2DLib
 
 		#region Brush
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HANDLE CreateSolidColorBrushContext(HANDLE ctx, D2DColor color);
+		[DllImport(DLL_NAME, EntryPoint = "CreateSolidColorBrushContext", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateSolidColorBrushCtx(HANDLE ctx, D2DColor color);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateSolidColorBrush(HANDLE ctx, D2DColor color);

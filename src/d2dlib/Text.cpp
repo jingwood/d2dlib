@@ -66,20 +66,6 @@ D2DLIB_API void DrawStringWithFormat(HANDLE ctx, LPCWSTR text, ID2D1SolidColorBr
 	}
 }
 
-D2DLIB_API void DrawStringWithFormatAndColor(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color, IDWriteTextFormat* textFormat, D2D1_RECT_F rect)
-{
-	RetrieveContext(ctx);
-	ID2D1SolidColorBrush* brush = NULL;
-
-	// Create a solid color brush.
-	HRESULT hr = (context->renderTarget)->CreateSolidColorBrush(color, &brush);
-
-	if (SUCCEEDED(hr) && brush != NULL && textFormat != NULL) {
-		context->renderTarget->DrawText(text, (UINT32)wcslen(text), textFormat, rect, brush);
-	}
-	SafeRelease(&brush);
-}
-
 D2DLIB_API HANDLE CreateTextFormat(HANDLE ctx, LPCWSTR fontName, FLOAT fontSize, DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, DWRITE_FONT_STRETCH fontStretch,
 																				DWRITE_TEXT_ALIGNMENT halign, DWRITE_PARAGRAPH_ALIGNMENT valign)
 {
@@ -93,7 +79,6 @@ D2DLIB_API HANDLE CreateTextFormat(HANDLE ctx, LPCWSTR fontName, FLOAT fontSize,
 	if (SUCCEEDED(hr) && textFormat != NULL) {
 		textFormat->SetTextAlignment(halign);
 		textFormat->SetParagraphAlignment(valign);
-
 		return (HANDLE)textFormat;
 	}
 
@@ -310,6 +295,33 @@ D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fo
 
 	SafeRelease(&textFormat);
 	SafeRelease(&textLayout);
+}
+
+D2DLIB_API void MeasureTextWithFormat(HANDLE ctx, LPCWSTR text, IDWriteTextFormat* textFormat, D2D1_SIZE_F* size) {
+	RetrieveContext(ctx);
+
+	IDWriteTextLayout* textLayout = (IDWriteTextLayout*)CreateTextLayoutWithFormat(ctx, text, textFormat, size);
+
+	if (textLayout != NULL) {
+		DWRITE_TEXT_METRICS tm;
+		textLayout->GetMetrics(&tm);
+
+		size->width = tm.width;
+		size->height = tm.height;
+	}
+	SafeRelease(&textLayout);
+}
+
+D2DLIB_API void MeasureTextWithLayout(HANDLE ctx, IDWriteTextLayout* textLayout, D2D1_SIZE_F* size) {
+	RetrieveContext(ctx);
+
+	if (textLayout != NULL) {
+		DWRITE_TEXT_METRICS tm;
+		textLayout->GetMetrics(&tm);
+
+		size->width = tm.width;
+		size->height = tm.height;
+	}
 }
 
 void DrawGlyphRun(HANDLE ctx, D2D1_POINT_2F baselineOrigin,

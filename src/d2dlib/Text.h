@@ -49,8 +49,7 @@ extern "C"
 														 DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT::DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 	
 	D2DLIB_API void DrawStringWithFormat(HANDLE ctx, LPCWSTR text, ID2D1SolidColorBrush* brush, IDWriteTextFormat* textFormat, D2D1_RECT_F rect);
-	D2DLIB_API void DrawStringWithFormatAndColor(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color, IDWriteTextFormat* textFormat, D2D1_RECT_F rect);
-
+	
 	D2DLIB_API HANDLE CreateTextFormat(HANDLE ctx, LPCWSTR fontName, FLOAT fontSize, 
 		DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT::DWRITE_FONT_WEIGHT_NORMAL, 
 		DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_NORMAL, 
@@ -71,6 +70,10 @@ extern "C"
 		DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL);
+
+	D2DLIB_API void MeasureTextWithFormat(HANDLE ctx, LPCWSTR text, IDWriteTextFormat* textFormat, D2D1_SIZE_F* size);
+
+	D2DLIB_API void MeasureTextWithLayout(HANDLE ctx, IDWriteTextLayout* textLayout, D2D1_SIZE_F* size);
 
 	D2DLIB_API void DrawGlyphRun(HANDLE ctx, D2D1_POINT_2F baselineOrigin, 
 			const DWRITE_GLYPH_RUN *glyphRun, D2D1_COLOR_F color,
