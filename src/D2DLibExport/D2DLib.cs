@@ -131,7 +131,6 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ReleaseObject([In] HANDLE objectHandle);
-
 		#endregion // Device Context
 
 		#region Simple Sharp
@@ -201,6 +200,12 @@ namespace unvell.D2DLib
 			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading,
 			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
 
+		[DllImport(DLL_NAME, EntryPoint = "MeasureTextWithFormat", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void MeasureTextWithFormat([In] HANDLE ctx, [In] string text, [In] HANDLE textFormat, ref D2DSize size);
+
+		[DllImport(DLL_NAME, EntryPoint = "MeasureTextWithLayout", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void MeasureTextWithLayout([In] HANDLE ctx, [In] HANDLE textLayout, ref D2DSize size);
+
 		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateFontFace([In] HANDLE context, [In] string fontName,
 		[In] D2DFontWeight fontWeight = D2DFontWeight.Normal,
@@ -213,6 +218,27 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateTextPathGeometry(HANDLE ctx, [In] string text,
 			HANDLE fontFaceHandle, FLOAT fontSize);
+
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextFormat", CharSet = CharSet.Unicode)]
+		public static extern HANDLE CreateFontFormat([In] HANDLE ctx, [In] string fontName, [In] FLOAT fontSize, 
+			[In] DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT.DWRITE_FONT_WEIGHT_NORMAL, 
+			[In] DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE.DWRITE_FONT_STYLE_NORMAL, 
+			[In] DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH.DWRITE_FONT_STRETCH_NORMAL,
+			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading, 
+			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
+
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextLayoutWithFormat", CharSet = CharSet.Unicode)]
+		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE fontFormat, [In] ref D2DSize size);
+
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextLayout", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE fontFormat, [In] ref D2DSize size,
+			[In] DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT.DWRITE_FONT_WEIGHT_NORMAL,
+			[In] DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE.DWRITE_FONT_STYLE_NORMAL,
+			[In] DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH.DWRITE_FONT_STRETCH_NORMAL);
+
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode)]
+		public static extern void DrawStringWithFormat([In] HANDLE context, [In] string text, [In] HANDLE brush,
+			[In] HANDLE textFormat, [In] D2DRect rect);
 
 		#endregion // Text
 
@@ -324,6 +350,9 @@ namespace unvell.D2DLib
 		#endregion Pen
 
 		#region Brush
+
+		[DllImport(DLL_NAME, EntryPoint = "CreateSolidColorBrushContext", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateSolidColorBrushCtx(HANDLE ctx, D2DColor color);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateSolidColorBrush(HANDLE ctx, D2DColor color);

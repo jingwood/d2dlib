@@ -435,6 +435,11 @@ namespace unvell.D2DLib
 				fontWeight, fontStyle, fontStretch, halign, valign);
 		}
 
+		public void DrawText(string text, D2DSolidColorTextBrush brush, D2DFontFormat fontFormat, D2DRect rect)
+		{
+			D2D.DrawStringWithFormat(this.Handle, text, brush.Handle, fontFormat.Handle, rect);
+		}
+
 		public void DrawStrokedText(string text, D2DPoint location,
 			D2DColor strokeColor, float strokeWidth,
 			D2DColor fillColor,
@@ -473,6 +478,21 @@ namespace unvell.D2DLib
 			D2D.MeasureText(this.Handle, text, fontName, fontSize, ref outputSize);
 			return outputSize;
 		}
+
+		public D2DSize MeasureText(D2DTextLayout textLayout)
+		{
+			D2DSize outputSize = new D2DSize();
+			D2D.MeasureTextWithLayout(this.Handle, textLayout.Handle, ref outputSize);
+			return outputSize;
+		}
+
+		public D2DSize MeasureText(string text, D2DFontFormat fontFormat, D2DSize placeSize)
+		{
+			D2DSize outputSize = placeSize;
+			D2D.MeasureTextWithFormat(this.Handle, text, fontFormat.Handle, ref outputSize);
+			return outputSize;
+		}
+		
 
 		public void DrawPath(D2DGeometry path, D2DColor strokeColor,
 			FLOAT strokeWidth = 1f, D2DDashStyle dashStyle = D2DDashStyle.Solid)
