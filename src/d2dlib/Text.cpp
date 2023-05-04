@@ -56,13 +56,23 @@ D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 	SafeRelease(&textFormat);
 }
 
-D2DLIB_API void DrawStringWithFormat(HANDLE ctx, LPCWSTR text, ID2D1SolidColorBrush* brush, IDWriteTextFormat* textFormat, D2D1_RECT_F rect)
+D2DLIB_API void DrawStringWithFormat(HANDLE ctx, LPCWSTR text, ID2D1SolidColorBrush* brush, IDWriteTextFormat* textFormat, D2D1_RECT_F* rect)
 {
 	RetrieveContext(ctx);
 
 	if (brush != NULL && textFormat != NULL)
 	{
 		context->renderTarget->DrawText(text, (UINT32)wcslen(text), textFormat, rect, brush);
+	}
+}
+
+D2DLIB_API void DrawStringWithLayout(HANDLE ctx, ID2D1SolidColorBrush* brush, IDWriteTextLayout* textLayout, D2D1_POINT_2F origin)
+{
+	RetrieveContext(ctx);
+
+	if (textLayout != NULL)
+	{
+		context->renderTarget->DrawTextLayout(origin, textLayout, brush, D2D1_DRAW_TEXT_OPTIONS_NONE);
 	}
 }
 

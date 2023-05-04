@@ -131,6 +131,11 @@ void SetContextProperties(HANDLE ctx, D2D1_ANTIALIAS_MODE antialiasMode)
 
 	context->renderTarget->SetAntialiasMode(antialiasMode);
 }
+void SetTextAntialiasMode(HANDLE ctx, D2D1_TEXT_ANTIALIAS_MODE antialiasMode)
+{
+	RetrieveContext(ctx);
+	context->renderTarget->SetTextAntialiasMode(antialiasMode);
+}
 
 void BeginRender(HANDLE ctx)
 {
