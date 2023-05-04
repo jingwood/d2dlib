@@ -76,16 +76,17 @@ namespace unvell.D2DLib.Examples.SampleCode
 			for (int i = 0; i < dispstrings.Count; i++)
             {
 				var str = dispstrings[i];
-				var sz = g.MeasureText(str, fontFormat, new D2DSize(500, 200)); //cached textFormat
+				var rectSize = new D2DSize(500, 200);
+				g.MeasureText(str, fontFormat, ref rectSize); //cached textFormat
 				//var sz = g.MeasureText(str, font1.Name, font1.Size, new D2DSize(999,200)); //not cached
 
-				rect.left = (rect.left + rect.Width + sz.width) % (ClientSize.Width );
-				rect.top = (rect.top + rect.Height + sz.height) % (ClientSize.Height );
-				rect.Width = sz.width;
-				rect.Height = sz.height;
+				rect.left = (rect.left + rect.Width + rectSize.width) % (ClientSize.Width );
+				rect.top = (rect.top + rect.Height + rectSize.height) % (ClientSize.Height );
+				rect.Width = rectSize.width;
+				rect.Height = rectSize.height;
 
 				//g.DrawText(str, D2DColor.BlueViolet, font1.Name, font1.Size, rect); //32 fps + measure text not cached
-				g.DrawText(str, brush, fontFormat, rect ); //45fps + measure text not cached, 64fp with measure text cached
+				g.DrawText(str, brush, fontFormat, ref rect ); //45fps + measure text not cached, 64fp with measure text cached
 			}
 		}
         protected override void OnFormClosed(FormClosedEventArgs e)
