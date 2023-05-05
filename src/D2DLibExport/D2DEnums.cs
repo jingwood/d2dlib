@@ -331,28 +331,28 @@ namespace unvell.D2DLib
 		//
 		Aliased = 1,
 	}
-	public enum D2DTextAntialiasMode : uint
+
+	public enum D2DTextAntialiasMode
 	{
 		/// <summary>
 		/// Render text using the current system setting.
 		/// </summary>
-		DEFAULT = 0,
+		Default = 0,
 
 		/// <summary>
 		/// Render text using ClearType.
 		/// </summary>
-		CLEARTYPE = 1,
+		ClearType = 1,
 
 		/// <summary>
 		/// Render text using gray-scale.
 		/// </summary>
-		GRAYSCALE = 2,
+		Grayscale = 2,
 
 		/// <summary>
 		/// Render text aliased.
 		/// </summary>
-		ALIASED = 3,
-		FORCE_DWORD = 0xffffffff
+		Aliased = 3
 	}
 
 	public enum D2DBitmapInterpolationMode
