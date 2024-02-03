@@ -71,8 +71,13 @@ namespace unvell.D2DLib
 
 		public D2DSolidColorBrush? CreateSolidColorBrush(D2DColor color)
 		{
-			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
+			HANDLE handle = D2D.CreateSolidColorBrushCtx(this.Handle, color);
 			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
+		}
+		public D2DSolidColorTextBrush? CreateSolidColorTextBrush(D2DColor color)
+		{
+			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
+			return handle == HANDLE.Zero ? null : new D2DSolidColorTextBrush(handle, color);
 		}
 
 		public D2DLinearGradientBrush CreateLinearGradientBrush(D2DPoint startPoint, D2DPoint endPoint,
@@ -149,7 +154,7 @@ namespace unvell.D2DLib
 
 			return path;
 		}
-
+		
 		public D2DPathGeometry CreateTextPathGeometry(string text, string fontName, float fontSize,
 			D2DFontWeight fontWeight = D2DFontWeight.Normal,
 			D2DFontStyle fontStyle = D2DFontStyle.Normal,
@@ -172,7 +177,24 @@ namespace unvell.D2DLib
 
 			return new D2DPathGeometry(this, pathHandler);
 		}
+		
+		public D2DFontFormat CreateFontFormat(string fontName, float fontSize, 
+				DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT.DWRITE_FONT_WEIGHT_NORMAL, 
+				DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE.DWRITE_FONT_STYLE_NORMAL, 
+				DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH.DWRITE_FONT_STRETCH_NORMAL, 
+				DWriteTextAlignment halign = DWriteTextAlignment.Leading,
+				DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near)
+        {
+			HANDLE fmtHandle = D2D.CreateFontFormat(this.Handle, fontName, fontSize, fontWeight, fontStyle, fontStretch, halign, valign);
+			return new D2DFontFormat(fmtHandle);
+		}
 
+		public D2DTextLayout CreateTextLayout(string text, D2DFontFormat fontFormat, D2DSize size)
+        {
+			HANDLE fmtHandle = D2D.CreateTextLayout(this.Handle, text, fontFormat.Handle, ref size);
+			return new D2DTextLayout(fmtHandle);
+		}
+		
 		public D2DBitmap? LoadBitmap(byte[] buffer)
 		{
 			return this.LoadBitmap(buffer, 0, (uint)buffer.Length);
