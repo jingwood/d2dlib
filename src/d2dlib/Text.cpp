@@ -163,7 +163,7 @@ HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, F
 	D2DPathContext* pathContext = NULL;
 	IDWriteFontFace* fontFace = fontFaceWrap->fontFace;
 
-	int textLength = wcslen(text);
+	auto textLength = (UINT32)wcslen(text);
 
 	UINT* codePoints = new UINT[textLength];
 	UINT16* glyphIndices = new UINT16[textLength];
@@ -188,7 +188,7 @@ HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, F
 			hr = path->Open(&sink);
 			if (SUCCEEDED(hr)) {
 
-				hr = fontFace->GetGlyphRunOutline(fontSize * 96.0 / 72.0, glyphIndices,
+				hr = fontFace->GetGlyphRunOutline(fontSize * 96.0f / 72.0f, glyphIndices,
 					NULL, NULL, textLength, FALSE, FALSE, sink);
 
 				//sink->SetFillMode(D2D1_FILL_MODE_WINDING);
