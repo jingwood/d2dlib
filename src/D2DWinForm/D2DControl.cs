@@ -43,17 +43,14 @@ namespace unvell.D2DLib.WinForm
 
 		private D2DGraphics? graphics;
 
-		private int currentFps = 0;
-		private int lastFps = 0;
 		public bool ShowFPS { get; set; }
-		private DateTime lastFpsUpdate = DateTime.UtcNow;
 
 		protected override void CreateHandle()
 		{
 			base.CreateHandle();
 
 			this.DoubleBuffered = false;
-		
+
 			if (this.device == null)
 			{
 				this.device = D2DDevice.FromHwnd(this.Handle);
@@ -97,24 +94,12 @@ namespace unvell.D2DLib.WinForm
 			}
 
 			OnRender(this.graphics);
-			
+
 			if (ShowFPS)
 			{
-				if (this.lastFpsUpdate.Second != DateTime.UtcNow.Second)
-				{
-					this.lastFps = this.currentFps;
-					this.currentFps = 0;
-					this.lastFpsUpdate = DateTime.UtcNow;
-				}
-				else
-				{
-					this.currentFps++;
-				}
-
-				string info = string.Format("{0} fps", this.lastFps);
-				System.Drawing.SizeF size = e.Graphics.MeasureString(info, Font, Width);
-				e.Graphics.DrawString(info, Font, System.Drawing.Brushes.Black, ClientRectangle.Right - size.Width - 10, 5);
+				DrawAndCountFps();
 			}
+
 
 			this.graphics.EndRender();
 		}
@@ -126,6 +111,16 @@ namespace unvell.D2DLib.WinForm
 		}
 
 		protected virtual void OnRender(D2DGraphics g) { }
+
+		private void DrawAndCountFps()
+		{
+			fpsCounter.Update();
+
+			var info = $"{fpsCounter.FramesPerSecond} fps";
+			var placeSize = new D2DSize(1000, 1000);
+			var size = graphics.MeasureText(info, Font.Name, Font.Size, placeSize);
+			graphics.DrawText(info, D2DColor.Silver, ClientRectangle.Right - size.Width - 10, 5);
+		}
 
 		protected override void WndProc(ref System.Windows.Forms.Message m)
 		{
