@@ -71,6 +71,7 @@ enum GeometryType {
 
 typedef struct D2DGeometryContext {
 	D2DContext* d2context;
+	GeometryType geometryType;
 	ID2D1Geometry* geometry;
 } D2DGeometryContext;
 

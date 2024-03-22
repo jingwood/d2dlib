@@ -100,7 +100,7 @@ namespace unvell.D2DLib
 
 		public D2DRectangleGeometry CreateRectangleGeometry(D2DRect rect)
 		{
-			HANDLE rectGeometryHandle = D2D.CreateRectangleGeometry(this.Handle, ref rect);
+			HANDLE rectGeometryHandle = D2D.CreateRectangleGeometry(this.Handle, rect);
 			return new D2DRectangleGeometry(this, rectGeometryHandle);
 		}
 
