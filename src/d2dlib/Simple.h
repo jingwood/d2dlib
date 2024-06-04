@@ -1,4 +1,4 @@
-/*
+﻿/*
 * MIT License
 *
 * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
@@ -38,6 +38,8 @@ extern "C"
 	D2DLIB_API void DrawLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count, D2D1_COLOR_F color,
 		FLOAT width = 1, D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);
 
+	D2DLIB_API void DrawUnconnectedLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count, D2D1_COLOR_F color, FLOAT width);
+
 	D2DLIB_API void DrawRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color,
 		FLOAT width = 1, D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);
 
@@ -46,6 +48,8 @@ extern "C"
 	D2DLIB_API void FillRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color);
 
 	D2DLIB_API void FillRectangleWithBrush(HANDLE ctx, D2D1_RECT_F* rect, HANDLE brushHandle);
+
+	D2DLIB_API void DrawFillRectangle(HANDLE ctx, D2D1_RECT_F* rect, HANDLE fillBrushHandle, HANDLE strokePen, FLOAT width);
 
 	D2DLIB_API void DrawRoundedRect(HANDLE ctx, D2D1_ROUNDED_RECT* roundedRect, D2D1_COLOR_F strokeColor, D2D1_COLOR_F fillColor,
 		FLOAT strokeWidth = 1, D2D1_DASH_STYLE strokeStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);

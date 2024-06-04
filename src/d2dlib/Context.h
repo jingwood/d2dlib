@@ -142,6 +142,8 @@ extern "C"
 	
 	D2DLIB_API void SetContextProperties(HANDLE ctx,
 		D2D1_ANTIALIAS_MODE antialiasMode = D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+
+	D2DLIB_API void SetTextAntialiasMode(HANDLE ctx, D2D1_TEXT_ANTIALIAS_MODE antialiasMode);
 	
 	D2DLIB_API void BeginRender(HANDLE context);
 	D2DLIB_API void BeginRenderWithBackgroundColor(HANDLE ctx, D2D1_COLOR_F color);

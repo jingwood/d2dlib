@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace unvell.D2DLib
@@ -85,6 +86,11 @@ namespace unvell.D2DLib
 			}
 		}
 
+		public void SetTextAntialiasMode(D2DTextAntialiasMode textAntialiasMode)
+		{
+			D2D.SetTextAntialiasMode(this.Handle, textAntialiasMode);
+		}
+
 		public void DrawLine(FLOAT x1, FLOAT y1, FLOAT x2, FLOAT y2, D2DColor color,
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid,
 			D2DCapStyle startCap = D2DCapStyle.Flat, D2DCapStyle endCap = D2DCapStyle.Flat)
@@ -102,6 +108,12 @@ namespace unvell.D2DLib
 		public void DrawLines(D2DPoint[] points, D2DColor color, FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
 			D2D.DrawLines(this.Handle, points, (uint)points.Length, color, weight, dashStyle);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public void DrawUnconnectedLines(D2DPoint[] points, D2DColor color, FLOAT weight = 1)
+		{
+			D2D.DrawUnconnectedLines(this.Handle, points, (uint)points.Length, color, weight);
 		}
 
 		public void DrawEllipse(FLOAT x, FLOAT y, FLOAT width, FLOAT height, D2DColor color,
@@ -239,7 +251,7 @@ namespace unvell.D2DLib
 
 		public D2DLayer PushLayer(D2DLayer layer, D2DRect rectBounds, D2DGeometry? geometry = null, D2DBrush? opacityBrush = null)
 		{
-			D2D.PushLayer(this.Handle, layer.Handle, rectBounds, geometry != null ? geometry.Handle : IntPtr.Zero, opacityBrush != null ? opacityBrush.Handle : IntPtr.Zero);
+			D2D.PushLayer(this.Handle, layer.Handle, rectBounds, geometry != null ? geometry.Handle : IntPtr.Zero, opacityBrush != null ? opacityBrush.Handle : IntPtr.Zero, layerOptions: LayerOptions.None);
 			return layer;
 		}
 
@@ -345,6 +357,12 @@ namespace unvell.D2DLib
 			D2D.FillRectangleWithBrush(this.Handle, ref rect, brush.Handle);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public void DrawFillRectangle(ref D2DRect rect, D2DBrush fillBrush, D2DPen outlineBrush, float width )
+		{
+			D2D.DrawFillRectangle(this.Handle, ref rect, fillBrush.Handle, outlineBrush.Handle, width );
+		}
+
 		public void DrawRoundedRectangle(D2DRoundedRect roundedRect, D2DColor strokeColor, D2DColor fillColor,
 			FLOAT strokeWidth = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
@@ -435,6 +453,18 @@ namespace unvell.D2DLib
 				fontWeight, fontStyle, fontStretch, halign, valign);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public void DrawText(string text, D2DSolidColorTextBrush brush, D2DFontFormat fontFormat, ref D2DRect rect)
+		{
+			D2D.DrawStringWithFormat(this.Handle, text, brush.Handle, fontFormat.Handle,ref rect);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public void DrawText(D2DSolidColorTextBrush brush, D2DTextLayout textLayout, D2DPoint origin)
+		{
+			D2D.DrawStringWithLayout(this.Handle, brush.Handle, textLayout.Handle, origin);
+		}
+
 		public void DrawStrokedText(string text, D2DPoint location,
 			D2DColor strokeColor, float strokeWidth,
 			D2DColor fillColor,
@@ -473,6 +503,19 @@ namespace unvell.D2DLib
 			D2D.MeasureText(this.Handle, text, fontName, fontSize, ref outputSize);
 			return outputSize;
 		}
+
+		public D2DSize MeasureText(D2DTextLayout textLayout)
+		{
+			D2DSize outputSize = new D2DSize();
+			D2D.MeasureTextWithLayout(this.Handle, textLayout.Handle, ref outputSize);
+			return outputSize;
+		}
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public void MeasureText(string text, D2DFontFormat fontFormat, ref D2DSize placeSize)
+		{
+			D2D.MeasureTextWithFormat(this.Handle, text, fontFormat.Handle, ref placeSize);
+		}
+		
 
 		public void DrawPath(D2DGeometry path, D2DColor strokeColor,
 			FLOAT strokeWidth = 1f, D2DDashStyle dashStyle = D2DDashStyle.Solid)
