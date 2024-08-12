@@ -38,5 +38,9 @@ extern "C"
 																						  FLOAT radiusX, FLOAT radiusY, D2D1_GRADIENT_STOP* gradientStops, 
 																							UINT gradientStopCount);
 
+	D2DLIB_API HANDLE CreateBitmapBrush(HANDLE ctx, ID2D1Bitmap* bitmap, 
+		D2D1_EXTEND_MODE extendModeX, D2D1_EXTEND_MODE extendModeY, 
+		D2D1_BITMAP_INTERPOLATION_MODE interpolationMode);
+
 	D2DLIB_API void ReleaseBrush(HANDLE brushHandle);
 }
