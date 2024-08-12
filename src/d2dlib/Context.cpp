@@ -80,7 +80,7 @@ HANDLE CreateContext(HWND hwnd)
 
 	//context->renderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_ALIASED);
 	context->renderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
-	
+
 	return (HANDLE)context;
 }
 
