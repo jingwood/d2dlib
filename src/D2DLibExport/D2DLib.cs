@@ -338,6 +338,7 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateRadialGradientBrush(HANDLE ctx, D2DPoint origin, D2DPoint offset,
 																													FLOAT radiusX, FLOAT radiusY, D2DGradientStop[] gradientStops,
+								      																					UINT gradientStopCount);
 				
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateBitmapBrush(HANDLE ctx, HANDLE bitmap,
