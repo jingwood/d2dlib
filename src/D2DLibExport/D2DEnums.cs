@@ -345,7 +345,28 @@ namespace unvell.D2DLib
 		//
 		Linear = 1,
 	}
+ 
+	public enum D2DExtendMode
+	{
+		/// 
+		/// Extend the edges of the source out by clamping sample points outside the source
+		/// to the edges.
+		///
+		Clamp = 0,
 
+		///
+		/// The base tile is drawn untransformed and the remainder are filled by repeating
+		/// the base tile.
+		///
+		Wrap = 1,
+
+		/// 
+		/// The same as wrap, but alternate tiles are flipped  The base tile is drawn
+		/// untransformed.
+		///
+		Mirror = 2,
+	}
+ 
 	enum DWriteMeasuringMode
 	{
 		/// <summary>
