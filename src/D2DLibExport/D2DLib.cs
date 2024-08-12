@@ -344,7 +344,6 @@ namespace unvell.D2DLib
 		public static extern HANDLE CreateBitmapBrush(HANDLE ctx, HANDLE bitmap,
 																									D2DExtendMode extendModeX, D2DExtendMode extendModeY,
 																									D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear);
-																											UINT gradientStopCount);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ReleaseBrush(HANDLE brushCtx);
