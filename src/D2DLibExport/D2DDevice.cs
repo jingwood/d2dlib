@@ -122,6 +122,13 @@ namespace unvell.D2DLib
 			return new D2DPathGeometry(this, geoHandle);
 		}
 
+		public D2DPathGeometry CreateCombinedGeometry(D2DGeometry path1, D2DGeometry path2,
+			D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance = 10f)
+		{
+			HANDLE geoHandle = D2D.CreateCombinedGeometry(this.Handle, path1.Handle, path2.Handle, combineMode, flatteningTolerance);
+			return new D2DPathGeometry(this, geoHandle);
+		}
+
 		public D2DGeometry CreateEllipseGeometry(D2DPoint origin, D2DSize size)
 		{
 			var ellipse = new D2DEllipse(origin, size);
