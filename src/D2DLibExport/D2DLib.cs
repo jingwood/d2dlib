@@ -231,9 +231,9 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, EntryPoint = "CreateTextFormat", CharSet = CharSet.Unicode)]
 		public static extern HANDLE CreateFontFormat([In] HANDLE ctx, [In] string fontName, [In] FLOAT fontSize, 
-			[In] DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT.DWRITE_FONT_WEIGHT_NORMAL, 
-			[In] DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE.DWRITE_FONT_STYLE_NORMAL, 
-			[In] DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH.DWRITE_FONT_STRETCH_NORMAL,
+			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal, 
+			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal, 
+			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal,
 			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading, 
 			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
 
@@ -242,9 +242,9 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, EntryPoint = "CreateTextLayout", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
 		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE fontFormat, [In] ref D2DSize size,
-			[In] DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT.DWRITE_FONT_WEIGHT_NORMAL,
-			[In] DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE.DWRITE_FONT_STYLE_NORMAL,
-			[In] DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH.DWRITE_FONT_STRETCH_NORMAL);
+			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal,
+			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal,
+			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal);
 
 		[DllImport(DLL_NAME, CharSet = CharSet.Unicode)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -274,7 +274,7 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateCombinedGeometry(HANDLE d2dCtx, HANDLE pathCtx1, HANDLE pathCtx2,
-			D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance = 10f);
+			D2D1CombineMode combineMode, FLOAT flatteningTolerance = 10f);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyPathGeometry(HANDLE ctx);
