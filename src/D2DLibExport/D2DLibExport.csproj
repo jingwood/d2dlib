@@ -3,7 +3,7 @@
   <Import Project="..\NativeLibraries.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net4.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net4.7.2;netstandard2.1</TargetFrameworks>
     <RootNamespace>unvell.D2DLib</RootNamespace>
     <AssemblyName>d2dlibexport</AssemblyName>
   </PropertyGroup>
