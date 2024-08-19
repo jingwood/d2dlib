@@ -162,6 +162,10 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;D2DLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -172,20 +176,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Brush.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="Pen.h" />
-    <ClInclude Include="resource1.h" />
     <ClInclude Include="Simple.h" />
     <ClInclude Include="Style.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Effect.h" />
-    <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Transform.h" />
@@ -222,9 +221,6 @@
     </ClCompile>
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="Transform.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

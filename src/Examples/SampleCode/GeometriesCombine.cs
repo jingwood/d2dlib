@@ -1,6 +1,4 @@
-﻿
-
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -30,11 +28,11 @@ namespace unvell.D2DLib.Examples.SampleCode
 			D2DColor fillColor = D2DColor.CornflowerBlue;
 			fillColor.a = 0.25f;
 
-			D2D1_COMBINE_MODE[] modes = {
-				D2D1_COMBINE_MODE.D2D1_COMBINE_MODE_UNION,
-				D2D1_COMBINE_MODE.D2D1_COMBINE_MODE_INTERSECT,
-				D2D1_COMBINE_MODE.D2D1_COMBINE_MODE_XOR,
-				D2D1_COMBINE_MODE.D2D1_COMBINE_MODE_EXCLUDE  
+			D2D1CombineMode[] modes = {
+				D2D1CombineMode.Union,
+				D2D1CombineMode.Intersect,
+				D2D1CombineMode.XOR,
+				D2D1CombineMode.Exclude  
 			};
 
 			string[] modeNames = { "Union", "Intersect", "XOR", "Exclude" };
@@ -67,7 +65,7 @@ namespace unvell.D2DLib.Examples.SampleCode
 		/// Draw the geometry combining G1 and G2 geometries using combineMode 
 		/// </summary>
 		protected void DrawCombinedGeometries(D2DPathGeometry G1, D2DPathGeometry G2, 
-			D2D1_COMBINE_MODE combineMode, string modeName, D2DGraphics g, D2DPoint topLeft,
+			D2D1CombineMode combineMode, string modeName, D2DGraphics g, D2DPoint topLeft,
 			D2DColor fillColor, D2DColor borderColor, float borderWidth)
 		{
 			using (var path = Device.CreateCombinedGeometry(G1, G2, combineMode))
