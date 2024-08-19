@@ -209,7 +209,7 @@ namespace unvell.D2DLib
 			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading,
 			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
 
-		[DllImport(DLL_NAME, CharSet = CharSet.Unicode)]
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static extern void MeasureTextWithFormat([In] HANDLE ctx, [In] string text, [In] HANDLE textFormat, ref D2DSize size);
 
@@ -229,7 +229,7 @@ namespace unvell.D2DLib
 		public static extern HANDLE CreateTextPathGeometry(HANDLE ctx, [In] string text,
 			HANDLE fontFaceHandle, FLOAT fontSize);
 
-		[DllImport(DLL_NAME, EntryPoint = "CreateTextFormat", CharSet = CharSet.Unicode)]
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextFormat", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateFontFormat([In] HANDLE ctx, [In] string fontName, [In] FLOAT fontSize, 
 			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal, 
 			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal, 
@@ -246,7 +246,7 @@ namespace unvell.D2DLib
 			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal,
 			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal);
 
-		[DllImport(DLL_NAME, CharSet = CharSet.Unicode)]
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static extern void DrawStringWithFormat([In] HANDLE context, [In] string text, [In] HANDLE brush,
 			[In] HANDLE textFormat, [In] ref D2DRect rect);
