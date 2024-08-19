@@ -229,19 +229,19 @@ HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, F
 	D2DPathContext* pathContext = NULL;
 	IDWriteFontFace* fontFace = fontFaceWrap->fontFace;
 
-	int textLength = wcslen(text);
+	size_t textLength = wcslen(text);
 
 	UINT* codePoints = new UINT[textLength];
 	UINT16* glyphIndices = new UINT16[textLength];
 	ZeroMemory(codePoints, sizeof(UINT) * textLength);
 	ZeroMemory(glyphIndices, sizeof(UINT16) * textLength);
 
-	for (int i = 0; i < textLength; i++)
+	for (size_t i = 0; i < textLength; i++)
 	{
 		codePoints[i] = text[i];
 	}
 
-	hr = fontFace->GetGlyphIndicesW(codePoints, textLength, glyphIndices);
+	hr = fontFace->GetGlyphIndicesW(codePoints, (UINT32)textLength, glyphIndices);
 
 	if (SUCCEEDED(hr)) {
 
@@ -254,8 +254,8 @@ HANDLE CreateTextPathGeometry(HANDLE ctx, LPCWSTR text, HANDLE fontFaceHandle, F
 			hr = path->Open(&sink);
 			if (SUCCEEDED(hr)) {
 
-				hr = fontFace->GetGlyphRunOutline(fontSize * 96.0 / 72.0, glyphIndices,
-					NULL, NULL, textLength, FALSE, FALSE, sink);
+				hr = fontFace->GetGlyphRunOutline(fontSize * 96.0f / 72.0f, glyphIndices,
+					NULL, NULL, (UINT32)textLength, FALSE, FALSE, sink);
 
 				//sink->SetFillMode(D2D1_FILL_MODE_WINDING);
 

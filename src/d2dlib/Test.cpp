@@ -47,7 +47,7 @@ void Test(HANDLE handle)
 
 	IDWriteTextFormat* textFormat = NULL;
 	context->writeFactory->CreateTextFormat(
-		TEXT("NSimSun"), 
+		TEXT("NSimSun"),
 		NULL,
 		DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE_NORMAL,
@@ -71,7 +71,7 @@ void Test(HANDLE handle)
 	rt->BeginDraw();
 	rt->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
-	rt->DrawText(str, wcslen(str), textFormat, rect, brush);
+	rt->DrawText(str, (UINT32)wcslen(str), textFormat, rect, brush);
 
 	rt->EndDraw();
 
@@ -84,7 +84,7 @@ void TestDraw1(HANDLE ctx)
 	RetrieveContext(ctx);
 
 	ID2D1RenderTarget* render = context->renderTarget;
-	
+
 	ID2D1SolidColorBrush* brush;
 	render->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Silver), &brush);
 

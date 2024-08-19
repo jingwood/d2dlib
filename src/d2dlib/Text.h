@@ -26,7 +26,7 @@
 
 #include "Context.h"
 
-typedef struct D2DFontFace {
+struct D2DFontFace {
 	//WCHAR fontName[128];
 	//FLOAT fontSize;
 	//DWRITE_FONT_WEIGHT fontWeight;
@@ -37,12 +37,12 @@ typedef struct D2DFontFace {
 	IDWriteFontFace* fontFace;
 };
 
-extern "C" 
+extern "C"
 {
 	D2DLIB_API void DrawString(HANDLE handle, LPCWSTR text, D2D1_COLOR_F color,
-														 LPCWSTR fontName, FLOAT fontSize, 
+														 LPCWSTR fontName, FLOAT fontSize,
 														 D2D1_RECT_F rect,
-														 DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL, 
+														 DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL,
 														 DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL,
 														 DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL,
 														 DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_LEADING,
