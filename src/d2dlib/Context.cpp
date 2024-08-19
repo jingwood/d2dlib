@@ -131,6 +131,11 @@ void SetContextProperties(HANDLE ctx, D2D1_ANTIALIAS_MODE antialiasMode)
 
 	context->renderTarget->SetAntialiasMode(antialiasMode);
 }
+void SetTextAntialiasMode(HANDLE ctx, D2D1_TEXT_ANTIALIAS_MODE antialiasMode)
+{
+	RetrieveContext(ctx);
+	context->renderTarget->SetTextAntialiasMode(antialiasMode);
+}
 
 void BeginRender(HANDLE ctx)
 {
@@ -347,6 +352,7 @@ HRESULT GetLastErrorCode(HANDLE ctx)
 
 void ReleaseObject(HANDLE handle)
 {
-	ID2D1Resource* object = reinterpret_cast<ID2D1Resource*>(handle);
-	SafeRelease(&object);
+	IUnknown* object = reinterpret_cast<IUnknown*>(handle);
+	if (object != NULL)
+		SafeRelease(&object);
 }

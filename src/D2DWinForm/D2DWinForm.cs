@@ -22,6 +22,7 @@
 * SOFTWARE.
 */
 
+using System.Diagnostics;
 using Timer = System.Windows.Forms.Timer;
 
 namespace unvell.D2DLib.WinForm
@@ -63,13 +64,13 @@ namespace unvell.D2DLib.WinForm
 
 		private D2DGraphics? graphics;
 
-		private int currentFps = 0;
-		private int lastFps = 0;
+		private int frameCounter = 0, lastFPSValue;
 		public bool ShowFPS { get; set; }
-		private DateTime lastFpsUpdate = DateTime.UtcNow;
+		protected virtual int FPS => lastFPSValue;
 
 		private Timer timer = new Timer() { Interval = 10 };
 		public bool EscapeKeyToClose { get; set; } = true;
+		private Stopwatch fpsSW = new Stopwatch();
 
 		private bool animationDraw;
 		public bool AnimationDraw
@@ -121,7 +122,7 @@ namespace unvell.D2DLib.WinForm
 		{
 			// prevent the .NET windows form to paint the original background
 		}
-		
+
 		protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
 		{
 			if (this.DesignMode)
@@ -131,6 +132,11 @@ namespace unvell.D2DLib.WinForm
 			}
 			else
 			{
+				if (ShowFPS)
+				{
+					fpsSW.Start();
+				}
+
 				Assumes.NotNull(this.graphics);
 
 				if (this.backgroundImage != null)
@@ -142,25 +148,21 @@ namespace unvell.D2DLib.WinForm
 					this.graphics.BeginRender(D2DColor.FromGDIColor(this.BackColor));
 				}
 
+
 				OnRender(this.graphics);
 
 				if (ShowFPS)
 				{
-					if (this.lastFpsUpdate.Second != DateTime.UtcNow.Second)
+					++frameCounter;
+					if (fpsSW.ElapsedMilliseconds >= 1000)
 					{
-						this.lastFps = this.currentFps;
-						this.currentFps = 0;
-						this.lastFpsUpdate = DateTime.UtcNow;
+						int fps = (int)((frameCounter * TimeSpan.TicksPerSecond) / fpsSW.ElapsedTicks);
+						lastFPSValue = fps;
+						fpsSW.Reset();
+						frameCounter = 0;
 					}
-					else
-					{
-						this.currentFps++;
-					}
-
-					string fpsInfo = string.Format("{0} fps", lastFps);
-					System.Drawing.SizeF size = e.Graphics.MeasureString(fpsInfo, Font, Width);
-					this.graphics.DrawText(fpsInfo, unvell.D2DLib.D2DColor.Silver, Font,
-						new System.Drawing.PointF(ClientRectangle.Right - size.Width - 10, 5));
+					this.graphics.DrawText($"{lastFPSValue} fps", unvell.D2DLib.D2DColor.Silver, Font,
+						new System.Drawing.PointF(ClientRectangle.Right - 50, 5));
 				}
 
 				this.graphics.EndRender();

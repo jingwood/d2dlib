@@ -71,8 +71,13 @@ namespace unvell.D2DLib
 
 		public D2DSolidColorBrush? CreateSolidColorBrush(D2DColor color)
 		{
-			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
+			HANDLE handle = D2D.CreateSolidColorBrushCtx(this.Handle, color);
 			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
+		}
+		public D2DSolidColorTextBrush? CreateSolidColorTextBrush(D2DColor color)
+		{
+			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
+			return handle == HANDLE.Zero ? null : new D2DSolidColorTextBrush(handle, color);
 		}
 
 		public D2DLinearGradientBrush CreateLinearGradientBrush(D2DPoint startPoint, D2DPoint endPoint,
@@ -110,8 +115,15 @@ namespace unvell.D2DLib
 			return new D2DPathGeometry(this, geoHandle);
 		}
 
-		public D2DPathGeometry CreateCombinedGeometry(D2DPathGeometry path1, D2DPathGeometry path2, 
-			D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance = 10f)
+		public D2DPathGeometry CreateCombinedGeometry(D2DPathGeometry path1, D2DPathGeometry path2,
+			D2D1CombineMode combineMode, FLOAT flatteningTolerance = 10f)
+		{
+			HANDLE geoHandle = D2D.CreateCombinedGeometry(this.Handle, path1.Handle, path2.Handle, combineMode, flatteningTolerance);
+			return new D2DPathGeometry(this, geoHandle);
+		}
+
+		public D2DPathGeometry CreateCombinedGeometry(D2DGeometry path1, D2DGeometry path2,
+			D2D1CombineMode combineMode, FLOAT flatteningTolerance = 10f)
 		{
 			HANDLE geoHandle = D2D.CreateCombinedGeometry(this.Handle, path1.Handle, path2.Handle, combineMode, flatteningTolerance);
 			return new D2DPathGeometry(this, geoHandle);
@@ -171,6 +183,23 @@ namespace unvell.D2DLib
 			}
 
 			return new D2DPathGeometry(this, pathHandler);
+		}
+
+		public D2DFontFormat CreateFontFormat(string fontName, float fontSize,
+				D2DFontWeight fontWeight = D2DFontWeight.Normal,
+				D2DFontStyle fontStyle = D2DFontStyle.Normal,
+				D2DFontStretch fontStretch = D2DFontStretch.Normal,
+				DWriteTextAlignment halign = DWriteTextAlignment.Leading,
+				DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near)
+		{
+			HANDLE fmtHandle = D2D.CreateFontFormat(this.Handle, fontName, fontSize, fontWeight, fontStyle, fontStretch, halign, valign);
+			return new D2DFontFormat(fmtHandle);
+		}
+
+		public D2DTextLayout CreateTextLayout(string text, D2DFontFormat fontFormat, D2DSize size)
+		{
+			HANDLE fmtHandle = D2D.CreateTextLayout(this.Handle, text, fontFormat.Handle, ref size);
+			return new D2DTextLayout(fmtHandle);
 		}
 
 		public D2DBitmap? LoadBitmap(byte[] buffer)

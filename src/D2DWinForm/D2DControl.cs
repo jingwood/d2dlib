@@ -26,6 +26,8 @@ namespace unvell.D2DLib.WinForm
 {
 	public class D2DControl : System.Windows.Forms.Control
 	{
+		protected FpsCounter fpsCounter { get; } = new FpsCounter();
+
 		private D2DDevice? device;
 
 		public D2DDevice Device
@@ -119,7 +121,7 @@ namespace unvell.D2DLib.WinForm
 			var info = $"{fpsCounter.FramesPerSecond} fps";
 			var placeSize = new D2DSize(1000, 1000);
 			var size = graphics.MeasureText(info, Font.Name, Font.Size, placeSize);
-			graphics.DrawText(info, D2DColor.Silver, ClientRectangle.Right - size.Width - 10, 5);
+			graphics.DrawText(info, D2DColor.Silver, ClientRectangle.Right - size.width - 10, 5);
 		}
 
 		protected override void WndProc(ref System.Windows.Forms.Message m)

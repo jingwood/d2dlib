@@ -1,4 +1,4 @@
-/*
+﻿/*
 * MIT License
 *
 * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
@@ -28,6 +28,7 @@
 
 extern "C"
 {
+	D2DLIB_API HANDLE CreateSolidColorBrushContext(HANDLE ctx, D2D1_COLOR_F color);
 	D2DLIB_API HANDLE CreateSolidColorBrush(HANDLE ctx, D2D1_COLOR_F color);
 	D2DLIB_API void SetSolidColorBrushColor(HANDLE brush, D2D1_COLOR_F color);
 

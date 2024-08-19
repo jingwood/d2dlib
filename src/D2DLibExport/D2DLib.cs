@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace unvell.D2DLib
@@ -59,6 +60,9 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SetContextProperties([In] HANDLE context, D2DAntialiasMode antialiasMode = D2DAntialiasMode.PerPrimitive);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetTextAntialiasMode([In] HANDLE context, D2DTextAntialiasMode textAntialiasMode);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE BeginRender([In] HANDLE context);
@@ -102,8 +106,7 @@ namespace unvell.D2DLib
 		public static extern HANDLE CreateLayer(HANDLE ctx);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE PushLayer(HANDLE ctx, HANDLE layerHandle, D2DRect contentBounds,
-			[In, Optional] HANDLE geometryHandle, [In, Optional] HANDLE opacityBrush,
-			LayerOptions layerOptions = LayerOptions.InitializeForClearType);
+			[In, Optional] HANDLE geometryHandle, [In, Optional] HANDLE opacityBrush, LayerOptions layerOptions = LayerOptions.InitializeForClearType);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void PopLayer(HANDLE ctx);
 
@@ -131,7 +134,6 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ReleaseObject([In] HANDLE objectHandle);
-
 		#endregion // Device Context
 
 		#region Simple Sharp
@@ -146,6 +148,9 @@ namespace unvell.D2DLib
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawUnconnectedLines(HANDLE context, D2DPoint[] points, UINT count, D2DColor color, FLOAT width);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawRectangle(HANDLE context, ref D2DRect rect, D2DColor color,
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid);
 
@@ -157,6 +162,9 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FillRectangleWithBrush(HANDLE context, ref D2DRect rect, HANDLE brush);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawFillRectangle(HANDLE context, ref D2DRect rect, HANDLE fillBrush, HANDLE strokePen, FLOAT width = 1);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DrawRoundedRect(HANDLE ctx, ref D2DRoundedRect roundedRect,
@@ -202,6 +210,13 @@ namespace unvell.D2DLib
 			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
 
 		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static extern void MeasureTextWithFormat([In] HANDLE ctx, [In] string text, [In] HANDLE textFormat, ref D2DSize size);
+
+		[DllImport(DLL_NAME, EntryPoint = "MeasureTextWithLayout", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void MeasureTextWithLayout([In] HANDLE ctx, [In] HANDLE textLayout, ref D2DSize size);
+
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateFontFace([In] HANDLE context, [In] string fontName,
 		[In] D2DFontWeight fontWeight = D2DFontWeight.Normal,
 			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal,
@@ -213,6 +228,33 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateTextPathGeometry(HANDLE ctx, [In] string text,
 			HANDLE fontFaceHandle, FLOAT fontSize);
+
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextFormat", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateFontFormat([In] HANDLE ctx, [In] string fontName, [In] FLOAT fontSize, 
+			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal, 
+			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal, 
+			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal,
+			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading, 
+			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
+
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextLayoutWithFormat", CharSet = CharSet.Unicode)]
+		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE fontFormat, [In] ref D2DSize size);
+
+		[DllImport(DLL_NAME, EntryPoint = "CreateTextLayout", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE fontFormat, [In] ref D2DSize size,
+			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal,
+			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal,
+			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal);
+
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static extern void DrawStringWithFormat([In] HANDLE context, [In] string text, [In] HANDLE brush,
+			[In] HANDLE textFormat, [In] ref D2DRect rect);
+
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode)]
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static extern void DrawStringWithLayout([In] HANDLE context, [In] HANDLE brush,
+			[In] HANDLE textLayout, [In] D2DPoint origin);
 
 		#endregion // Text
 
@@ -232,7 +274,7 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateCombinedGeometry(HANDLE d2dCtx, HANDLE pathCtx1, HANDLE pathCtx2,
-			D2D1_COMBINE_MODE combineMode, FLOAT flatteningTolerance = 10f);
+			D2D1CombineMode combineMode, FLOAT flatteningTolerance = 10f);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyPathGeometry(HANDLE ctx);
@@ -324,6 +366,9 @@ namespace unvell.D2DLib
 		#endregion Pen
 
 		#region Brush
+
+		[DllImport(DLL_NAME, EntryPoint = "CreateSolidColorBrushContext", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateSolidColorBrushCtx(HANDLE ctx, D2DColor color);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateSolidColorBrush(HANDLE ctx, D2DColor color);
