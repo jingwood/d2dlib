@@ -30,7 +30,7 @@ namespace unvell.D2DLib.Examples.SampleCode
 
 		public MeasureAndDrawStringWithCachedFontFormatForm()
 		{
-			Text = "Measure and draw string";
+			Text = "Measure and draw string performance comparison";
 
 			Size = new Size(1280, 800);
 			brush = Device.CreateSolidColorTextBrush(D2DColor.BlueViolet);
