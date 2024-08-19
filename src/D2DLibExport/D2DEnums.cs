@@ -34,35 +34,35 @@ namespace unvell.D2DLib
 
 	enum D2DFactoryType
 	{
-		//
-		// The resulting factory and derived resources may only be invoked serially.
-		// Reference counts on resources are interlocked, however, resource and render
-		// target state is not protected from multi-threaded access.
-		//
+		/// <summary>
+		///  The resulting factory and derived resources may only be invoked serially.
+		/// Reference counts on resources are interlocked, however, resource and render
+		/// target state is not protected from multi-threaded access.
+		/// </summary>
 		SingleThreaded = 0,
 
-		//
-		// The resulting factory may be invoked from multiple threads. Returned resources
-		// use interlocked reference counting and their state is protected.
-		//
+		/// <summary>
+		/// The resulting factory may be invoked from multiple threads. Returned resources
+		/// use interlocked reference counting and their state is protected.
+		/// </summary>
 		MultiThreaded = 1,
 	}
 
 	enum D2DRenderTargetType
 	{
-		//
-		// D2D is free to choose the render target type for the caller.
-		//
+		/// <summary>
+		/// D2D is free to choose the render target type for the caller.
+		/// </summary>
 		Default = 0,
 
-		//
-		// The render target will render using the CPU.
-		//
+		/// <summary>
+		/// The render target will render using the CPU.
+		/// </summary>
 		Software = 1,
 
-		//
-		// The render target will render using the GPU.
-		//
+		/// <summary>
+		/// The render target will render using the GPU.
+		/// </summary>
 		Hardware = 2,
 	}
 
@@ -70,34 +70,34 @@ namespace unvell.D2DLib
 	{
 		None = 0x00000000,
 
-		//
-		// Rendering will occur locally, if a terminal-services session is established, the
-		// bitmap updates will be sent to the terminal services client.
-		//
+		/// <summary>
+		///  Rendering will occur locally, if a terminal-services session is established, the
+		/// bitmap updates will be sent to the terminal services client.
+		/// </summary>
 		ForceBitmapRemoting = 0x00000001,
 
-		//
-		// The render target will allow a call to GetDC on the ID2D1GdiInteropRenderTarget
-		// interface. Rendering will also occur locally.
-		//
+		/// <summary>
+		/// The render target will allow a call to GetDC on the ID2D1GdiInteropRenderTarget
+		/// interface. Rendering will also occur locally.
+		/// </summary>
 		GDICompatible = 0x00000002,
 	}
 
 	enum D2DFeatureLevel
 	{
-		//
-		// The caller does not require a particular underlying D3D device level.
-		//
+		/// <summary>
+		///  The caller does not require a particular underlying D3D device level.
+		/// </summary>
 		Default = 0,
 
-		//
-		// The D3D device level is DX9 compatible.
-		//
+		/// <summary>
+		///  The D3D device level is DX9 compatible.
+		/// </summary>
 		Level9 = D3DFeatureLevel.Level9_1,
 
-		//
-		// The D3D device level is DX10 compatible.
-		//
+		/// <summary>
+		/// The D3D device level is DX10 compatible.
+		/// </summary>
 		Level10 = D3DFeatureLevel.Level10_0,
 	}
 
@@ -234,25 +234,25 @@ namespace unvell.D2DLib
 
 	enum D2D1AlphaMode
 	{
-		//
-		// Alpha mode should be determined implicitly. Some target surfaces do not supply
-		// or imply this information in which case alpha must be specified.
-		//
+		/// <summary>
+		/// Alpha mode should be determined implicitly. Some target surfaces do not supply
+		/// or imply this information in which case alpha must be specified.
+		/// </summary>
 		Unknown = 0,
 
-		//
-		// Treat the alpha as premultipled.
-		//
+		/// <summary>
+		/// Treat the alpha as premultipled.
+		/// </summary>
 		Premultiplied = 1,
 
-		//
-		// Opacity is in the 'A' component only.
-		//
+		/// <summary>
+		/// Opacity is in the 'A' component only.
+		/// </summary>
 		Straight = 2,
 
-		//
-		// Ignore any alpha channel information.
-		//
+		/// <summary>
+		///  Ignore any alpha channel information.
+		/// </summary>
 		Ignore = 3,
 	}
 
@@ -260,14 +260,14 @@ namespace unvell.D2DLib
 	{
 		None = 0x00000000,
 
-		//
-		// Keep the target contents intact through present.
-		//
+		/// <summary>
+		/// Keep the target contents intact through present.
+		/// </summary>
 		RetainContents = 0x00000001,
 
-		//
-		// Do not wait for display refresh to commit changes to display.
-		//
+		/// <summary>
+		/// Do not wait for display refresh to commit changes to display.
+		/// </summary>
 		Immediately = 0x00000002,
 	}
 
@@ -321,28 +321,50 @@ namespace unvell.D2DLib
 
 	public enum D2DAntialiasMode
 	{
-		//
-		// The edges of each primitive are antialiased sequentially.
-		//
+		/// <summary>
+		/// The edges of each primitive are antialiased sequentially.
+		/// </summary>
 		PerPrimitive = 0,
 
-		//
-		// Each pixel is rendered if its pixel center is contained by the geometry.
-		//
+		/// <summary>
+		///  Each pixel is rendered if its pixel center is contained by the geometry.
+		/// </summary>
 		Aliased = 1,
+	}
+
+	public enum D2DTextAntialiasMode
+	{
+		/// <summary>
+		/// Render text using the current system setting.
+		/// </summary>
+		Default = 0,
+
+		/// <summary>
+		/// Render text using ClearType.
+		/// </summary>
+		ClearType = 1,
+
+		/// <summary>
+		/// Render text using gray-scale.
+		/// </summary>
+		Grayscale = 2,
+
+		/// <summary>
+		/// Render text aliased.
+		/// </summary>
+		Aliased = 3
 	}
 
 	public enum D2DBitmapInterpolationMode
 	{
-		//
-		// Nearest Neighbor filtering. Also known as nearest pixel or nearest point
-		// sampling.
-		//
+		/// <summary>
+		/// Nearest Neighbor filtering. Also known as nearest pixel or nearest point sampling.
+		/// </summary>
 		NearestNeighbor = 0,
 
-		//
-		// Linear filtering.
-		//
+		/// <summary>
+		///  Linear filtering.
+		/// </summary>
 		Linear = 1,
 	}
 
@@ -384,7 +406,12 @@ namespace unvell.D2DLib
 		/// <summary>
 		/// The center of the paragraph text is aligned to the center of the layout box.
 		/// </summary>
-		Center
+		Center,
+
+		/// <summary>
+		/// Align text to the leading side, and also justify text to fill the lines.
+		/// </summary>
+		Justified
 	};
 
 	/// <summary>
@@ -605,32 +632,31 @@ namespace unvell.D2DLib
 	/// <summary>
 	/// This enumeration describes the type of combine operation to be performed.
 	/// </summary>
-	public enum D2D1_COMBINE_MODE
+	public enum D2D1CombineMode
 	{
-
 		/// <summary>
 		/// Produce a geometry representing the set of points contained in either the first
 		/// or the second geometry.
 		/// </summary>
-		D2D1_COMBINE_MODE_UNION = 0,
+		Union = 0,
 
 		/// <summary>
 		/// Produce a geometry representing the set of points common to the first and the
 		/// second geometries.
 		/// </summary>
-		D2D1_COMBINE_MODE_INTERSECT = 1,
+		Intersect = 1,
 
 		/// <summary>
 		/// Produce a geometry representing the set of points contained in the first
 		/// geometry or the second geometry, but not both.
 		/// </summary>
-		D2D1_COMBINE_MODE_XOR = 2,
+		XOR = 2,
 
 		/// <summary>
 		/// Produce a geometry representing the set of points contained in the first
 		/// geometry but not the second geometry.
 		/// </summary>
-		D2D1_COMBINE_MODE_EXCLUDE = 3,
+		Exclude = 3,
 	}
 }
 
