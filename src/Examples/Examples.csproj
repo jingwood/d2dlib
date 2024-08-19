@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;netcoreapp3.1;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
     <RootNamespace>unvell.D2DLib.Examples</RootNamespace>
     <OutputType>WinExe</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
@@ -68,9 +68,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="SampleCode\MeasureAndDrawStringForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
   </ItemGroup>
 
 </Project>
