@@ -66,6 +66,7 @@ namespace unvell.D2DLib.WinForm
 
 		private int frameCounter = 0, lastFPSValue;
 		public bool ShowFPS { get; set; }
+		protected virtual int FPS => lastFPSValue;
 
 		private Timer timer = new Timer() { Interval = 10 };
 		public bool EscapeKeyToClose { get; set; } = true;
