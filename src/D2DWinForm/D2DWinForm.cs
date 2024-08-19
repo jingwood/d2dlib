@@ -66,6 +66,7 @@ namespace unvell.D2DLib.WinForm
 
 		private int frameCounter = 0, lastFPSValue;
 		public bool ShowFPS { get; set; }
+		protected virtual int FPS => lastFPSValue;
 
 		private Timer timer = new Timer() { Interval = 10 };
 		public bool EscapeKeyToClose { get; set; } = true;
@@ -121,7 +122,7 @@ namespace unvell.D2DLib.WinForm
 		{
 			// prevent the .NET windows form to paint the original background
 		}
-		
+
 		protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
 		{
 			if (this.DesignMode)
@@ -132,7 +133,9 @@ namespace unvell.D2DLib.WinForm
 			else
 			{
 				if (ShowFPS)
+				{
 					fpsSW.Start();
+				}
 
 				Assumes.NotNull(this.graphics);
 
@@ -145,13 +148,13 @@ namespace unvell.D2DLib.WinForm
 					this.graphics.BeginRender(D2DColor.FromGDIColor(this.BackColor));
 				}
 
-				
+
 				OnRender(this.graphics);
 
 				if (ShowFPS)
 				{
 					++frameCounter;
-					if(fpsSW.ElapsedMilliseconds >= 1000)
+					if (fpsSW.ElapsedMilliseconds >= 1000)
 					{
 						int fps = (int)((frameCounter * TimeSpan.TicksPerSecond) / fpsSW.ElapsedTicks);
 						lastFPSValue = fps;

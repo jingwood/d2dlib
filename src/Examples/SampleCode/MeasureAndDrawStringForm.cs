@@ -33,70 +33,21 @@ namespace unvell.D2DLib.Examples.SampleCode
 			Text = "Measure and draw string";
 
 			Size = new Size(1280, 800);
-			brush = Device.CreateSolidColorTextBrush(D2DColor.BlueViolet);
-			brushBack = Device.CreateSolidColorBrush(D2DColor.DarkGray);
-			fontFormat = Device.CreateFontFormat(Font.Name, 34);
-
-			szString = new D2DSize(60, 20);
-			dispstrings = new List<string>(2000);
-			AnimationDraw = true;
-			ShowFPS = true;
-
-			CreateStrings();
 		}
 
-
-		D2DSize szString;
-		D2DSolidColorTextBrush brush;
-		D2DSolidColorBrush brushBack;
-		D2DFontFormat fontFormat;
-
-		List<string> dispstrings;
-		D2DPoint ptLeftTop = new D2DPoint(0, 0);
-		D2DRect rect = new D2DRect(0, 0, 0, 0);
-
-		private void CreateStrings()
-        {
-			for (int count = 0; count < 1000; ++count)
-            {
-				dispstrings.Add(Guid.NewGuid().ToString().Substring(20, 8));
-			}
-		}
-
-        protected override void OnFrame()
-        {
-            base.OnFrame();
-		}
-
-        protected override void OnRender(D2DGraphics g)
+		protected override void OnRender(D2DGraphics g)
 		{
-			g.FillRectangle(ClientRectangle, brushBack);
-			var ratio = (double)(ClientRectangle.Width) / ClientRectangle.Height;
-			
-			for (int i = 0; i < dispstrings.Count; i++)
-            {
-				var str = dispstrings[i];
-				var rectSize = new D2DSize(500, 200);
-				g.MeasureText(str, fontFormat, ref rectSize); //cached textFormat
-				//var sz = g.MeasureText(str, font1.Name, font1.Size, new D2DSize(999,200)); //not cached
+			var text = "Hello World";
 
-				rect.left = (rect.left + rect.Width + rectSize.width) % (ClientSize.Width );
-				rect.top = (rect.top + rect.Height + rectSize.height) % (ClientSize.Height );
-				rect.Width = rectSize.width;
-				rect.Height = rectSize.height;
+			var rect = new Rectangle(100, 100, 500, 500);
 
-				//g.DrawText(str, D2DColor.BlueViolet, font1.Name, font1.Size, rect); //32 fps + measure text not cached
-				g.DrawText(str, brush, fontFormat, ref rect ); //45fps + measure text not cached, 64fp with measure text cached
-			}
+			var measuredSize = g.MeasureText(text, font1.Name, font1.Size, rect.Size);
+
+			var measuredRect = new D2DRect(rect.X, rect.Y, measuredSize.width, measuredSize.height);
+
+			g.DrawText(text, D2DColor.Black, font1.Name, font1.Size, rect);
+
+			g.DrawRectangle(measuredRect, D2DColor.Blue);
 		}
-        protected override void OnFormClosed(FormClosedEventArgs e)
-        {
-            base.OnFormClosed(e);
-			brush.Dispose();
-			brushBack.Dispose();
-			fontFormat.Dispose();
-		}
-        
-    }
+	}
 }
-
