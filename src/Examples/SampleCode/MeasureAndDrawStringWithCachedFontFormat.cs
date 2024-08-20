@@ -24,11 +24,11 @@
 
 namespace unvell.D2DLib.Examples.SampleCode
 {
-	public partial class MeasureAndDrawStringWithCachedFontFormatForm : ExampleForm
+	public partial class MeasureAndDrawStringWithCachedFontFormat : ExampleForm
 	{
 		private static readonly Font font1 = new Font("Times New Roman", 34f, FontStyle.Italic);
 
-		public MeasureAndDrawStringWithCachedFontFormatForm()
+		public MeasureAndDrawStringWithCachedFontFormat()
 		{
 			Text = "Measure and draw string performance comparison";
 
