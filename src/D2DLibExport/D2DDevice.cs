@@ -96,7 +96,15 @@ namespace unvell.D2DLib
 
 			return new D2DRadialGradientBrush(handle, gradientStops);
 		}
-
+  
+		public D2DBitmapBrush CreateBitmapBrush(D2DBitmap bitmap,
+																							D2DExtendMode extendModeX, D2DExtendMode extendModeY,
+																							D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
+		{
+			HANDLE handle = D2D.CreateBitmapBrush(this.Handle, bitmap.Handle, extendModeX, extendModeY, interpolationMode);
+			return new D2DBitmapBrush(handle, bitmap);
+		}
+  
 		public D2DRectangleGeometry CreateRectangleGeometry(FLOAT width, FLOAT height)
 		{
 			var rect = new D2DRect(0, 0, width, height);
