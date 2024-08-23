@@ -165,7 +165,9 @@ void ReleaseBrush(HANDLE brushHandle)
 		SafeRelease(&brushContext->gradientStops);
 		break;
 	case BrushType::BrushType_BitmapBrush:
-		SafeRelease(&brushContext->bitmap);
+		// Don't release the bitmap since it may be used elsewhere.
+		// The bitmap should be released where it was originally created.
+		//SafeRelease(&brushContext->bitmap);
 		break;
 	}
 
