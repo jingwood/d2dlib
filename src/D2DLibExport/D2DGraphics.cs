@@ -302,6 +302,11 @@ namespace unvell.D2DLib
 			D2D.TranslateTransform(this.Handle, x, y);
 		}
 
+		public void ScaleTransform(FLOAT sx, FLOAT sy, FLOAT originX, FLOAT originY)
+		{
+			D2D.ScaleTransform(this.Handle, sx, sy, new Vector2(originX, originY));
+		}
+
 		public void ScaleTransform(FLOAT sx, FLOAT sy, [Optional] D2DPoint center)
 		{
 			D2D.ScaleTransform(this.Handle, sx, sy, center);
@@ -453,14 +458,12 @@ namespace unvell.D2DLib
 				fontWeight, fontStyle, fontStretch, halign, valign);
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void DrawText(string text, D2DSolidColorTextBrush brush, D2DFontFormat fontFormat, ref D2DRect rect)
+		public void DrawText(string text, D2DBrush brush, D2DTextFormat textFormat, D2DRect rect)
 		{
-			D2D.DrawStringWithFormat(this.Handle, text, brush.Handle, fontFormat.Handle,ref rect);
+			D2D.DrawStringWithBrushAndTextFormat(this.Handle, text, brush.Handle, textFormat.Handle, ref rect);
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void DrawText(D2DSolidColorTextBrush brush, D2DTextLayout textLayout, D2DPoint origin)
+		public void DrawText(D2DSolidColorBrush brush, D2DTextLayout textLayout, D2DPoint origin)
 		{
 			D2D.DrawStringWithLayout(this.Handle, brush.Handle, textLayout.Handle, origin);
 		}
@@ -511,9 +514,9 @@ namespace unvell.D2DLib
 			return outputSize;
 		}
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void MeasureText(string text, D2DFontFormat fontFormat, ref D2DSize placeSize)
+		public void MeasureText(string text, D2DTextFormat textFormat, ref D2DSize placeSize)
 		{
-			D2D.MeasureTextWithFormat(this.Handle, text, fontFormat.Handle, ref placeSize);
+			D2D.MeasureTextWithFormat(this.Handle, text, textFormat.Handle, ref placeSize);
 		}
 		
 

@@ -47,7 +47,7 @@ void Test(HANDLE handle)
 
 	IDWriteTextFormat* textFormat = NULL;
 	context->writeFactory->CreateTextFormat(
-		TEXT("NSimSun"),
+		TEXT("MS Gothic"),
 		NULL,
 		DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE_NORMAL,

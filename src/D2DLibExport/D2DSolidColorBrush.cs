@@ -46,22 +46,4 @@ namespace unvell.D2DLib
 			this.color = color;
 		}
 	}
-
-	public class D2DSolidColorTextBrush : D2DObject
-	{
-		private D2DColor color;
-
-		public D2DColor Color
-		{
-			get
-			{
-				return color;
-			}
-		}
-
-		internal D2DSolidColorTextBrush(HANDLE handle, D2DColor color) : base(handle)
-		{
-			this.color = color;
-		}
-	}
 }

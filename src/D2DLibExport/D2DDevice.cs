@@ -71,13 +71,8 @@ namespace unvell.D2DLib
 
 		public D2DSolidColorBrush? CreateSolidColorBrush(D2DColor color)
 		{
-			HANDLE handle = D2D.CreateSolidColorBrushCtx(this.Handle, color);
-			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
-		}
-		public D2DSolidColorTextBrush? CreateSolidColorTextBrush(D2DColor color)
-		{
 			HANDLE handle = D2D.CreateSolidColorBrush(this.Handle, color);
-			return handle == HANDLE.Zero ? null : new D2DSolidColorTextBrush(handle, color);
+			return handle == HANDLE.Zero ? null : new D2DSolidColorBrush(handle, color);
 		}
 
 		public D2DLinearGradientBrush CreateLinearGradientBrush(D2DPoint startPoint, D2DPoint endPoint,
@@ -98,8 +93,8 @@ namespace unvell.D2DLib
 		}
   
 		public D2DBitmapBrush CreateBitmapBrush(D2DBitmap bitmap,
-																							D2DExtendMode extendModeX, D2DExtendMode extendModeY,
-																							D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
+												D2DExtendMode extendModeX, D2DExtendMode extendModeY,
+												D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear)
 		{
 			HANDLE handle = D2D.CreateBitmapBrush(this.Handle, bitmap.Handle, extendModeX, extendModeY, interpolationMode);
 			return new D2DBitmapBrush(handle, bitmap);
@@ -193,20 +188,20 @@ namespace unvell.D2DLib
 			return new D2DPathGeometry(this, pathHandler);
 		}
 
-		public D2DFontFormat CreateFontFormat(string fontName, float fontSize,
+		public D2DTextFormat CreateTextFormat(string fontName, float fontSize,
 				D2DFontWeight fontWeight = D2DFontWeight.Normal,
 				D2DFontStyle fontStyle = D2DFontStyle.Normal,
 				D2DFontStretch fontStretch = D2DFontStretch.Normal,
 				DWriteTextAlignment halign = DWriteTextAlignment.Leading,
 				DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near)
 		{
-			HANDLE fmtHandle = D2D.CreateFontFormat(this.Handle, fontName, fontSize, fontWeight, fontStyle, fontStretch, halign, valign);
-			return new D2DFontFormat(fmtHandle);
+			HANDLE fmtHandle = D2D.CreateTextFormat(this.Handle, fontName, fontSize, fontWeight, fontStyle, fontStretch, halign, valign);
+			return new D2DTextFormat(fmtHandle);
 		}
 
-		public D2DTextLayout CreateTextLayout(string text, D2DFontFormat fontFormat, D2DSize size)
+		public D2DTextLayout CreateTextLayout(string text, D2DTextFormat textFormat, D2DSize size)
 		{
-			HANDLE fmtHandle = D2D.CreateTextLayout(this.Handle, text, fontFormat.Handle, ref size);
+			HANDLE fmtHandle = D2D.CreateTextLayout(this.Handle, text, textFormat.Handle, ref size);
 			return new D2DTextLayout(fmtHandle);
 		}
 

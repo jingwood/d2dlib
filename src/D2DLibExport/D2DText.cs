@@ -5,9 +5,9 @@ using System.Text;
 
 namespace unvell.D2DLib
 {
-    public class D2DFontFormat : D2DObject
+    public class D2DTextFormat : D2DObject
     {
-        internal D2DFontFormat(HANDLE handle) : base(handle) { }
+        internal D2DTextFormat(HANDLE handle) : base(handle) { }
     }
 
     public class D2DTextLayout : D2DObject

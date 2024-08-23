@@ -48,7 +48,7 @@ extern "C"
 														 DWRITE_TEXT_ALIGNMENT halign = DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_LEADING,
 														 DWRITE_PARAGRAPH_ALIGNMENT valign = DWRITE_PARAGRAPH_ALIGNMENT::DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 	
-	D2DLIB_API void DrawStringWithFormat(HANDLE ctx, LPCWSTR text, ID2D1SolidColorBrush* brush, IDWriteTextFormat* textFormat, D2D1_RECT_F* rect);
+	D2DLIB_API void DrawStringWithBrushAndTextFormat(HANDLE ctx, LPCWSTR text, D2DBrushContext* brush, IDWriteTextFormat* textFormat, D2D1_RECT_F* rect);
 	D2DLIB_API void DrawStringWithLayout(HANDLE ctx, ID2D1SolidColorBrush* brush, IDWriteTextLayout* textLayout, D2D1_POINT_2F origin);
 	
 	D2DLIB_API HANDLE CreateTextFormat(HANDLE ctx, LPCWSTR fontName, FLOAT fontSize, 
@@ -64,7 +64,7 @@ extern "C"
 		DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL);
 
-	D2DLIB_API HANDLE CreateTextLayoutWithFormat(HANDLE ctx, LPCWSTR text, HANDLE fontFormat, D2D1_SIZE_F* size);
+	D2DLIB_API HANDLE CreateTextLayoutWithFormat(HANDLE ctx, LPCWSTR text, HANDLE textFormatHandler, D2D1_SIZE_F* size);
 
 	D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, 
 		__out D2D1_SIZE_F* size,

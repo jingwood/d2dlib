@@ -119,11 +119,23 @@ namespace unvell.D2DLib.Examples.Properties {
                 return ((byte[])(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] space_bg {
+
+		/// <summary>
+		///   Looks up a localized resource of type System.Byte[].
+		/// </summary>
+		internal static System.Drawing.Bitmap Flowers
+		{
+			get
+			{
+				object obj = ResourceManager.GetObject("Flowers", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized resource of type System.Byte[].
+		/// </summary>
+		internal static byte[] space_bg {
             get {
                 object obj = ResourceManager.GetObject("space_bg", resourceCulture);
                 return ((byte[])(obj));
