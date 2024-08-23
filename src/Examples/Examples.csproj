@@ -67,10 +67,4 @@
     <Using Include="System.Windows.Forms" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="SampleCode\MeasureAndDrawStringForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-  </ItemGroup>
-
 </Project>
