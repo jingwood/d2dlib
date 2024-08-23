@@ -49,12 +49,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.4.1</Version>
+    <Version>1.5.0</Version>
     <Authors>Jingwood, All Contributions</Authors>
     <Company>unvell Inc., All Contributions</Company>
     <Product>D2DLib</Product>
     <Description>A .NET library for hardware-accelerated, high performance, immediate mode rendering via Direct2D.</Description>
     <Copyright>Copyright © 2009-2022 unvell Inc., Jingwood. All rights reserved.</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <DeterministicSourcePaths>true</DeterministicSourcePaths>
     <DebugType>portable</DebugType>

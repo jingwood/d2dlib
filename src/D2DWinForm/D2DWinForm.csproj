@@ -14,6 +14,7 @@
   <PropertyGroup>
     <PackageId Condition="'$(Platform)'=='x86'">unvell.D2DLib</PackageId>
     <PackageId Condition="'$(Platform)'=='x64'">unvell.D2DLib-x64</PackageId>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo_d2dlib.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/jingwood/d2dlib</PackageProjectUrl>
@@ -38,6 +39,7 @@
 
   <ItemGroup>
     <None Include="..\..\package\logo_d2dlib.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <!--
