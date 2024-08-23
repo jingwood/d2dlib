@@ -150,21 +150,21 @@ g.PopTransform();
 # Examples
 
 Fast images rendering
-![Image Drawing Test](snapshots/imagetest.png)
+![Image Drawing Test](https://raw.githubusercontent.com/jingwood/d2dlib/master/snapshots/imagetest.png)
 See [source code](src/Examples/Demos/ImageTest.cs)
 
 Custom draw on memory bitmap
-![Bitmap Custom Draw](snapshots/bitmap_rendering.png)
+![Bitmap Custom Draw](https://raw.githubusercontent.com/jingwood/d2dlib/master/snapshots/bitmap_rendering.png)
 See [source code](src/Examples/Demos/BitmapCustomDraw.cs)
 
 Star space simulation
-![Star Space](snapshots/starspace.png)
+![Star Space](https://raw.githubusercontent.com/jingwood/d2dlib/master/snapshots/starspace.png)
 See [source code](src/Examples/Demos/StarSpace.cs)
 
 Subtitle rendering
-![Subtitle](snapshots/subtitle.png)
+![Subtitle](https://raw.githubusercontent.com/jingwood/d2dlib/master/snapshots/subtitle.png)
 See [source code](src/Examples/Demos/Subtitle.cs)
 
 Whiteboard App
-![whiteboard](snapshots/whiteboard.png)\
+![whiteboard](https://raw.githubusercontent.com/jingwood/d2dlib/master/snapshots/whiteboard.png)\
 See [source code](src/Examples/Demos/Whiteboard.cs)
