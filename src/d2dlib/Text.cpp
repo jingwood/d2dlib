@@ -89,8 +89,8 @@ D2DLIB_API HANDLE CreateTextFormat(HANDLE ctx, LPCWSTR fontName, FLOAT fontSize,
 		fontWeight, fontStyle, fontStretch, fontSize, L"", &textFormat);
 
 	if (SUCCEEDED(hr) && textFormat != NULL) {
-		textFormat->SetTextAlignment(halign);
-		textFormat->SetParagraphAlignment(valign);
+		textFormat->SetTextAlignment(hAlign);
+		textFormat->SetParagraphAlignment(vAlign);
 		return (HANDLE)textFormat;
 	}
 

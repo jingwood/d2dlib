@@ -234,8 +234,8 @@ namespace unvell.D2DLib
 			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal, 
 			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal, 
 			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal,
-			[In] DWriteTextAlignment halign = DWriteTextAlignment.Leading, 
-			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
+			[In] DWriteTextAlignment hAlign = DWriteTextAlignment.Leading, 
+			[In] DWriteParagraphAlignment vAlign = DWriteParagraphAlignment.Near);
 
 		[DllImport(DLL_NAME, EntryPoint = "CreateTextLayoutWithFormat", CharSet = CharSet.Unicode)]
 		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE textFormatHandler, [In] ref D2DSize size);
