@@ -248,7 +248,7 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static extern void DrawStringWithFormat([In] HANDLE context, [In] string text, [In] HANDLE brush,
+		public static extern void DrawStringWithBrushAndTextFormat([In] HANDLE context, [In] string text, [In] HANDLE brush,
 			[In] HANDLE textFormat, [In] ref D2DRect rect);
 
 		[DllImport(DLL_NAME, CharSet = CharSet.Unicode)]
@@ -366,9 +366,6 @@ namespace unvell.D2DLib
 		#endregion Pen
 
 		#region Brush
-
-		[DllImport(DLL_NAME, EntryPoint = "CreateSolidColorBrushContext", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HANDLE CreateSolidColorBrushCtx(HANDLE ctx, D2DColor color);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateSolidColorBrush(HANDLE ctx, D2DColor color);

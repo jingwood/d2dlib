@@ -43,7 +43,7 @@
 //	return (HANDLE)strokeStyle;
 //}
 
-HANDLE CreateSolidColorBrushContext(HANDLE ctx, D2D1_COLOR_F color)
+HANDLE CreateSolidColorBrush(HANDLE ctx, D2D1_COLOR_F color)
 {
 	RetrieveContext(ctx);
 
@@ -56,18 +56,6 @@ HANDLE CreateSolidColorBrushContext(HANDLE ctx, D2D1_COLOR_F color)
 	brushContext->brush = brush;
 
 	return (HANDLE)brushContext;
-}
-
-HANDLE CreateSolidColorBrush(HANDLE ctx, D2D1_COLOR_F color)
-{
-	RetrieveContext(ctx);
-
-	ID2D1SolidColorBrush* brush;
-	HRESULT hr = (context->renderTarget)->CreateSolidColorBrush(color, &brush);
-	if (SUCCEEDED(hr) && brush != NULL) {
-		return (HANDLE)brush;
-	}
-	return NULL;
 }
 
 void SetSolidColorBrushColor(HANDLE brushHandle, D2D1_COLOR_F color)

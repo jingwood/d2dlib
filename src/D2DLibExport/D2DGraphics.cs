@@ -453,10 +453,9 @@ namespace unvell.D2DLib
 				fontWeight, fontStyle, fontStretch, halign, valign);
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void DrawText(string text, D2DSolidColorTextBrush brush, D2DFontFormat fontFormat, ref D2DRect rect)
+		public void DrawText(string text, D2DBrush brush, D2DTextFormat textFormat, D2DRect rect)
 		{
-			D2D.DrawStringWithFormat(this.Handle, text, brush.Handle, fontFormat.Handle,ref rect);
+			D2D.DrawStringWithBrushAndTextFormat(this.Handle, text, brush.Handle, textFormat.Handle, ref rect);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
