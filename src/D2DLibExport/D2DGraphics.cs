@@ -302,6 +302,11 @@ namespace unvell.D2DLib
 			D2D.TranslateTransform(this.Handle, x, y);
 		}
 
+		public void ScaleTransform(FLOAT sx, FLOAT sy, FLOAT originX, FLOAT originY)
+		{
+			D2D.ScaleTransform(this.Handle, sx, sy, new Vector2(originX, originY));
+		}
+
 		public void ScaleTransform(FLOAT sx, FLOAT sy, [Optional] D2DPoint center)
 		{
 			D2D.ScaleTransform(this.Handle, sx, sy, center);
