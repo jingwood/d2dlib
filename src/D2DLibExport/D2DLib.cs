@@ -230,7 +230,7 @@ namespace unvell.D2DLib
 			HANDLE fontFaceHandle, FLOAT fontSize);
 
 		[DllImport(DLL_NAME, EntryPoint = "CreateTextFormat", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HANDLE CreateFontFormat([In] HANDLE ctx, [In] string fontName, [In] FLOAT fontSize, 
+		public static extern HANDLE CreateTextFormat([In] HANDLE ctx, [In] string fontName, [In] FLOAT fontSize, 
 			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal, 
 			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal, 
 			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal,
@@ -238,10 +238,10 @@ namespace unvell.D2DLib
 			[In] DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near);
 
 		[DllImport(DLL_NAME, EntryPoint = "CreateTextLayoutWithFormat", CharSet = CharSet.Unicode)]
-		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE fontFormat, [In] ref D2DSize size);
+		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE textFormatHandler, [In] ref D2DSize size);
 
 		[DllImport(DLL_NAME, EntryPoint = "CreateTextLayout", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE fontFormat, [In] ref D2DSize size,
+		public static extern HANDLE CreateTextLayout([In] HANDLE ctx, [In] string text, [In] HANDLE textFormatHandler, [In] ref D2DSize size,
 			[In] D2DFontWeight fontWeight = D2DFontWeight.Normal,
 			[In] D2DFontStyle fontStyle = D2DFontStyle.Normal,
 			[In] D2DFontStretch fontStretch = D2DFontStretch.Normal);

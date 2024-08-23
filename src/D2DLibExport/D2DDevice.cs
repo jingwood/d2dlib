@@ -188,20 +188,20 @@ namespace unvell.D2DLib
 			return new D2DPathGeometry(this, pathHandler);
 		}
 
-		public D2DFontFormat CreateFontFormat(string fontName, float fontSize,
+		public D2DTextFormat CreateTextFormat(string fontName, float fontSize,
 				D2DFontWeight fontWeight = D2DFontWeight.Normal,
 				D2DFontStyle fontStyle = D2DFontStyle.Normal,
 				D2DFontStretch fontStretch = D2DFontStretch.Normal,
 				DWriteTextAlignment halign = DWriteTextAlignment.Leading,
 				DWriteParagraphAlignment valign = DWriteParagraphAlignment.Near)
 		{
-			HANDLE fmtHandle = D2D.CreateFontFormat(this.Handle, fontName, fontSize, fontWeight, fontStyle, fontStretch, halign, valign);
-			return new D2DFontFormat(fmtHandle);
+			HANDLE fmtHandle = D2D.CreateTextFormat(this.Handle, fontName, fontSize, fontWeight, fontStyle, fontStretch, halign, valign);
+			return new D2DTextFormat(fmtHandle);
 		}
 
-		public D2DTextLayout CreateTextLayout(string text, D2DFontFormat fontFormat, D2DSize size)
+		public D2DTextLayout CreateTextLayout(string text, D2DTextFormat textFormat, D2DSize size)
 		{
-			HANDLE fmtHandle = D2D.CreateTextLayout(this.Handle, text, fontFormat.Handle, ref size);
+			HANDLE fmtHandle = D2D.CreateTextLayout(this.Handle, text, textFormat.Handle, ref size);
 			return new D2DTextLayout(fmtHandle);
 		}
 

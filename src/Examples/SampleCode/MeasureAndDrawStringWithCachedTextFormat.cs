@@ -24,21 +24,21 @@
 
 namespace unvell.D2DLib.Examples.SampleCode
 {
-	public partial class MeasureAndDrawStringWithCachedFontFormat : ExampleForm
+	public partial class MeasureAndDrawStringWithCachedTextFormat : ExampleForm
 	{
 		private static readonly Font font1 = new Font("Times New Roman", 34f, FontStyle.Italic);
 
-		public MeasureAndDrawStringWithCachedFontFormat()
+		public MeasureAndDrawStringWithCachedTextFormat()
 		{
 			Text = "Measure and draw string performance comparison";
 
 			Size = new Size(1280, 800);
-			brush = Device.CreateSolidColorTextBrush(D2DColor.BlueViolet);
+			brushText = Device.CreateSolidColorBrush(D2DColor.BlueViolet);
 			brushBack = Device.CreateSolidColorBrush(D2DColor.DarkGray);
-			fontFormat = Device.CreateFontFormat(Font.Name, 34);
+			textFormat = Device.CreateTextFormat(Font.Name, 34);
 
 			szString = new D2DSize(60, 20);
-			dispstrings = new List<string>(2000);
+			displayStrings = new List<string>(2000);
 			AnimationDraw = true;
 			ShowFPS = true;
 
@@ -47,11 +47,11 @@ namespace unvell.D2DLib.Examples.SampleCode
 
 
 		D2DSize szString;
-		D2DSolidColorTextBrush brush;
+		D2DSolidColorBrush brushText;
 		D2DSolidColorBrush brushBack;
-		D2DFontFormat fontFormat;
+		D2DTextFormat textFormat;
 
-		List<string> dispstrings;
+		List<string> displayStrings;
 		D2DPoint ptLeftTop = new D2DPoint(0, 0);
 		D2DRect rect = new D2DRect(0, 0, 0, 0);
 
@@ -62,7 +62,7 @@ namespace unvell.D2DLib.Examples.SampleCode
 		{
 			for (int count = 0; count < 1000; ++count)
 			{
-				dispstrings.Add(Guid.NewGuid().ToString().Substring(20, 8));
+				displayStrings.Add(Guid.NewGuid().ToString().Substring(20, 8));
 			}
 		}
 
@@ -76,14 +76,14 @@ namespace unvell.D2DLib.Examples.SampleCode
 			g.FillRectangle(ClientRectangle, brushBack);
 			var ratio = (double)(ClientRectangle.Width) / ClientRectangle.Height;
 
-			for (int i = 0; i < dispstrings.Count; i++)
+			for (int i = 0; i < displayStrings.Count; i++)
 			{
-				var str = dispstrings[i];
+				var str = displayStrings[i];
 				var rectSize = new D2DSize(500, 200);
 
 				if (checkbox.IsChecked)
 				{
-					g.MeasureText(str, fontFormat, ref rectSize); //cached textFormat
+					g.MeasureText(str, textFormat, ref rectSize); //cached textFormat
 				}
 				else
 				{
@@ -97,7 +97,7 @@ namespace unvell.D2DLib.Examples.SampleCode
 
 				if (checkbox.IsChecked)
 				{
-					g.DrawText(str, brush, fontFormat, ref rect); //45fps + measure text not cached, 64fp with measure text cached
+					g.DrawText(str, brushText, textFormat, rect); //45fps + measure text not cached, 64fp with measure text cached
 				}
 				else
 				{
@@ -124,9 +124,9 @@ namespace unvell.D2DLib.Examples.SampleCode
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
 			base.OnFormClosed(e);
-			brush.Dispose();
+			brushText.Dispose();
 			brushBack.Dispose();
-			fontFormat.Dispose();
+			textFormat.Dispose();
 		}
 	}
 

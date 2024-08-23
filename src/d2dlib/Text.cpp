@@ -97,11 +97,11 @@ D2DLIB_API HANDLE CreateTextFormat(HANDLE ctx, LPCWSTR fontName, FLOAT fontSize,
 	return NULL;
 }
 
-D2DLIB_API HANDLE CreateTextLayoutWithFormat(HANDLE ctx, LPCWSTR text, HANDLE fontFormat, D2D1_SIZE_F* size)
+D2DLIB_API HANDLE CreateTextLayoutWithFormat(HANDLE ctx, LPCWSTR text, HANDLE textFormatHandler, D2D1_SIZE_F* size)
 {
 	RetrieveContext(ctx);
 
-	IDWriteTextFormat* textFormat = reinterpret_cast<IDWriteTextFormat*>(fontFormat); ;
+	IDWriteTextFormat* textFormat = reinterpret_cast<IDWriteTextFormat*>(textFormatHandler);
 
 	if (textFormat != NULL)
 	{

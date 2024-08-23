@@ -64,7 +64,7 @@ extern "C"
 		DWRITE_FONT_STYLE fontStyle = DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH fontStretch = DWRITE_FONT_STRETCH_NORMAL);
 
-	D2DLIB_API HANDLE CreateTextLayoutWithFormat(HANDLE ctx, LPCWSTR text, HANDLE fontFormat, D2D1_SIZE_F* size);
+	D2DLIB_API HANDLE CreateTextLayoutWithFormat(HANDLE ctx, LPCWSTR text, HANDLE textFormatHandler, D2D1_SIZE_F* size);
 
 	D2DLIB_API void MeasureText(HANDLE ctx, LPCWSTR text, LPCWSTR fontName, FLOAT fontSize, 
 		__out D2D1_SIZE_F* size,

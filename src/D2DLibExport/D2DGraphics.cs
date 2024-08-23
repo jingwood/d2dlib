@@ -458,8 +458,7 @@ namespace unvell.D2DLib
 			D2D.DrawStringWithBrushAndTextFormat(this.Handle, text, brush.Handle, textFormat.Handle, ref rect);
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void DrawText(D2DSolidColorTextBrush brush, D2DTextLayout textLayout, D2DPoint origin)
+		public void DrawText(D2DSolidColorBrush brush, D2DTextLayout textLayout, D2DPoint origin)
 		{
 			D2D.DrawStringWithLayout(this.Handle, brush.Handle, textLayout.Handle, origin);
 		}
@@ -510,9 +509,9 @@ namespace unvell.D2DLib
 			return outputSize;
 		}
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void MeasureText(string text, D2DFontFormat fontFormat, ref D2DSize placeSize)
+		public void MeasureText(string text, D2DTextFormat textFormat, ref D2DSize placeSize)
 		{
-			D2D.MeasureTextWithFormat(this.Handle, text, fontFormat.Handle, ref placeSize);
+			D2D.MeasureTextWithFormat(this.Handle, text, textFormat.Handle, ref placeSize);
 		}
 		
 
