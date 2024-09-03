@@ -67,4 +67,10 @@
     <Using Include="System.Windows.Forms" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="SampleCode\Test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

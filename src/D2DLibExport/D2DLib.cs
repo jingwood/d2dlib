@@ -261,7 +261,7 @@ namespace unvell.D2DLib
 		#region Geometry
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HANDLE CreateRectangleGeometry([In] HANDLE ctx, [In] ref D2DRect rect);
+		public static extern HANDLE CreateRectangleGeometry([In] HANDLE ctx, [In] D2DRect rect);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyGeometry(HANDLE geometryContext);
