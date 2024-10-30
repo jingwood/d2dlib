@@ -54,7 +54,7 @@ namespace unvell.D2DLib
 		public static extern HANDLE GetLastResult();
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		public static extern HANDLE CreateContext([In] HANDLE hwnd);
+		public static extern HANDLE CreateContext([In] HANDLE hwnd, D2D1PresentOptions presentOptions);
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void DestroyContext([In] HANDLE context);
 

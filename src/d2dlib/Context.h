@@ -1,4 +1,4 @@
-/*
+﻿/*
 * MIT License
 *
 * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
@@ -138,7 +138,7 @@ inline void SafeRelease(Interface **ppInterfaceToRelease)
 
 extern "C" 
 {
-	D2DLIB_API HANDLE CreateContext(HWND hwnd);
+	D2DLIB_API HANDLE CreateContext(HWND hwnd, D2D1_PRESENT_OPTIONS presentOptions);
 	D2DLIB_API void DestroyContext(HANDLE context);
 	D2DLIB_API void ResizeContext(HANDLE context);
 	
