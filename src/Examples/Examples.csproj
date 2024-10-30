@@ -66,8 +66,4 @@
     <Using Include="System.Drawing" />
     <Using Include="System.Windows.Forms" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
-  </ItemGroup>
 </Project>
