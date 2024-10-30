@@ -56,13 +56,15 @@ D2DLIB_API void DrawString(HANDLE ctx, LPCWSTR text, D2D1_COLOR_F color,
 	SafeRelease(&textFormat);
 }
 
-D2DLIB_API void DrawStringWithFormat(HANDLE ctx, LPCWSTR text, ID2D1SolidColorBrush* brush, IDWriteTextFormat* textFormat, D2D1_RECT_F* rect)
+D2DLIB_API void DrawStringWithBrushAndTextFormat(HANDLE ctx, LPCWSTR text, D2DBrushContext* brushHandle, IDWriteTextFormat* textFormat, D2D1_RECT_F* rect)
 {
 	RetrieveContext(ctx);
 
-	if (brush != NULL && textFormat != NULL)
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandle);
+
+	if (brushContext != NULL && brushContext->brush != NULL && textFormat != NULL)
 	{
-		context->renderTarget->DrawText(text, (UINT32)wcslen(text), textFormat, rect, brush);
+		context->renderTarget->DrawText(text, (UINT32)wcslen(text), textFormat, rect, brushContext->brush);
 	}
 }
 
@@ -77,7 +79,7 @@ D2DLIB_API void DrawStringWithLayout(HANDLE ctx, ID2D1SolidColorBrush* brush, ID
 }
 
 D2DLIB_API HANDLE CreateTextFormat(HANDLE ctx, LPCWSTR fontName, FLOAT fontSize, DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, DWRITE_FONT_STRETCH fontStretch,
-																				DWRITE_TEXT_ALIGNMENT halign, DWRITE_PARAGRAPH_ALIGNMENT valign)
+								   DWRITE_TEXT_ALIGNMENT hAlign, DWRITE_PARAGRAPH_ALIGNMENT vAlign)
 {
 	RetrieveContext(ctx);
 
@@ -87,19 +89,19 @@ D2DLIB_API HANDLE CreateTextFormat(HANDLE ctx, LPCWSTR fontName, FLOAT fontSize,
 		fontWeight, fontStyle, fontStretch, fontSize, L"", &textFormat);
 
 	if (SUCCEEDED(hr) && textFormat != NULL) {
-		textFormat->SetTextAlignment(halign);
-		textFormat->SetParagraphAlignment(valign);
+		textFormat->SetTextAlignment(hAlign);
+		textFormat->SetParagraphAlignment(vAlign);
 		return (HANDLE)textFormat;
 	}
 
 	return NULL;
 }
 
-D2DLIB_API HANDLE CreateTextLayoutWithFormat(HANDLE ctx, LPCWSTR text, HANDLE fontFormat, D2D1_SIZE_F* size)
+D2DLIB_API HANDLE CreateTextLayoutWithFormat(HANDLE ctx, LPCWSTR text, HANDLE textFormatHandler, D2D1_SIZE_F* size)
 {
 	RetrieveContext(ctx);
 
-	IDWriteTextFormat* textFormat = reinterpret_cast<IDWriteTextFormat*>(fontFormat); ;
+	IDWriteTextFormat* textFormat = reinterpret_cast<IDWriteTextFormat*>(textFormatHandler);
 
 	if (textFormat != NULL)
 	{

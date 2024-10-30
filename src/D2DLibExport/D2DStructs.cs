@@ -274,6 +274,11 @@ namespace unvell.D2DLib
 			}
 		}
 
+		public Vector2 Origin
+		{
+			get => new Vector2(this.X + this.Width * 0.5f, this.Y + this.Height * 0.5f);
+		}
+
 		public static implicit operator D2DRect(System.Drawing.Rectangle rect)
 		{
 			return new D2DRect(rect.X, rect.Y, rect.Width, rect.Height);
@@ -385,6 +390,15 @@ namespace unvell.D2DLib
 
 		public D2DEllipse(FLOAT x, FLOAT y, FLOAT rx, FLOAT ry)
 			: this(new D2DPoint(x, y), rx, ry)
+		{
+		}
+
+		/// <summary>
+		/// Create an ellipse range to fit and fill the given rectangle.
+		/// </summary>
+		/// <param name="rect"></param>
+		public D2DEllipse(D2DRect rect)
+			: this(rect.Origin, rect.Width * 0.5f, rect.Height * 0.5f)
 		{
 		}
 

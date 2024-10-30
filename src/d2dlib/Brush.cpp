@@ -43,31 +43,19 @@
 //	return (HANDLE)strokeStyle;
 //}
 
-HANDLE CreateSolidColorBrushContext(HANDLE ctx, D2D1_COLOR_F color)
+HANDLE CreateSolidColorBrush(HANDLE ctx, D2D1_COLOR_F color)
 {
 	RetrieveContext(ctx);
 
 	ID2D1SolidColorBrush* brush;
 	context->renderTarget->CreateSolidColorBrush(color, &brush);
-	
+
 	D2DBrushContext* brushContext = new D2DBrushContext();
 	brushContext->context = context;
 	brushContext->type = BrushType::BrushType_SolidBrush;
 	brushContext->brush = brush;
 
 	return (HANDLE)brushContext;
-}
-
-HANDLE CreateSolidColorBrush(HANDLE ctx, D2D1_COLOR_F color)
-{
-	RetrieveContext(ctx);
-
-	ID2D1SolidColorBrush* brush;
-	HRESULT hr = (context->renderTarget)->CreateSolidColorBrush(color, &brush);
-	if (SUCCEEDED(hr) && brush != NULL) {
-		return (HANDLE)brush;
-	}
-	return NULL;
 }
 
 void SetSolidColorBrushColor(HANDLE brushHandle, D2D1_COLOR_F color)
@@ -103,6 +91,31 @@ HANDLE CreateLinearGradientBrush(HANDLE ctx, D2D1_POINT_2F startPoint, D2D1_POIN
 			brushContext->brush = brush;
 			brushContext->gradientStops = gradientStopCollection;
 		}
+	}
+
+	return (HANDLE)brushContext;
+}
+
+HANDLE CreateBitmapBrush(HANDLE ctx, ID2D1Bitmap* bitmap,
+	D2D1_EXTEND_MODE extendModeX, D2D1_EXTEND_MODE extendModeY,
+	D2D1_BITMAP_INTERPOLATION_MODE interpolationMode)
+{
+	RetrieveContext(ctx);
+	ID2D1RenderTarget* renderTarget = context->renderTarget;
+	HRESULT hr;
+
+	ID2D1BitmapBrush* brush = NULL;
+	D2DBrushContext* brushContext = NULL;
+	
+	hr = renderTarget->CreateBitmapBrush(bitmap, 
+		D2D1::BitmapBrushProperties(extendModeX, extendModeY, interpolationMode), &brush);
+		
+	if (SUCCEEDED(hr)) {
+		brushContext = new D2DBrushContext();
+		brushContext->context = context;
+		brushContext->type = BrushType::BrushType_BitmapBrush;
+		brushContext->brush = brush;
+		brushContext->bitmap = bitmap;
 	}
 
 	return (HANDLE)brushContext;
@@ -150,6 +163,11 @@ void ReleaseBrush(HANDLE brushHandle)
 	case BrushType::BrushType_LinearGradientBrush:
 	case BrushType::BrushType_RadialGradientBrush:
 		SafeRelease(&brushContext->gradientStops);
+		break;
+	case BrushType::BrushType_BitmapBrush:
+		// Don't release the bitmap since it may be used elsewhere.
+		// The bitmap should be released where it was originally created.
+		//SafeRelease(&brushContext->bitmap);
 		break;
 	}
 

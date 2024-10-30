@@ -22,28 +22,32 @@
  * SOFTWARE.
  */
 
-namespace unvell.D2DLib
+namespace unvell.D2DLib.Examples.SampleCode
 {
-	public class D2DSolidColorBrush : D2DBrush
+	public partial class MeasureAndDrawString : ExampleForm
 	{
-		private D2DColor color;
+		private static readonly Font font1 = new Font("Times New Roman", 34f, FontStyle.Italic);
 
-		public D2DColor Color
+		public MeasureAndDrawString()
 		{
-			get
-			{
-				return color;
-			}
-			set
-			{
-				D2D.SetSolidColorBrushColor(this.Handle, this.color = value);
-			}
+			Text = "Measure and draw string";
+
+			Size = new Size(1280, 800);
 		}
 
-		internal D2DSolidColorBrush(HANDLE handle, D2DColor color)
-		  : base(handle)
+		protected override void OnRender(D2DGraphics g)
 		{
-			this.color = color;
+			var text = "Hello World";
+
+			var rect = new Rectangle(100, 100, 500, 500);
+
+			var measuredSize = g.MeasureText(text, font1.Name, font1.Size, rect.Size);
+
+			var measuredRect = new D2DRect(rect.X, rect.Y, measuredSize.width, measuredSize.height);
+
+			g.DrawText(text, D2DColor.Black, font1.Name, font1.Size, rect);
+
+			g.DrawRectangle(measuredRect, D2DColor.Blue);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 * MIT License
 *
 * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
@@ -78,6 +78,7 @@ enum BrushType {
 	BrushType_SolidBrush,
 	BrushType_LinearGradientBrush,
 	BrushType_RadialGradientBrush,
+	BrushType_BitmapBrush
 };
 
 struct D2DBrushContext {
@@ -86,6 +87,7 @@ struct D2DBrushContext {
 	BrushType type;
 	union {
 		ID2D1GradientStopCollection* gradientStops = NULL;
+		ID2D1Bitmap* bitmap;
 	};
 };
 
@@ -129,7 +131,7 @@ inline void SafeRelease(Interface **ppInterfaceToRelease)
 }
 
 #define RetrieveContext(ctx) D2DContext* context = reinterpret_cast<D2DContext*>(ctx)
-#define RetrieveD2DBitmap(ctx, handle) ID2D1Bitmap* ctx = reinterpret_cast<ID2D1Bitmap*>(handle)
+#define RetrieveD2DBitmap(ctx) ID2D1Bitmap* d2dbitmap = reinterpret_cast<ID2D1Bitmap*>(d2dbitmapHandle)
 //#define RetrieveContext(ctx) D2DContext* context = (D2DContext*)(ctx)
 
 //extern D2DLIB_API HRESULT LastResultCode;

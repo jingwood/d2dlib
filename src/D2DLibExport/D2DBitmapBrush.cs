@@ -22,32 +22,21 @@
  * SOFTWARE.
  */
 
-namespace unvell.D2DLib.Examples.SampleCode
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace unvell.D2DLib
 {
-	public partial class MeasureAndDrawStringForm : ExampleForm
-	{
-		private static readonly Font font1 = new Font("Times New Roman", 34f, FontStyle.Italic);
+  public class D2DBitmapBrush : D2DBrush
+  {
+    public D2DBitmap Bitmap { get; private set; }
 
-		public MeasureAndDrawStringForm()
-		{
-			Text = "Measure and draw string";
-
-			Size = new Size(1280, 800);
-		}
-
-		protected override void OnRender(D2DGraphics g)
-		{
-			var text = "Hello World";
-
-			var rect = new Rectangle(100, 100, 500, 500);
-
-			var measuredSize = g.MeasureText(text, font1.Name, font1.Size, rect.Size);
-
-			var measuredRect = new D2DRect(rect.X, rect.Y, measuredSize.width, measuredSize.height);
-
-			g.DrawText(text, D2DColor.Black, font1.Name, font1.Size, rect);
-
-			g.DrawRectangle(measuredRect, D2DColor.Blue);
-		}
-	}
+    internal D2DBitmapBrush(HANDLE handle, D2DBitmap bitmap)
+      : base(handle)
+    {
+      this.Bitmap = bitmap;
+    }
+  }
 }
