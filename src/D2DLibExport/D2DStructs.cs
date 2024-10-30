@@ -285,7 +285,15 @@ namespace unvell.D2DLib
 		/// </summary>
 		public static D2DRect Infinite
 		{
-			get { return new D2DRect(float.NegativeInfinity, float.NegativeInfinity, float.PositiveInfinity, float.PositiveInfinity); }
+			get
+			{
+				var rect = new D2DRect(0, 0, 0, 0);
+				rect.left = float.NegativeInfinity;
+				rect.top = float.NegativeInfinity;
+				rect.right = float.PositiveInfinity;
+				rect.bottom = float.PositiveInfinity;
+				return rect;
+			}
 		}
 
 		public static implicit operator D2DRect(System.Drawing.Rectangle rect)
