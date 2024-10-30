@@ -22,7 +22,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: microsoft/setup-msbuild@v2
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
