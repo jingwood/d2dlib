@@ -256,17 +256,20 @@ namespace unvell.D2DLib
 		Ignore = 3,
 	}
 
-	enum D2D1PresentOptions
+	public enum D2D1PresentOptions
 	{
+		/// <summary>
+		/// The render target waits until the display refreshes to present and discards the frame upon presenting.
+		/// </summary>
 		None = 0x00000000,
 
 		/// <summary>
-		/// Keep the target contents intact through present.
+		/// The render target does not discard the frame upon presenting.
 		/// </summary>
 		RetainContents = 0x00000001,
 
 		/// <summary>
-		/// Do not wait for display refresh to commit changes to display.
+		/// The render target does not wait until the display refreshes to present.
 		/// </summary>
 		Immediately = 0x00000002,
 	}

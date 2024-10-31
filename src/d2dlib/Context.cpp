@@ -1,4 +1,4 @@
-/*
+﻿/*
 * MIT License
 *
 * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
@@ -31,7 +31,7 @@
 #include <stack>
 using namespace std;
 
-HANDLE CreateContext(HWND hwnd)
+HANDLE CreateContext(HWND hwnd, D2D1_PRESENT_OPTIONS presentOptions)
 {
 	D2DContext* context = new D2DContext();
 	ZeroMemory(context, sizeof(context));
@@ -70,7 +70,7 @@ HANDLE CreateContext(HWND hwnd)
 
 	hr = context->factory->CreateHwndRenderTarget(
 			D2D1::RenderTargetProperties(),
-			D2D1::HwndRenderTargetProperties(context->hwnd, size),
+			D2D1::HwndRenderTargetProperties(context->hwnd, size, presentOptions),
 			&context->renderTarget);
 
 	if (!SUCCEEDED(hr)) {
