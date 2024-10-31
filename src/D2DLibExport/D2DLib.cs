@@ -387,6 +387,10 @@ namespace unvell.D2DLib
 																									D2DExtendMode extendModeX, D2DExtendMode extendModeY,
 																									D2DBitmapInterpolationMode interpolationMode = D2DBitmapInterpolationMode.Linear);
 
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void BrushSetTransform(HANDLE brushHandler, Matrix3x2 transform);
+
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ReleaseBrush(HANDLE brushCtx);
 
