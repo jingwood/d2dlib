@@ -279,6 +279,23 @@ namespace unvell.D2DLib
 			get => new Vector2(this.X + this.Width * 0.5f, this.Y + this.Height * 0.5f);
 		}
 
+		/// <summary>
+		/// Creates a rectangle that has its upper-left corner set to (negative infinity, negative infinity) and its lower-right corner set to (infinity, infinity).
+		/// Corresponds to [`InfiniteRect()`](https://learn.microsoft.com/en-us/windows/win32/api/d2d1helper/nf-d2d1helper-infiniterect).
+		/// </summary>
+		public static D2DRect Infinite
+		{
+			get
+			{
+				var rect = new D2DRect(0, 0, 0, 0);
+				rect.left = float.NegativeInfinity;
+				rect.top = float.NegativeInfinity;
+				rect.right = float.PositiveInfinity;
+				rect.bottom = float.PositiveInfinity;
+				return rect;
+			}
+		}
+
 		public static implicit operator D2DRect(System.Drawing.Rectangle rect)
 		{
 			return new D2DRect(rect.X, rect.Y, rect.Width, rect.Height);
