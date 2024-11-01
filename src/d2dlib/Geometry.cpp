@@ -33,12 +33,15 @@ void DestroyGeometry(HANDLE geometryHandle) {
 	delete context;
 }
 
-HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F& rect)
+HANDLE CreateRectangleGeometry(HANDLE ctx, D2D1_RECT_F rect)
 {
 	RetrieveContext(ctx);
 	
 	ID2D1RectangleGeometry* rectGeo;
-	context->factory->CreateRectangleGeometry(rect, &rectGeo);
+	HRESULT hr = context->factory->CreateRectangleGeometry(&rect, &rectGeo);
+	if (!SUCCEEDED(hr)) {
+		return NULL;
+	}
 
 	D2DGeometryContext* pathCtx = new D2DGeometryContext();
 	pathCtx->d2context = context;
@@ -196,32 +199,51 @@ void AddPathArc(HANDLE ctx, D2D1_POINT_2F endPoint, D2D1_SIZE_F size, FLOAT swee
 	pathContext->sink->AddArc(&seg);
 }
 
-void DrawPath(HANDLE pathCtx, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle)
+void DrawGeometry(HANDLE geometryHandler, D2D1_COLOR_F strokeColor, FLOAT strokeWidth, D2D1_DASH_STYLE dashStyle)
 {
-	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
-	D2DContext* context = pathContext->d2context;
-	
+	D2DGeometryContext* geoContext = reinterpret_cast<D2DPathContext*>(geometryHandler);
+	if (geoContext == NULL) {
+		return;
+	}
+
+	D2DContext* context = geoContext->d2context;
 	ID2D1Factory* factory = context->factory;
 	ID2D1RenderTarget* renderTarget = context->renderTarget;
 
 	ID2D1SolidColorBrush* strokeBrush = NULL;
-	renderTarget->CreateSolidColorBrush(strokeColor, &strokeBrush);
+	HRESULT hr = renderTarget->CreateSolidColorBrush(strokeColor, &strokeBrush);
+	if (!SUCCEEDED(hr) || strokeBrush == NULL) {
+		return;
+	}
 
-	ID2D1StrokeStyle *strokeStyle = NULL;
+	ID2D1StrokeStyle* strokeStyle = NULL;
 
 	if (dashStyle != D2D1_DASH_STYLE_SOLID)
 	{
 		factory->CreateStrokeStyle(D2D1::StrokeStyleProperties(
-          D2D1_CAP_STYLE_FLAT,
-          D2D1_CAP_STYLE_FLAT,
-          D2D1_CAP_STYLE_ROUND,
-          D2D1_LINE_JOIN_MITER,
-          10.0f,
-          dashStyle,
-          0.0f), NULL, 0, &strokeStyle);
+			D2D1_CAP_STYLE_FLAT,
+			D2D1_CAP_STYLE_FLAT,
+			D2D1_CAP_STYLE_ROUND,
+			D2D1_LINE_JOIN_MITER,
+			10.0f,
+			dashStyle,
+			0.0f), NULL, 0, &strokeStyle);
 	}
 
-	renderTarget->DrawGeometry(pathContext->path, strokeBrush, strokeWidth, strokeStyle);
+	switch(geoContext->geometryType) {
+	default:
+		// unknown type, abort to render
+		break;
+
+	case GeometryType::GeoType_RectangleGeometry:
+		ID2D1RectangleGeometry* rectGeomtry = reinterpret_cast<ID2D1RectangleGeometry*>(geoContext->geometry);
+		renderTarget->DrawGeometry(rectGeomtry, strokeBrush, strokeWidth, strokeStyle);
+		break;
+
+	case GeometryType::GeoType_PathGeometry:
+		D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(geoContext);
+		renderTarget->DrawGeometry(pathContext->path, strokeBrush, strokeWidth, strokeStyle);
+		break;
 
 	SafeRelease(&strokeBrush);
 	SafeRelease(&strokeStyle);
