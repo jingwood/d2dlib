@@ -11,6 +11,10 @@ tab_width = 4
 insert_final_newline = true
 charset = utf-8-bom
 
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
+
 # XML project files
 [*.{csproj,props,targets}]
 indent_style = space
