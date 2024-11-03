@@ -330,6 +330,9 @@ D2D1_SIZE_F GetBitmapSize(HANDLE d2dbitmap)
 	return bitmap->GetSize();
 }
 
+void ConvertBitmapToGDIBitmap() {
+}
+
 #ifdef __unused__
 void _unused_get_wic_info() {
 
