@@ -33,5 +33,10 @@ namespace unvell.D2DLib
 			if (this.Handle != IntPtr.Zero) D2D.ReleaseBrush(this.Handle);
 			this.handle = IntPtr.Zero;
 		}
+
+		public void SetTransform(Matrix3x2 transform)
+		{
+			D2D.BrushSetTransform(this.Handle, transform);
+		}
 	}
 }

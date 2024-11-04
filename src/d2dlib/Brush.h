@@ -43,5 +43,7 @@ extern "C"
 		D2D1_EXTEND_MODE extendModeX, D2D1_EXTEND_MODE extendModeY, 
 		D2D1_BITMAP_INTERPOLATION_MODE interpolationMode);
 
+	D2DLIB_API void BrushSetTransform(HANDLE brushHandler, D2D1_MATRIX_3X2_F* transform);
+
 	D2DLIB_API void ReleaseBrush(HANDLE brushHandle);
 }

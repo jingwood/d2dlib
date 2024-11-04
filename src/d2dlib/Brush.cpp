@@ -154,6 +154,16 @@ HANDLE CreateRadialGradientBrush(HANDLE ctx, D2D1_POINT_2F origin, D2D1_POINT_2F
 	return (HANDLE)brushContext;
 }
 
+void BrushSetTransform(HANDLE brushHandler, D2D1_MATRIX_3X2_F* transform)
+{
+	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandler);
+
+	if (brushContext->brush != NULL) {
+		brushContext->brush->SetTransform(transform);
+	}
+}
+
+
 void ReleaseBrush(HANDLE brushHandle)
 {
 	D2DBrushContext* brushContext = reinterpret_cast<D2DBrushContext*>(brushHandle);
