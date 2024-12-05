@@ -31,7 +31,7 @@ namespace unvell.D2DLib
 	{
 		internal HANDLE Handle { get; }
 
-		public D2DDevice? Device { get; }
+		public D2DDevice Device { get; }
 
 		public D2DGraphics(D2DDevice context)
 			: this(context.Handle)
@@ -42,7 +42,8 @@ namespace unvell.D2DLib
 		public D2DGraphics(HANDLE handle)
 		{
 			this.Handle = handle;
-		}
+			this.Device = new D2DDevice(handle);
+        }
 
 		public void BeginRender()
 		{
