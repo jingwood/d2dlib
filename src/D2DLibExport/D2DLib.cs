@@ -469,6 +469,9 @@ namespace unvell.D2DLib
 		public static extern void SetEffectValueVector2(HANDLE effectHandle, uint index, D2DPoint value);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetEffectValueVector3(HANDLE effectHandle, uint index, D2DVector3 value);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SetEffectValueColor(HANDLE effectHandle, uint index, D2DColor value);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -476,6 +479,9 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int GetEffectValueInt(HANDLE effectHandle, uint index);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern D2DVector3 GetEffectValueVector3(HANDLE effectHandle, uint index);
 
 		// Convenience wrappers
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]

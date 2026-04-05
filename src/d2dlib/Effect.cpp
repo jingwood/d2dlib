@@ -121,6 +121,12 @@ void SetEffectValueVector2(HANDLE effectHandle, UINT index, D2D1_POINT_2F value)
 	effectCtx->effect->SetValue(index, value);
 }
 
+void SetEffectValueVector3(HANDLE effectHandle, UINT index, D2D1_VECTOR_3F value)
+{
+	D2DEffectContext* effectCtx = reinterpret_cast<D2DEffectContext*>(effectHandle);
+	effectCtx->effect->SetValue(index, value);
+}
+
 void SetEffectValueVector4(HANDLE effectHandle, UINT index, D2D1_VECTOR_4F value)
 {
 	D2DEffectContext* effectCtx = reinterpret_cast<D2DEffectContext*>(effectHandle);
@@ -139,6 +145,12 @@ FLOAT GetEffectValueFloat(HANDLE effectHandle, UINT index)
 {
 	D2DEffectContext* effectCtx = reinterpret_cast<D2DEffectContext*>(effectHandle);
 	return effectCtx->effect->GetValue<FLOAT>(index);
+}
+
+D2D1_VECTOR_3F GetEffectValueVector3(HANDLE effectHandle, UINT index)
+{
+	D2DEffectContext* effectCtx = reinterpret_cast<D2DEffectContext*>(effectHandle);
+	return effectCtx->effect->GetValue<D2D1_VECTOR_3F>(index);
 }
 
 INT GetEffectValueInt(HANDLE effectHandle, UINT index)

@@ -449,4 +449,26 @@ namespace unvell.D2DLib
 	}
 	#endregion // BezierSegment
 
+	#region Vector3
+	[Serializable]
+	[StructLayout(LayoutKind.Sequential)]
+	public struct D2DVector3
+	{
+		public FLOAT X;
+		public FLOAT Y;
+		public FLOAT Z;
+
+		public D2DVector3(FLOAT x, FLOAT y, FLOAT z)
+		{
+			this.X = x;
+			this.Y = y;
+			this.Z = z;
+		}
+
+		public static D2DVector3 Zero => new D2DVector3(0, 0, 0);
+
+		public override string ToString() => $"({X}, {Y}, {Z})";
+	}
+	#endregion // Vector3
+
 }

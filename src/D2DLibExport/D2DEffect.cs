@@ -71,6 +71,11 @@ namespace unvell.D2DLib
 			D2D.SetEffectValueVector2(this.Handle, index, value);
 		}
 
+		protected void SetValue(uint index, D2DVector3 value)
+		{
+			D2D.SetEffectValueVector3(this.Handle, index, value);
+		}
+
 		protected void SetValue(uint index, D2DColor value)
 		{
 			D2D.SetEffectValueColor(this.Handle, index, value);
@@ -84,6 +89,11 @@ namespace unvell.D2DLib
 		protected int GetValueInt(uint index)
 		{
 			return D2D.GetEffectValueInt(this.Handle, index);
+		}
+
+		protected D2DVector3 GetValueVector3(uint index)
+		{
+			return D2D.GetEffectValueVector3(this.Handle, index);
 		}
 
 		public void Dispose()
@@ -209,6 +219,78 @@ namespace unvell.D2DLib
 		{
 			get => GetValueFloat(PropAngle);
 			set => SetValue(PropAngle, value);
+		}
+	}
+
+	/// <summary>
+	/// 3D Perspective Transform effect. Applies a 3D perspective projection to 2D content.
+	/// </summary>
+	public class D2D3DPerspectiveTransformEffect : D2DEffect
+	{
+		// D2D1_3DPERSPECTIVETRANSFORM_PROP
+		private const uint PropInterpolationMode = 0;
+		private const uint PropBorderMode = 1;
+		private const uint PropDepth = 2;
+		private const uint PropPerspectiveOrigin = 3;
+		private const uint PropLocalOffset = 4;
+		private const uint PropGlobalOffset = 5;
+		private const uint PropRotationOrigin = 6;
+		private const uint PropRotation = 7;
+
+		internal D2D3DPerspectiveTransformEffect(D2DDevice device, HANDLE handle)
+			: base(device, handle) { }
+
+		/// <summary>
+		/// Depth of the perspective projection. Default is 1000.
+		/// </summary>
+		public float Depth
+		{
+			get => GetValueFloat(PropDepth);
+			set => SetValue(PropDepth, value);
+		}
+
+		/// <summary>
+		/// Rotation angles in degrees (X, Y, Z).
+		/// </summary>
+		public D2DVector3 Rotation
+		{
+			get => GetValueVector3(PropRotation);
+			set => SetValue(PropRotation, value);
+		}
+
+		/// <summary>
+		/// Origin point for the rotation, relative to the input image.
+		/// </summary>
+		public D2DVector3 RotationOrigin
+		{
+			get => GetValueVector3(PropRotationOrigin);
+			set => SetValue(PropRotationOrigin, value);
+		}
+
+		/// <summary>
+		/// Origin of the perspective projection (vanishing point), in pixels.
+		/// </summary>
+		public D2DPoint PerspectiveOrigin
+		{
+			set => SetValue(PropPerspectiveOrigin, value);
+		}
+
+		/// <summary>
+		/// Offset applied before rotation (in local space).
+		/// </summary>
+		public D2DVector3 LocalOffset
+		{
+			get => GetValueVector3(PropLocalOffset);
+			set => SetValue(PropLocalOffset, value);
+		}
+
+		/// <summary>
+		/// Offset applied after rotation (in global/screen space).
+		/// </summary>
+		public D2DVector3 GlobalOffset
+		{
+			get => GetValueVector3(PropGlobalOffset);
+			set => SetValue(PropGlobalOffset, value);
 		}
 	}
 }

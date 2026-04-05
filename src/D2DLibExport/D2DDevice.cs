@@ -318,6 +318,12 @@ namespace unvell.D2DLib
 			return new D2DHueRotationEffect(this, handle);
 		}
 
+		public D2D3DPerspectiveTransformEffect Create3DPerspectiveTransformEffect()
+		{
+			HANDLE handle = D2D.Create3DPerspectiveTransformEffect(this.Handle);
+			return new D2D3DPerspectiveTransformEffect(this, handle);
+		}
+
 		public D2DEffect CreateEffect(Guid effectId)
 		{
 			HANDLE handle = D2D.CreateEffect(this.Handle, ref effectId);

@@ -50,12 +50,14 @@ extern "C"
 	D2DLIB_API void SetEffectValueInt(HANDLE effectHandle, UINT index, INT value);
 	D2DLIB_API void SetEffectValueBool(HANDLE effectHandle, UINT index, BOOL value);
 	D2DLIB_API void SetEffectValueVector2(HANDLE effectHandle, UINT index, D2D1_POINT_2F value);
+	D2DLIB_API void SetEffectValueVector3(HANDLE effectHandle, UINT index, D2D1_VECTOR_3F value);
 	D2DLIB_API void SetEffectValueVector4(HANDLE effectHandle, UINT index, D2D1_VECTOR_4F value);
 	D2DLIB_API void SetEffectValueColor(HANDLE effectHandle, UINT index, D2D1_COLOR_F value);
 
 	// Effect property getters
 	D2DLIB_API FLOAT GetEffectValueFloat(HANDLE effectHandle, UINT index);
 	D2DLIB_API INT GetEffectValueInt(HANDLE effectHandle, UINT index);
+	D2DLIB_API D2D1_VECTOR_3F GetEffectValueVector3(HANDLE effectHandle, UINT index);
 
 	// Convenience wrappers for common effects
 	D2DLIB_API HANDLE CreateGaussianBlurEffect(HANDLE ctx);
