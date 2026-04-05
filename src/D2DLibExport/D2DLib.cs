@@ -348,6 +348,20 @@ namespace unvell.D2DLib
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void GetGeometryTransformedBounds(HANDLE pathCtx, ref Matrix3x2 mat3x2, ref D2DRect rect);
 
+		// Geometry Realization (D2D 1.2)
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateFilledGeometryRealization(HANDLE ctx, HANDLE geoHandle, float flatteningTolerance);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateStrokedGeometryRealization(HANDLE ctx, HANDLE geoHandle, float flatteningTolerance,
+			float strokeWidth, HANDLE strokeStyle);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawGeometryRealization(HANDLE ctx, HANDLE realizationHandle, HANDLE brushHandle);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DestroyGeometryRealization(HANDLE realizationHandle);
+
 		#endregion // Geometry
 
 		#region Style
@@ -504,6 +518,21 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern HANDLE CreateHueRotationEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateCompositeEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateBlendEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateBorderEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateCropEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetEffectInputCount(HANDLE effectHandle, uint count);
 
 		#endregion // Effects
 	}

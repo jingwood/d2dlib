@@ -25,8 +25,8 @@
 #pragma once
 
 #include <Windows.h>
-#include <d2d1_1.h>
-#include <d2d1_1helper.h>
+#include <d2d1_2.h>
+#include <d2d1_2helper.h>
 #include <d2d1effects.h>
 #include <d3d11.h>
 #include <dxgi1_2.h>
@@ -69,6 +69,8 @@ typedef struct D2DContext
 	bool isBitmapRenderTarget;
 
 	std::stack<D2D1_MATRIX_3X2_F>* matrixStack;
+
+	bool useVSync;
 
 	HRESULT lastErrorCode;
 

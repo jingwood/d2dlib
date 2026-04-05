@@ -67,4 +67,11 @@ extern "C"
 	D2DLIB_API HANDLE CreateColorMatrixEffect(HANDLE ctx);
 	D2DLIB_API HANDLE CreateBrightnessEffect(HANDLE ctx);
 	D2DLIB_API HANDLE CreateHueRotationEffect(HANDLE ctx);
+	D2DLIB_API HANDLE CreateCompositeEffect(HANDLE ctx);
+	D2DLIB_API HANDLE CreateBlendEffect(HANDLE ctx);
+	D2DLIB_API HANDLE CreateBorderEffect(HANDLE ctx);
+	D2DLIB_API HANDLE CreateCropEffect(HANDLE ctx);
+
+	// Effect input count
+	D2DLIB_API void SetEffectInputCount(HANDLE effectHandle, UINT count);
 }

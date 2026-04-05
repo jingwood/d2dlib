@@ -461,3 +461,78 @@ void GetGeometryTransformedBounds(HANDLE pathCtx, __in D2D1_MATRIX_3X2_F* mat3x2
 	D2DPathContext* pathContext = reinterpret_cast<D2DPathContext*>(pathCtx);
 	pathContext->path->GetBounds(mat3x2, rect);
 }
+
+// Geometry Realization (D2D 1.2)
+
+HANDLE CreateFilledGeometryRealization(HANDLE ctx, HANDLE geoHandle, FLOAT flatteningTolerance)
+{
+	RetrieveContext(ctx);
+	if (context->deviceContext == NULL) return NULL;
+
+	D2DGeometryContext* geoCtx = reinterpret_cast<D2DGeometryContext*>(geoHandle);
+
+	ID2D1DeviceContext1* dc1 = NULL;
+	HRESULT hr = context->deviceContext->QueryInterface(&dc1);
+	if (!SUCCEEDED(hr) || dc1 == NULL) return NULL;
+
+	ID2D1GeometryRealization* realization = NULL;
+	hr = dc1->CreateFilledGeometryRealization(geoCtx->geometry, flatteningTolerance, &realization);
+	SafeRelease(&dc1);
+
+	if (!SUCCEEDED(hr) || realization == NULL) {
+		context->lastErrorCode = hr;
+		return NULL;
+	}
+
+	return (HANDLE)realization;
+}
+
+HANDLE CreateStrokedGeometryRealization(HANDLE ctx, HANDLE geoHandle, FLOAT flatteningTolerance,
+	FLOAT strokeWidth, HANDLE strokeStyleHandle)
+{
+	RetrieveContext(ctx);
+	if (context->deviceContext == NULL) return NULL;
+
+	D2DGeometryContext* geoCtx = reinterpret_cast<D2DGeometryContext*>(geoHandle);
+
+	ID2D1DeviceContext1* dc1 = NULL;
+	HRESULT hr = context->deviceContext->QueryInterface(&dc1);
+	if (!SUCCEEDED(hr) || dc1 == NULL) return NULL;
+
+	ID2D1StrokeStyle* strokeStyle = reinterpret_cast<ID2D1StrokeStyle*>(strokeStyleHandle);
+
+	ID2D1GeometryRealization* realization = NULL;
+	hr = dc1->CreateStrokedGeometryRealization(geoCtx->geometry, flatteningTolerance,
+		strokeWidth, strokeStyle, &realization);
+	SafeRelease(&dc1);
+
+	if (!SUCCEEDED(hr) || realization == NULL) {
+		context->lastErrorCode = hr;
+		return NULL;
+	}
+
+	return (HANDLE)realization;
+}
+
+void DrawGeometryRealization(HANDLE ctx, HANDLE realizationHandle, HANDLE brushHandle)
+{
+	RetrieveContext(ctx);
+	if (context->deviceContext == NULL) return;
+
+	ID2D1GeometryRealization* realization = reinterpret_cast<ID2D1GeometryRealization*>(realizationHandle);
+	D2DBrushContext* brushCtx = reinterpret_cast<D2DBrushContext*>(brushHandle);
+
+	ID2D1DeviceContext1* dc1 = NULL;
+	HRESULT hr = context->deviceContext->QueryInterface(&dc1);
+	if (!SUCCEEDED(hr) || dc1 == NULL) return;
+
+	dc1->DrawGeometryRealization(realization, brushCtx->brush);
+	SafeRelease(&dc1);
+}
+
+void DestroyGeometryRealization(HANDLE realizationHandle)
+{
+	if (realizationHandle == NULL) return;
+	ID2D1GeometryRealization* realization = reinterpret_cast<ID2D1GeometryRealization*>(realizationHandle);
+	SafeRelease(&realization);
+}

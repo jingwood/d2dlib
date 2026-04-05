@@ -196,3 +196,29 @@ HANDLE CreateHueRotationEffect(HANDLE ctx)
 	return CreateEffect(ctx, CLSID_D2D1HueRotation);
 }
 
+HANDLE CreateCompositeEffect(HANDLE ctx)
+{
+	return CreateEffect(ctx, CLSID_D2D1Composite);
+}
+
+HANDLE CreateBlendEffect(HANDLE ctx)
+{
+	return CreateEffect(ctx, CLSID_D2D1Blend);
+}
+
+HANDLE CreateBorderEffect(HANDLE ctx)
+{
+	return CreateEffect(ctx, CLSID_D2D1Border);
+}
+
+HANDLE CreateCropEffect(HANDLE ctx)
+{
+	return CreateEffect(ctx, CLSID_D2D1Crop);
+}
+
+void SetEffectInputCount(HANDLE effectHandle, UINT count)
+{
+	D2DEffectContext* effectCtx = reinterpret_cast<D2DEffectContext*>(effectHandle);
+	effectCtx->effect->SetInputCount(count);
+}
+

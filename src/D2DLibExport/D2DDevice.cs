@@ -286,6 +286,24 @@ namespace unvell.D2DLib
 				: new D2DBitmapGraphics(bitmapRenderTargetHandle);
 		}
 
+		#region Geometry Realization
+
+		public D2DGeometryRealization CreateFilledGeometryRealization(D2DGeometry geometry, float flatteningTolerance = 1f)
+		{
+			HANDLE handle = D2D.CreateFilledGeometryRealization(this.Handle, geometry.Handle, flatteningTolerance);
+			return new D2DGeometryRealization(handle);
+		}
+
+		public D2DGeometryRealization CreateStrokedGeometryRealization(D2DGeometry geometry,
+			float flatteningTolerance, float strokeWidth, D2DStrokeStyle? strokeStyle = null)
+		{
+			HANDLE handle = D2D.CreateStrokedGeometryRealization(this.Handle, geometry.Handle,
+				flatteningTolerance, strokeWidth, strokeStyle?.Handle ?? HANDLE.Zero);
+			return new D2DGeometryRealization(handle);
+		}
+
+		#endregion // Geometry Realization
+
 		#region Effects
 
 		public D2DGaussianBlurEffect CreateGaussianBlurEffect()
@@ -316,6 +334,24 @@ namespace unvell.D2DLib
 		{
 			HANDLE handle = D2D.CreateHueRotationEffect(this.Handle);
 			return new D2DHueRotationEffect(this, handle);
+		}
+
+		public D2DCompositeEffect CreateCompositeEffect()
+		{
+			HANDLE handle = D2D.CreateCompositeEffect(this.Handle);
+			return new D2DCompositeEffect(this, handle);
+		}
+
+		public D2DBlendEffect CreateBlendEffect()
+		{
+			HANDLE handle = D2D.CreateBlendEffect(this.Handle);
+			return new D2DBlendEffect(this, handle);
+		}
+
+		public D2DCropEffect CreateCropEffect()
+		{
+			HANDLE handle = D2D.CreateCropEffect(this.Handle);
+			return new D2DCropEffect(this, handle);
 		}
 
 		public D2D3DPerspectiveTransformEffect Create3DPerspectiveTransformEffect()

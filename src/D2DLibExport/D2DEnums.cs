@@ -695,5 +695,58 @@ namespace unvell.D2DLib
 		Anisotropic = 4,
 		HighQualityCubic = 5,
 	}
+
+	/// <summary>
+	/// D2D1_COMPOSITE_MODE - how inputs are composited together.
+	/// </summary>
+	public enum D2DCompositeMode
+	{
+		SourceOver = 0,
+		DestinationOver = 1,
+		SourceIn = 2,
+		DestinationIn = 3,
+		SourceOut = 4,
+		DestinationOut = 5,
+		SourceAtop = 6,
+		DestinationAtop = 7,
+		XOR = 8,
+		Plus = 9,
+		SourceCopy = 10,
+		BoundedSourceCopy = 11,
+		MaskInvert = 12,
+	}
+
+	/// <summary>
+	/// D2D1_BLEND_MODE - blend modes for the Blend effect.
+	/// </summary>
+	public enum D2DBlendMode
+	{
+		Multiply = 0,
+		Screen = 1,
+		Darken = 2,
+		Lighten = 3,
+		Dissolve = 4,
+		ColorBurn = 5,
+		LinearBurn = 6,
+		DarkerColor = 7,
+		LighterColor = 8,
+		ColorDodge = 9,
+		LinearDodge = 10,
+		Overlay = 11,
+		SoftLight = 12,
+		HardLight = 13,
+		VividLight = 14,
+		LinearLight = 15,
+		PinLight = 16,
+		HardMix = 17,
+		Difference = 18,
+		Exclusion = 19,
+		Hue = 20,
+		Saturation = 21,
+		Color = 22,
+		Luminosity = 23,
+		Subtract = 24,
+		Division = 25,
+	}
 }
 

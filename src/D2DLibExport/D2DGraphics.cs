@@ -550,6 +550,15 @@ namespace unvell.D2DLib
 			D2D.SetDPI(this.Device.Handle, dpiX, dpiY);
 		}
 
+		#region Geometry Realization
+
+		public void DrawGeometryRealization(D2DGeometryRealization realization, D2DBrush brush)
+		{
+			D2D.DrawGeometryRealization(this.Handle, realization.Handle, brush.Handle);
+		}
+
+		#endregion // Geometry Realization
+
 		#region Effects
 
 		public void DrawEffect(D2DEffect effect)

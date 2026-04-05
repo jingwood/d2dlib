@@ -39,6 +39,7 @@ HANDLE CreateContext(HWND hwnd, D2D1_PRESENT_OPTIONS presentOptions)
 
 	context->hwnd = hwnd;
 	context->isBitmapRenderTarget = false;
+	context->useVSync = !(presentOptions & D2D1_PRESENT_OPTIONS_IMMEDIATELY);
 	context->matrixStack = new std::stack<D2D1_MATRIX_3X2_F>();
 
 	// 1. Create D3D11 device with BGRA support (required for D2D interop)
@@ -286,7 +287,8 @@ void EndRender(HANDLE ctx)
 	if (context->swapChain != NULL)
 	{
 		DXGI_PRESENT_PARAMETERS params = {};
-		context->swapChain->Present1(1, 0, &params);
+		UINT syncInterval = context->useVSync ? 1 : 0;
+		context->swapChain->Present1(syncInterval, 0, &params);
 	}
 }
 

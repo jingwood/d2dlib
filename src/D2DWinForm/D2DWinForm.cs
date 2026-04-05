@@ -30,6 +30,13 @@ namespace unvell.D2DLib.WinForm
 	public class D2DForm : Form
 	{
 		private D2DDevice? device;
+
+		/// <summary>
+		/// When true, disables VSync and allows uncapped frame rate.
+		/// Must be set before the device is created (before first access to Device property).
+		/// </summary>
+		public bool VSyncDisabled { get; set; } = false;
+
 		public D2DDevice Device
 		{
 			get
@@ -37,7 +44,10 @@ namespace unvell.D2DLib.WinForm
 				var hwnd = this.Handle;
 				if (this.device == null)
 				{
-					this.device = D2DDevice.FromHwnd(hwnd);
+					var presentOptions = VSyncDisabled
+						? D2D1PresentOptions.Immediately
+						: D2D1PresentOptions.None;
+					this.device = D2DDevice.FromHwnd(hwnd, presentOptions);
 				}
 				return this.device;
 			}
@@ -71,6 +81,7 @@ namespace unvell.D2DLib.WinForm
 		private Timer timer = new Timer() { Interval = 10 };
 		public bool EscapeKeyToClose { get; set; } = true;
 		private Stopwatch fpsSW = new Stopwatch();
+		private bool isRendering = false;
 
 		private bool animationDraw;
 		public bool AnimationDraw
@@ -101,7 +112,10 @@ namespace unvell.D2DLib.WinForm
 
 			if (this.device == null)
 			{
-				this.device = D2DDevice.FromHwnd(this.Handle);
+				var presentOptions = VSyncDisabled
+					? D2D1PresentOptions.Immediately
+					: D2D1PresentOptions.None;
+				this.device = D2DDevice.FromHwnd(this.Handle, presentOptions);
 			}
 
 			this.graphics = new D2DGraphics(this.device);
@@ -171,6 +185,22 @@ namespace unvell.D2DLib.WinForm
 				{
 					this.timer.Start();
 				}
+
+				// Tight render loop: immediately request next frame
+				// This bypasses the WM_PAINT coalescing that caps FPS
+				if (this.animationDraw && !isRendering)
+				{
+					isRendering = true;
+					BeginInvoke(new Action(() =>
+					{
+						isRendering = false;
+						if (this.animationDraw && !this.IsDisposed)
+						{
+							OnFrame();
+							Invalidate();
+						}
+					}));
+				}
 			}
 		}
 
@@ -191,6 +221,7 @@ namespace unvell.D2DLib.WinForm
 					break;
 
 				case (int)Win32.WMessages.WM_DESTROY:
+					this.timer.Stop();
 					if (this.backgroundImage != null) this.backgroundImage.Dispose();
 					if (this.device != null) this.device.Dispose();
 					base.WndProc(ref m);

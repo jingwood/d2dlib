@@ -293,4 +293,68 @@ namespace unvell.D2DLib
 			set => SetValue(PropGlobalOffset, value);
 		}
 	}
+
+	/// <summary>
+	/// Composite effect. Combines multiple inputs using a composite mode.
+	/// Supports variable number of inputs (2 or more).
+	/// </summary>
+	public class D2DCompositeEffect : D2DEffect
+	{
+		private const uint PropMode = 0;
+
+		internal D2DCompositeEffect(D2DDevice device, HANDLE handle)
+			: base(device, handle) { }
+
+		/// <summary>
+		/// Composite mode. Default is SourceOver.
+		/// </summary>
+		public D2DCompositeMode Mode
+		{
+			get => (D2DCompositeMode)GetValueInt(PropMode);
+			set => SetValue(PropMode, (int)value);
+		}
+
+		/// <summary>
+		/// Set the number of inputs for this composite effect.
+		/// Must be called before setting inputs beyond index 1.
+		/// </summary>
+		public void SetInputCount(uint count)
+		{
+			D2D.SetEffectInputCount(this.Handle, count);
+		}
+	}
+
+	/// <summary>
+	/// Blend effect. Blends two inputs using a blend mode (Multiply, Screen, Overlay, etc).
+	/// </summary>
+	public class D2DBlendEffect : D2DEffect
+	{
+		private const uint PropMode = 0;
+
+		internal D2DBlendEffect(D2DDevice device, HANDLE handle)
+			: base(device, handle) { }
+
+		/// <summary>
+		/// Blend mode. Default is Multiply.
+		/// </summary>
+		public D2DBlendMode Mode
+		{
+			get => (D2DBlendMode)GetValueInt(PropMode);
+			set => SetValue(PropMode, (int)value);
+		}
+	}
+
+	/// <summary>
+	/// Crop effect. Crops the input image to a specified rectangle.
+	/// </summary>
+	public class D2DCropEffect : D2DEffect
+	{
+		private const uint PropRect = 0;
+
+		internal D2DCropEffect(D2DDevice device, HANDLE handle)
+			: base(device, handle) { }
+
+		// Rect property requires Vector4 (left, top, right, bottom)
+		// Users can use SetEffectValueVector4 via the base class
+	}
 }
