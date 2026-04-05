@@ -25,7 +25,11 @@
 #pragma once
 
 #include <Windows.h>
-#include <d2d1.h>
+#include <d2d1_1.h>
+#include <d2d1_1helper.h>
+#include <d2d1effects.h>
+#include <d3d11.h>
+#include <dxgi1_2.h>
 #include <dwrite.h>
 #include "Wincodec.h"
 
@@ -38,30 +42,36 @@ using namespace std;
 
 typedef struct D2DContext
 {
-	ID2D1Factory* factory;
+	ID2D1Factory1* factory;
 	IDWriteFactory* writeFactory;
 	IWICImagingFactory* imageFactory;
-	
-	union
-	{
-		struct // HwndRenderTarget
-		{
-			ID2D1HwndRenderTarget* renderTarget;
-			HWND hwnd;
-		};
 
-		struct // BitmapRenderTarget
-		{
-			ID2D1BitmapRenderTarget *bitmapRenderTarget;
-			ID2D1Bitmap* bitmap;
-		};
-	};
+	// D3D11/DXGI device chain (HWND contexts only)
+	ID3D11Device* d3dDevice;
+	IDXGIDevice1* dxgiDevice;
+	ID2D1Device* d2dDevice;
+	IDXGISwapChain1* swapChain;
+	ID2D1Bitmap1* targetBitmap;
+
+	// Primary drawing surface - all existing drawing code uses this pointer.
+	// For HWND contexts: points to deviceContext (ID2D1DeviceContext inherits ID2D1RenderTarget)
+	// For BitmapRenderTarget contexts: points to bitmapRenderTarget
+	ID2D1RenderTarget* renderTarget;
+
+	// D2D 1.1 device context for effects and new features (HWND contexts only)
+	ID2D1DeviceContext* deviceContext;
+
+	HWND hwnd;
+
+	// Off-screen rendering
+	ID2D1BitmapRenderTarget* bitmapRenderTarget;
+	ID2D1Bitmap* bitmap;
+	bool isBitmapRenderTarget;
 
 	std::stack<D2D1_MATRIX_3X2_F>* matrixStack;
-	//std::stack<ID2D1Layer*> layerStack;
 
 	HRESULT lastErrorCode;
-	
+
 } D2DContext;
 
 enum GeometryType {

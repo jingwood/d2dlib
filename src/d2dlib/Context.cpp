@@ -34,51 +34,142 @@ using namespace std;
 HANDLE CreateContext(HWND hwnd, D2D1_PRESENT_OPTIONS presentOptions)
 {
 	D2DContext* context = new D2DContext();
-	ZeroMemory(context, sizeof(context));
+	ZeroMemory(context, sizeof(D2DContext));
 	HRESULT hr;
 
 	context->hwnd = hwnd;
-
-	//context->solidBrushes = new map<UINT32, ID2D1SolidColorBrush*>();
+	context->isBitmapRenderTarget = false;
 	context->matrixStack = new std::stack<D2D1_MATRIX_3X2_F>();
 
+	// 1. Create D3D11 device with BGRA support (required for D2D interop)
+	D3D_FEATURE_LEVEL featureLevels[] = {
+		D3D_FEATURE_LEVEL_11_1, D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,  D3D_FEATURE_LEVEL_9_1
+	};
+	D3D_FEATURE_LEVEL featureLevel;
+
+	hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, 0,
+		D3D11_CREATE_DEVICE_BGRA_SUPPORT,
+		featureLevels, ARRAYSIZE(featureLevels),
+		D3D11_SDK_VERSION, &context->d3dDevice, &featureLevel, nullptr);
+
+	if (!SUCCEEDED(hr)) {
+		// Fallback to WARP (software) driver
+		hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_WARP, 0,
+			D3D11_CREATE_DEVICE_BGRA_SUPPORT,
+			featureLevels, ARRAYSIZE(featureLevels),
+			D3D11_SDK_VERSION, &context->d3dDevice, &featureLevel, nullptr);
+	}
+
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
+	}
+
+	// 2. Get DXGI device
+	hr = context->d3dDevice->QueryInterface(&context->dxgiDevice);
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
+	}
+
+	// 3. Create D2D1 factory (1.1)
 	hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &context->factory);
-	
 	if (!SUCCEEDED(hr)) {
 		context->lastErrorCode = hr;
 		return NULL;
 	}
 
+	// 4. Create D2D device
+	hr = context->factory->CreateDevice(context->dxgiDevice, &context->d2dDevice);
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
+	}
+
+	// 5. Create device context
+	hr = context->d2dDevice->CreateDeviceContext(
+		D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &context->deviceContext);
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
+	}
+
+	// 6. Create DWrite factory
 	hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED,
-			__uuidof(context->writeFactory), reinterpret_cast<IUnknown **>(&context->writeFactory));
-
+		__uuidof(context->writeFactory), reinterpret_cast<IUnknown**>(&context->writeFactory));
 	if (!SUCCEEDED(hr)) {
 		context->lastErrorCode = hr;
 		return NULL;
 	}
 
+	// 7. Create WIC factory
 	hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER,
-			IID_IWICImagingFactory, (LPVOID*)&context->imageFactory);
-	
+		IID_IWICImagingFactory, (LPVOID*)&context->imageFactory);
 	if (!SUCCEEDED(hr)) {
 		context->lastErrorCode = hr;
 		return NULL;
 	}
 
-	//D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
-	D2D1_SIZE_U size = D2D1::SizeU(1024, 768);
+	// 8. Create DXGI swap chain for HWND
+	IDXGIAdapter* dxgiAdapter = NULL;
+	context->dxgiDevice->GetAdapter(&dxgiAdapter);
 
-	hr = context->factory->CreateHwndRenderTarget(
-			D2D1::RenderTargetProperties(),
-			D2D1::HwndRenderTargetProperties(context->hwnd, size, presentOptions),
-			&context->renderTarget);
+	IDXGIFactory2* dxgiFactory = NULL;
+	dxgiAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory));
+
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
+	swapChainDesc.Width = 0;  // auto-size from HWND
+	swapChainDesc.Height = 0;
+	swapChainDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	swapChainDesc.Stereo = FALSE;
+	swapChainDesc.SampleDesc.Count = 1;
+	swapChainDesc.SampleDesc.Quality = 0;
+	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swapChainDesc.BufferCount = 2;
+	swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+	swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
+
+	hr = dxgiFactory->CreateSwapChainForHwnd(
+		context->d3dDevice, hwnd, &swapChainDesc, nullptr, nullptr,
+		&context->swapChain);
+
+	SafeRelease(&dxgiFactory);
+	SafeRelease(&dxgiAdapter);
 
 	if (!SUCCEEDED(hr)) {
 		context->lastErrorCode = hr;
 		return NULL;
 	}
 
-	//context->renderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_ALIASED);
+	// 9. Create D2D bitmap target from swap chain back buffer
+	IDXGISurface* dxgiBackBuffer = NULL;
+	hr = context->swapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer));
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
+	}
+
+	D2D1_BITMAP_PROPERTIES1 bitmapProperties = D2D1::BitmapProperties1(
+		D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
+		D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED));
+
+	hr = context->deviceContext->CreateBitmapFromDxgiSurface(
+		dxgiBackBuffer, &bitmapProperties, &context->targetBitmap);
+	SafeRelease(&dxgiBackBuffer);
+
+	if (!SUCCEEDED(hr)) {
+		context->lastErrorCode = hr;
+		return NULL;
+	}
+
+	context->deviceContext->SetTarget(context->targetBitmap);
+
+	// 10. Set backward-compatible renderTarget pointer
+	context->renderTarget = context->deviceContext;
+
 	context->renderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 
 	return (HANDLE)context;
@@ -87,24 +178,21 @@ HANDLE CreateContext(HWND hwnd, D2D1_PRESENT_OPTIONS presentOptions)
 void DestroyContext(HANDLE handle)
 {
 	D2DContext* context = reinterpret_cast<D2DContext*>(handle);
-	
+
 	delete context->matrixStack;
 
+	// renderTarget points to deviceContext for HWND contexts - do not double-release
+	context->renderTarget = NULL;
+
+	SafeRelease(&context->targetBitmap);
+	SafeRelease(&context->deviceContext);
+	SafeRelease(&context->swapChain);
+	SafeRelease(&context->d2dDevice);
+	SafeRelease(&context->dxgiDevice);
+	SafeRelease(&context->d3dDevice);
 	SafeRelease(&context->imageFactory);
 	SafeRelease(&context->writeFactory);
-	SafeRelease(&context->renderTarget);
 	SafeRelease(&context->factory);
-
-	//if (context->solidBrushes != NULL)
-	//{
-	//	for( std::map<UINT32, ID2D1SolidColorBrush*>::iterator it = context->solidBrushes->begin(); 
-	//		it != context->solidBrushes->end(); it++)
-	//	{
-	//		SafeRelease(&context->solidBrushes->at(it->first));
-	//	}
-
-	//	delete context->solidBrushes;
-	//}
 
 	delete context;
 }
@@ -115,14 +203,30 @@ void ResizeContext(HANDLE handle)
 
 	D2DContext* context = reinterpret_cast<D2DContext*>(handle);
 
-	if (context->renderTarget == NULL || context->hwnd == INVALID_HANDLE_VALUE) return;
+	if (context->swapChain == NULL || context->hwnd == INVALID_HANDLE_VALUE) return;
 
-	RECT rc;
-	GetClientRect(context->hwnd, &rc);
+	// Must release the target bitmap before resizing the swap chain
+	context->deviceContext->SetTarget(nullptr);
+	SafeRelease(&context->targetBitmap);
 
-	D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
+	HRESULT hr = context->swapChain->ResizeBuffers(0, 0, 0,
+		DXGI_FORMAT_UNKNOWN, 0);
 
-	context->renderTarget->Resize(size);
+	if (SUCCEEDED(hr))
+	{
+		// Recreate the bitmap target from the new back buffer
+		IDXGISurface* dxgiBackBuffer = NULL;
+		context->swapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer));
+
+		D2D1_BITMAP_PROPERTIES1 bitmapProperties = D2D1::BitmapProperties1(
+			D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
+			D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED));
+
+		context->deviceContext->CreateBitmapFromDxgiSurface(
+			dxgiBackBuffer, &bitmapProperties, &context->targetBitmap);
+		context->deviceContext->SetTarget(context->targetBitmap);
+		SafeRelease(&dxgiBackBuffer);
+	}
 }
 
 void SetContextProperties(HANDLE ctx, D2D1_ANTIALIAS_MODE antialiasMode)
@@ -177,6 +281,13 @@ void EndRender(HANDLE ctx)
 {
 	RetrieveContext(ctx);
 	context->renderTarget->EndDraw();
+
+	// Present swap chain for HWND contexts
+	if (context->swapChain != NULL)
+	{
+		DXGI_PRESENT_PARAMETERS params = {};
+		context->swapChain->Present1(1, 0, &params);
+	}
 }
 
 void Flush(HANDLE ctx)
@@ -209,32 +320,39 @@ HANDLE CreateBitmapRenderTarget(HANDLE ctx, D2D1_SIZE_F size)
 {
 	RetrieveContext(ctx);
 
-	D2DContext* bitmapRenderTargetContext = new D2DContext();
-	ZeroMemory(bitmapRenderTargetContext, sizeof(D2DContext));
+	D2DContext* bitmapContext = new D2DContext();
+	ZeroMemory(bitmapContext, sizeof(D2DContext));
 
-	bitmapRenderTargetContext->factory = context->factory;
-	bitmapRenderTargetContext->imageFactory = context->imageFactory;
-	bitmapRenderTargetContext->writeFactory = context->writeFactory;
-	
+	bitmapContext->factory = context->factory;
+	bitmapContext->imageFactory = context->imageFactory;
+	bitmapContext->writeFactory = context->writeFactory;
+	bitmapContext->isBitmapRenderTarget = true;
+	bitmapContext->matrixStack = new std::stack<D2D1_MATRIX_3X2_F>();
+
 	HRESULT hr;
 
-	if (size.width <= 0 && size.height <= 0) 
+	if (size.width <= 0 && size.height <= 0)
 	{
 		hr = context->renderTarget->CreateCompatibleRenderTarget(
-			&bitmapRenderTargetContext->bitmapRenderTarget);
+			&bitmapContext->bitmapRenderTarget);
 	}
 	else
 	{
 		hr = context->renderTarget->CreateCompatibleRenderTarget(
-			size, &bitmapRenderTargetContext->bitmapRenderTarget);
+			size, &bitmapContext->bitmapRenderTarget);
 	}
 
 	if (!SUCCEEDED(hr)) {
 		context->lastErrorCode = hr;
+		delete bitmapContext->matrixStack;
+		delete bitmapContext;
 		return NULL;
 	}
 
-	return (HANDLE)bitmapRenderTargetContext;
+	// Point renderTarget at the bitmapRenderTarget for drawing calls
+	bitmapContext->renderTarget = bitmapContext->bitmapRenderTarget;
+
+	return (HANDLE)bitmapContext;
 }
 
 void DrawBitmapRenderTarget(HANDLE ctx, HANDLE bitmapRenderTargetHandle, D2D1_RECT_F* rect,
@@ -268,6 +386,11 @@ void DestroyBitmapRenderTarget(HANDLE ctx)
 	if (ctx == NULL) return;
 
 	RetrieveContext(ctx);
+
+	// renderTarget points to bitmapRenderTarget - do not double-release
+	context->renderTarget = NULL;
+
+	delete context->matrixStack;
 
 	if (context->bitmap != NULL)
 	{

@@ -32,17 +32,7 @@ void Test(HANDLE handle)
 
 	if (context->renderTarget == NULL)
 	{
-		RECT rc;
-		GetClientRect(context->hwnd, &rc);
-
-		D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
-
-		context->factory->CreateHwndRenderTarget(
-			D2D1::RenderTargetProperties(),
-			D2D1::HwndRenderTargetProperties(context->hwnd, size),
-			&context->renderTarget);
-
-		//context->renderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE::D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+		return;
 	}
 
 	IDWriteTextFormat* textFormat = NULL;

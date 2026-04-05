@@ -549,6 +549,27 @@ namespace unvell.D2DLib
 			Assumes.NotNull(this.Device);
 			D2D.SetDPI(this.Device.Handle, dpiX, dpiY);
 		}
+
+		#region Effects
+
+		public void DrawEffect(D2DEffect effect)
+		{
+			D2D.DrawEffectSimple(this.Handle, effect.Handle, IntPtr.Zero, IntPtr.Zero);
+		}
+
+		public void DrawEffect(D2DEffect effect, D2DPoint targetOffset)
+		{
+			var rect = new D2DRect();
+			D2D.DrawEffect(this.Handle, effect.Handle, ref targetOffset, ref rect);
+		}
+
+		public void DrawEffect(D2DEffect effect, D2DPoint targetOffset, D2DRect sourceRect,
+			D2DInterpolationMode interpolationMode = D2DInterpolationMode.Linear)
+		{
+			D2D.DrawEffect(this.Handle, effect.Handle, ref targetOffset, ref sourceRect, interpolationMode);
+		}
+
+		#endregion // Effects
 	}
 
 }

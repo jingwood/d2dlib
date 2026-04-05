@@ -431,5 +431,74 @@ namespace unvell.D2DLib
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void TestDraw(HANDLE ctx);
+
+		#region Effects
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateEffect(HANDLE ctx, [In] ref Guid effectId);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DestroyEffect(HANDLE effectHandle);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetEffectInput(HANDLE effectHandle, uint index, HANDLE bitmapHandle);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetEffectInputEffect(HANDLE effectHandle, uint index, HANDLE inputEffectHandle);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawEffect(HANDLE ctx, HANDLE effectHandle,
+			ref D2DPoint targetOffset, ref D2DRect imageRectangle,
+			D2DInterpolationMode interpolationMode = D2DInterpolationMode.Linear);
+
+		[DllImport(DLL_NAME, EntryPoint = "DrawEffect", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawEffectSimple(HANDLE ctx, HANDLE effectHandle,
+			IntPtr targetOffset, IntPtr imageRectangle,
+			D2DInterpolationMode interpolationMode = D2DInterpolationMode.Linear);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetEffectValueFloat(HANDLE effectHandle, uint index, float value);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetEffectValueInt(HANDLE effectHandle, uint index, int value);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetEffectValueBool(HANDLE effectHandle, uint index, [MarshalAs(UnmanagedType.Bool)] bool value);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetEffectValueVector2(HANDLE effectHandle, uint index, D2DPoint value);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetEffectValueColor(HANDLE effectHandle, uint index, D2DColor value);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern float GetEffectValueFloat(HANDLE effectHandle, uint index);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int GetEffectValueInt(HANDLE effectHandle, uint index);
+
+		// Convenience wrappers
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateGaussianBlurEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateShadowEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateSaturationEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE Create3DPerspectiveTransformEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateColorMatrixEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateBrightnessEffect(HANDLE ctx);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateHueRotationEffect(HANDLE ctx);
+
+		#endregion // Effects
 	}
 }

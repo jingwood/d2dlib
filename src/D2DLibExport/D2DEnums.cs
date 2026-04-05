@@ -682,5 +682,18 @@ namespace unvell.D2DLib
 		/// </summary>
 		Exclude = 3,
 	}
+
+	/// <summary>
+	/// D2D1_INTERPOLATION_MODE - used with DrawImage and effects.
+	/// </summary>
+	public enum D2DInterpolationMode
+	{
+		NearestNeighbor = 0,
+		Linear = 1,
+		Cubic = 2,
+		MultiSampleLinear = 3,
+		Anisotropic = 4,
+		HighQualityCubic = 5,
+	}
 }
 

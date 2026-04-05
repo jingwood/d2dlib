@@ -286,6 +286,46 @@ namespace unvell.D2DLib
 				: new D2DBitmapGraphics(bitmapRenderTargetHandle);
 		}
 
+		#region Effects
+
+		public D2DGaussianBlurEffect CreateGaussianBlurEffect()
+		{
+			HANDLE handle = D2D.CreateGaussianBlurEffect(this.Handle);
+			return new D2DGaussianBlurEffect(this, handle);
+		}
+
+		public D2DShadowEffect CreateShadowEffect()
+		{
+			HANDLE handle = D2D.CreateShadowEffect(this.Handle);
+			return new D2DShadowEffect(this, handle);
+		}
+
+		public D2DSaturationEffect CreateSaturationEffect()
+		{
+			HANDLE handle = D2D.CreateSaturationEffect(this.Handle);
+			return new D2DSaturationEffect(this, handle);
+		}
+
+		public D2DBrightnessEffect CreateBrightnessEffect()
+		{
+			HANDLE handle = D2D.CreateBrightnessEffect(this.Handle);
+			return new D2DBrightnessEffect(this, handle);
+		}
+
+		public D2DHueRotationEffect CreateHueRotationEffect()
+		{
+			HANDLE handle = D2D.CreateHueRotationEffect(this.Handle);
+			return new D2DHueRotationEffect(this, handle);
+		}
+
+		public D2DEffect CreateEffect(Guid effectId)
+		{
+			HANDLE handle = D2D.CreateEffect(this.Handle, ref effectId);
+			return new D2DEffect(this, handle);
+		}
+
+		#endregion // Effects
+
 		public void Dispose()
 		{
 			D2D.DestroyContext(this.Handle);
