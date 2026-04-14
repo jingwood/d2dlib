@@ -2,21 +2,17 @@
 
   <PropertyGroup>
     <Platforms>x86;x64</Platforms>
-    <LangVersion>10</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
-    <DefineConstants Condition="'$(Platform)' == 'x86'">$(DefineConstants);X86</DefineConstants>
+    <DefineConstants Condition="'$(Platform)' == 'x86' or '$(Platform)' == 'AnyCPU' or '$(Platform)' == ''">$(DefineConstants);X86</DefineConstants>
     <DefineConstants Condition="'$(Platform)' == 'x64'">$(DefineConstants);X64</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="Nullable" Version="1.3.1" Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'netstandard2.0'">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
