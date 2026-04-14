@@ -139,6 +139,12 @@ void SetEffectValueColor(HANDLE effectHandle, UINT index, D2D1_COLOR_F value)
 	effectCtx->effect->SetValue(index, value);
 }
 
+void SetEffectValueMatrix5x4(HANDLE effectHandle, UINT index, D2D1_MATRIX_5X4_F value)
+{
+	D2DEffectContext* effectCtx = reinterpret_cast<D2DEffectContext*>(effectHandle);
+	effectCtx->effect->SetValue(index, value);
+}
+
 // Effect property getters
 
 FLOAT GetEffectValueFloat(HANDLE effectHandle, UINT index)

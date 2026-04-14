@@ -489,6 +489,9 @@ namespace unvell.D2DLib
 		public static extern void SetEffectValueColor(HANDLE effectHandle, uint index, D2DColor value);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetEffectValueMatrix5x4(HANDLE effectHandle, uint index, D2DMatrix5x4 value);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		public static extern float GetEffectValueFloat(HANDLE effectHandle, uint index);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]

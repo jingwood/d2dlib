@@ -354,6 +354,12 @@ namespace unvell.D2DLib
 			return new D2DCropEffect(this, handle);
 		}
 
+		public D2DColorMatrixEffect CreateColorMatrixEffect()
+		{
+			HANDLE handle = D2D.CreateColorMatrixEffect(this.Handle);
+			return new D2DColorMatrixEffect(this, handle);
+		}
+
 		public D2D3DPerspectiveTransformEffect Create3DPerspectiveTransformEffect()
 		{
 			HANDLE handle = D2D.Create3DPerspectiveTransformEffect(this.Handle);

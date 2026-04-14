@@ -53,6 +53,7 @@ extern "C"
 	D2DLIB_API void SetEffectValueVector3(HANDLE effectHandle, UINT index, D2D1_VECTOR_3F value);
 	D2DLIB_API void SetEffectValueVector4(HANDLE effectHandle, UINT index, D2D1_VECTOR_4F value);
 	D2DLIB_API void SetEffectValueColor(HANDLE effectHandle, UINT index, D2D1_COLOR_F value);
+	D2DLIB_API void SetEffectValueMatrix5x4(HANDLE effectHandle, UINT index, D2D1_MATRIX_5X4_F value);
 
 	// Effect property getters
 	D2DLIB_API FLOAT GetEffectValueFloat(HANDLE effectHandle, UINT index);

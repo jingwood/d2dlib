@@ -116,27 +116,35 @@ namespace unvell.D2DLib
 			D2D.DrawUnconnectedLines(this.Handle, points, (uint)points.Length, color, weight);
 		}
 
-		public void DrawEllipse(FLOAT x, FLOAT y, FLOAT width, FLOAT height, D2DColor color,
+		// All (point, radius) / (cx, cy, radius) overloads are CENTER-based, matching
+		// Direct2D's native D2D1_ELLIPSE (center + radiusX/radiusY). Use the D2DRect
+		// overloads when you want GDI+-style bounding-box semantics.
+
+		public void DrawEllipse(FLOAT cx, FLOAT cy, FLOAT radiusX, FLOAT radiusY, D2DColor color,
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			var ellipse = new D2DEllipse(x, y, width / 2f, height / 2f);
-			ellipse.origin.X += ellipse.radiusX;
-			ellipse.origin.Y += ellipse.radiusY;
-
+			var ellipse = new D2DEllipse(cx, cy, radiusX, radiusY);
 			this.DrawEllipse(ellipse, color, weight, dashStyle);
 		}
 
-		public void DrawEllipse(D2DPoint origin, D2DSize radial, D2DColor color,
+		public void DrawEllipse(D2DPoint center, D2DSize radial, D2DColor color,
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			var ellipse = new D2DEllipse(origin, radial);
+			var ellipse = new D2DEllipse(center, radial);
 			this.DrawEllipse(ellipse, color, weight, dashStyle);
 		}
 
-		public void DrawEllipse(D2DPoint origin, FLOAT radialX, FLOAT radialY, D2DColor color,
+		public void DrawEllipse(D2DPoint center, FLOAT radiusX, FLOAT radiusY, D2DColor color,
 			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
 		{
-			var ellipse = new D2DEllipse(origin, radialX, radialY);
+			var ellipse = new D2DEllipse(center, radiusX, radiusY);
+			this.DrawEllipse(ellipse, color, weight, dashStyle);
+		}
+
+		public void DrawEllipse(D2DRect bounds, D2DColor color,
+			FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
+		{
+			var ellipse = new D2DEllipse(bounds);
 			this.DrawEllipse(ellipse, color, weight, dashStyle);
 		}
 
@@ -146,28 +154,29 @@ namespace unvell.D2DLib
 			D2D.DrawEllipse(this.Handle, ref ellipse, color, weight, dashStyle);
 		}
 
-		public void FillEllipse(D2DPoint p, FLOAT radial, D2DColor color)
+		public void FillEllipse(D2DPoint center, FLOAT radial, D2DColor color)
 		{
-			this.FillEllipse(p, radial, radial, color);
+			this.FillEllipse(new D2DEllipse(center, radial, radial), color);
 		}
 
-		public void FillEllipse(D2DPoint p, FLOAT w, FLOAT h, D2DColor color)
+		public void FillEllipse(D2DPoint center, FLOAT radiusX, FLOAT radiusY, D2DColor color)
 		{
-			D2DEllipse ellipse = new D2DEllipse(p, w / 2, h / 2);
-			ellipse.origin.X += ellipse.radiusX;
-			ellipse.origin.Y += ellipse.radiusY;
-
-			this.FillEllipse(ellipse, color);
+			this.FillEllipse(new D2DEllipse(center, radiusX, radiusY), color);
 		}
 
-		public void FillEllipse(FLOAT x, FLOAT y, FLOAT radial, D2DColor color)
+		public void FillEllipse(FLOAT cx, FLOAT cy, FLOAT radial, D2DColor color)
 		{
-			this.FillEllipse(new D2DPoint(x, y), radial, radial, color);
+			this.FillEllipse(new D2DEllipse(cx, cy, radial, radial), color);
 		}
 
-		public void FillEllipse(FLOAT x, FLOAT y, FLOAT w, FLOAT h, D2DColor color)
+		public void FillEllipse(FLOAT cx, FLOAT cy, FLOAT radiusX, FLOAT radiusY, D2DColor color)
 		{
-			this.FillEllipse(new D2DPoint(x, y), w, h, color);
+			this.FillEllipse(new D2DEllipse(cx, cy, radiusX, radiusY), color);
+		}
+
+		public void FillEllipse(D2DRect bounds, D2DColor color)
+		{
+			this.FillEllipse(new D2DEllipse(bounds), color);
 		}
 
 		public void FillEllipse(D2DEllipse ellipse, D2DColor color)

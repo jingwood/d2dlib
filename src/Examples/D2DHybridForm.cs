@@ -23,6 +23,7 @@
  */
 
 using unvell.D2DLib.WinForm;
+using System.ComponentModel;
 
 namespace unvell.D2DLib.Examples
 {
@@ -84,6 +85,7 @@ namespace unvell.D2DLib.Examples
 
 		private bool hardwardAcceleration = true;
 
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool HardwardAcceleration
 		{
 			get { return this.hardwardAcceleration; }
@@ -387,12 +389,12 @@ namespace unvell.D2DLib.Examples
 
 		public void DrawEllipse(float x, float y, float w, float h, Color c, float weight = 1f)
 		{
-			this.g.DrawEllipse(x, y, w, h, D2DColor.FromGDIColor(c), weight);
+			this.g.DrawEllipse(new D2DRect(x, y, w, h), D2DColor.FromGDIColor(c), weight);
 		}
 
 		public void FillEllipse(float x, float y, float w, float h, Color c)
 		{
-			this.g.FillEllipse(x, y, w, h, D2DColor.FromGDIColor(c));
+			this.g.FillEllipse(new D2DRect(x, y, w, h), D2DColor.FromGDIColor(c));
 		}
 
 		public void DrawPolygon(PointF[] ps, Color strokeColor, float weight, Color fillColor)

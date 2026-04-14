@@ -81,6 +81,11 @@ namespace unvell.D2DLib
 			D2D.SetEffectValueColor(this.Handle, index, value);
 		}
 
+		protected void SetValue(uint index, D2DMatrix5x4 value)
+		{
+			D2D.SetEffectValueMatrix5x4(this.Handle, index, value);
+		}
+
 		protected float GetValueFloat(uint index)
 		{
 			return D2D.GetEffectValueFloat(this.Handle, index);
@@ -341,6 +346,38 @@ namespace unvell.D2DLib
 		{
 			get => (D2DBlendMode)GetValueInt(PropMode);
 			set => SetValue(PropMode, (int)value);
+		}
+	}
+
+	/// <summary>
+	/// Color Matrix effect. Transforms each pixel through a 5×4 matrix
+	/// (rows 0..3 scale R,G,B,A; row 4 is an additive bias). Useful for
+	/// tinting, desaturation, luminance-threshold high-pass (bloom), etc.
+	/// </summary>
+	public class D2DColorMatrixEffect : D2DEffect
+	{
+		private const uint PropColorMatrix = 0;
+		private const uint PropAlphaMode = 1;
+		private const uint PropClampOutput = 2;
+
+		internal D2DColorMatrixEffect(D2DDevice device, HANDLE handle)
+			: base(device, handle) { }
+
+		/// <summary>
+		/// The color transform matrix applied to every pixel.
+		/// </summary>
+		public D2DMatrix5x4 Matrix
+		{
+			set => SetValue(PropColorMatrix, value);
+		}
+
+		/// <summary>
+		/// When true, each output channel is clamped to [0, 1] after the matrix.
+		/// Required for a well-behaved high-pass / threshold.
+		/// </summary>
+		public bool ClampOutput
+		{
+			set => SetValue(PropClampOutput, value);
 		}
 	}
 

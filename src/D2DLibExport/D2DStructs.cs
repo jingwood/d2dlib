@@ -471,4 +471,26 @@ namespace unvell.D2DLib
 	}
 	#endregion // Vector3
 
+	#region Matrix5x4
+	/// <summary>
+	/// D2D1_MATRIX_5X4_F — 5 rows × 4 columns, row-major. Used by the Color Matrix effect.
+	/// Row 0..3 multiply the R,G,B,A input channels, row 4 is an additive bias.
+	/// </summary>
+	[Serializable]
+	[StructLayout(LayoutKind.Sequential)]
+	public struct D2DMatrix5x4
+	{
+		public FLOAT _11, _12, _13, _14;
+		public FLOAT _21, _22, _23, _24;
+		public FLOAT _31, _32, _33, _34;
+		public FLOAT _41, _42, _43, _44;
+		public FLOAT _51, _52, _53, _54;
+
+		public static D2DMatrix5x4 Identity => new D2DMatrix5x4
+		{
+			_11 = 1, _22 = 1, _33 = 1, _44 = 1,
+		};
+	}
+	#endregion // Matrix5x4
+
 }
