@@ -314,15 +314,18 @@ void DrawPolygon(HANDLE ctx, D2D1_POINT_2F* points, UINT count,
 
 	if (fillColor.a > 0)
 	{
-		ID2D1RenderTarget* renderTarget = context->renderTarget;
-		renderTarget->CreateSolidColorBrush(fillColor, &fillBrush);
+		fillBrush = GetSolidBrush(context, fillColor);
 	}
 
 	if (fillBrush != NULL) {
 		D2DBrushContext brushCtx;
 		brushCtx.brush = fillBrush;
 		DrawPolygonWithBrush(ctx, points, count, strokeColor, strokeWidth, dashStyle, &brushCtx);
-		SafeRelease(&fillBrush);
+	}
+	else
+	{
+		// No fill: still stroke the outline.
+		DrawPolygonWithBrush(ctx, points, count, strokeColor, strokeWidth, dashStyle, NULL);
 	}
 }
 

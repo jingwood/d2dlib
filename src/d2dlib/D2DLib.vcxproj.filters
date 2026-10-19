@@ -27,6 +27,9 @@
     <ClInclude Include="Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Simple.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Simple.cpp">

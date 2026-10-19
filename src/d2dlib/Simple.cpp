@@ -32,10 +32,8 @@ void DrawLine(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLOR_F c
 {
 	RetrieveContext(ctx);
 
-	ID2D1SolidColorBrush* brush = NULL;
+	ID2D1SolidColorBrush* brush = GetSolidBrush(context, color);
 	ID2D1StrokeStyle* strokeStyle = NULL;
-
-	context->renderTarget->CreateSolidColorBrush(color, &brush);
 
 	if (brush != NULL) {
 
@@ -57,7 +55,6 @@ void DrawLine(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLOR_F c
 	}
 
 	SafeRelease(&strokeStyle);
-	SafeRelease(&brush);
 }
 
 void DrawArrowLine(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLOR_F color,
@@ -65,8 +62,7 @@ void DrawArrowLine(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLO
 {
 	RetrieveContext(ctx);
 
-	ID2D1SolidColorBrush* brush = NULL;
-	(context->renderTarget)->CreateSolidColorBrush(color, &brush);
+	ID2D1SolidColorBrush* brush = GetSolidBrush(context, color);
 
 	ID2D1StrokeStyle* strokeStyle = NULL;
 
@@ -87,7 +83,6 @@ void DrawArrowLine(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLO
 	}
 
 	SafeRelease(&strokeStyle);
-	SafeRelease(&brush);
 }
 
 D2DLIB_API void DrawLineWithPen(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, HANDLE penHandle, FLOAT width)
@@ -99,6 +94,18 @@ D2DLIB_API void DrawLineWithPen(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F e
 	context->renderTarget->DrawLine(start, end, pen->brush, width, pen->strokeStyle);
 }
 
+void DrawLineWithStrokeStyle(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLOR_F color,
+	FLOAT width, HANDLE strokeStyle)
+{
+	RetrieveContext(ctx);
+
+	ID2D1SolidColorBrush* brush = GetSolidBrush(context, color);
+
+	if (brush != NULL) {
+		context->renderTarget->DrawLine(start, end, brush, width, reinterpret_cast<ID2D1StrokeStyle*>(strokeStyle));
+	}
+}
+
 void DrawLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count, D2D1_COLOR_F color,
 	FLOAT width, D2D1_DASH_STYLE dashStyle)
 {
@@ -106,10 +113,8 @@ void DrawLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count, D2D1_COLOR_F color
 
 	RetrieveContext(ctx);
 
-	ID2D1SolidColorBrush* brush = NULL;
+	ID2D1SolidColorBrush* brush = GetSolidBrush(context, color);
 	ID2D1StrokeStyle* strokeStyle = NULL;
-
-	context->renderTarget->CreateSolidColorBrush(color, &brush);
 
 	if (brush != NULL) {
 
@@ -153,7 +158,6 @@ void DrawLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count, D2D1_COLOR_F color
 	}
 
 	SafeRelease(&strokeStyle);
-	SafeRelease(&brush);
 }
 
 void DrawUnconnectedLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count, D2D1_COLOR_F color, FLOAT width)
@@ -162,10 +166,8 @@ void DrawUnconnectedLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count, D2D1_CO
 
 	RetrieveContext(ctx);
 
-	ID2D1SolidColorBrush* brush = NULL;
+	ID2D1SolidColorBrush* brush = GetSolidBrush(context, color);
 	ID2D1StrokeStyle* strokeStyle = NULL;
-
-	context->renderTarget->CreateSolidColorBrush(color, &brush);
 
 	if (brush != NULL) {
 		for (UINT i = 0; i < count - 2; i+=2)
@@ -175,7 +177,6 @@ void DrawUnconnectedLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count, D2D1_CO
 	}
 
 	SafeRelease(&strokeStyle);
-	SafeRelease(&brush);
 }
 
 void DrawRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color,
@@ -183,10 +184,8 @@ void DrawRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color,
 {
 	RetrieveContext(ctx);
 
-	ID2D1SolidColorBrush* brush = NULL;
+	ID2D1SolidColorBrush* brush = GetSolidBrush(context, color);
 	ID2D1StrokeStyle* strokeStyle = NULL;
-
-	context->renderTarget->CreateSolidColorBrush(color, &brush);
 
 	if (brush != NULL) {
 
@@ -204,7 +203,6 @@ void DrawRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color,
 		context->renderTarget->DrawRectangle(rect, brush, width, strokeStyle);
 	}
 
-	SafeRelease(&brush);
 	SafeRelease(&strokeStyle);
 }
 
@@ -224,14 +222,12 @@ void FillRectangle(HANDLE ctx, D2D1_RECT_F* rect, D2D1_COLOR_F color)
 {
 	RetrieveContext(ctx);
 
-	ID2D1SolidColorBrush* brush = NULL;
-	context->renderTarget->CreateSolidColorBrush(color, &brush);
+	ID2D1SolidColorBrush* brush = GetSolidBrush(context, color);
 
 	if (brush != NULL) {
 		context->renderTarget->FillRectangle(rect, brush);
 	}
 
-	SafeRelease(&brush);
 }
 
 void FillRectangleWithBrush(HANDLE ctx, D2D1_RECT_F* rect, HANDLE brushHandle)
@@ -330,10 +326,8 @@ void DrawEllipse(HANDLE handle, D2D1_ELLIPSE* ellipse, D2D1_COLOR_F color,
 {
 	D2DContext* context = reinterpret_cast<D2DContext*>(handle);
 
-	ID2D1SolidColorBrush* brush = NULL;
+	ID2D1SolidColorBrush* brush = GetSolidBrush(context, color);
 	ID2D1StrokeStyle* strokeStyle = NULL;
-
-	(context->renderTarget)->CreateSolidColorBrush(color, &brush);
 
 	if (brush != NULL) {
 
@@ -353,22 +347,18 @@ void DrawEllipse(HANDLE handle, D2D1_ELLIPSE* ellipse, D2D1_COLOR_F color,
 	}
 
 	SafeRelease(&strokeStyle);
-	SafeRelease(&brush);
 }
 
 void FillEllipse(HANDLE handle, D2D1_ELLIPSE* ellipse, D2D1_COLOR_F color)
 {
 	D2DContext* context = reinterpret_cast<D2DContext*>(handle);
 
-	// Create a black brush.
-	ID2D1SolidColorBrush* brush;
-	context->renderTarget->CreateSolidColorBrush(color, &brush);
+	ID2D1SolidColorBrush* brush = GetSolidBrush(context, color);
 
 	if (brush != NULL) {
 		context->renderTarget->FillEllipse(ellipse, brush);
 	}
 
-	SafeRelease(&brush);
 }
 
 void FillEllipseWithBrush(HANDLE ctx, D2D1_ELLIPSE* ellipse, HANDLE brushHandle)

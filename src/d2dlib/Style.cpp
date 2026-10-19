@@ -1,4 +1,4 @@
-/*
+﻿/*
 * MIT License
 *
 * Copyright (c) 2009-2021 Jingwood, unvell.com. All right reserved.
@@ -34,13 +34,13 @@ D2DLIB_API HANDLE CreateStrokeStyle(HANDLE ctx, FLOAT* dashes, UINT dashCount, F
 
   HRESULT hr = context->factory->CreateStrokeStyle(
     D2D1::StrokeStyleProperties(
-      D2D1_CAP_STYLE_FLAT,
-      D2D1_CAP_STYLE_FLAT,
+      startCap,
+      endCap,
       D2D1_CAP_STYLE_ROUND,
       D2D1_LINE_JOIN_MITER,
       10.0f,
-      D2D1_DASH_STYLE_CUSTOM,
-      0.0f),
+      dashCount > 0 ? D2D1_DASH_STYLE_CUSTOM : D2D1_DASH_STYLE_SOLID,
+      dashOffset),
     dashes,
     dashCount,
     &strokeStyle

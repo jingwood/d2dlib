@@ -35,6 +35,11 @@ extern "C"
 
 	D2DLIB_API void DrawLineWithPen(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, HANDLE pen, FLOAT width = 1);
 
+	// DrawLine in any color with a stroke style made once by CreateStrokeStyle (NULL = solid),
+	// so a dashed line costs no per-call stroke style or brush.
+	D2DLIB_API void DrawLineWithStrokeStyle(HANDLE ctx, D2D1_POINT_2F start, D2D1_POINT_2F end, D2D1_COLOR_F color,
+		FLOAT width, HANDLE strokeStyle);
+
 	D2DLIB_API void DrawLines(HANDLE ctx, D2D1_POINT_2F* points, UINT count, D2D1_COLOR_F color,
 		FLOAT width = 1, D2D1_DASH_STYLE dashStyle = D2D1_DASH_STYLE::D2D1_DASH_STYLE_SOLID);
 
