@@ -64,6 +64,14 @@ namespace unvell.D2DLib
 			D2D.EndRender(this.Handle);
 		}
 
+		/// <summary><see cref="EndRender"/> that reports failure. False (with the HRESULT) after
+		/// D2DERR_RECREATE_TARGET or a removed / reset device: dispose the device and create a new one.</summary>
+		public bool TryEndRender(out int hresult)
+		{
+			hresult = D2D.EndRenderEx(this.Handle);
+			return hresult >= 0;
+		}
+
 		public void Flush()
 		{
 			D2D.Flush(this.Handle);
@@ -103,6 +111,13 @@ namespace unvell.D2DLib
 			D2DCapStyle startCap = D2DCapStyle.Flat, D2DCapStyle endCap = D2DCapStyle.Flat)
 		{
 			D2D.DrawLine(this.Handle, start, end, color, weight, dashStyle, startCap, endCap);
+		}
+
+		/// <summary>Draw a line in any color with a stroke style made once by
+		/// <see cref="D2DDevice.CreateStrokeStyle"/> (null = solid).</summary>
+		public void DrawLine(D2DPoint start, D2DPoint end, D2DColor color, FLOAT weight, D2DStrokeStyle? strokeStyle)
+		{
+			D2D.DrawLineWithStrokeStyle(this.Handle, start, end, color, weight, strokeStyle?.Handle ?? HANDLE.Zero);
 		}
 
 		public void DrawLines(D2DPoint[] points, D2DColor color, FLOAT weight = 1, D2DDashStyle dashStyle = D2DDashStyle.Solid)
@@ -467,6 +482,13 @@ namespace unvell.D2DLib
 		public void DrawText(string text, D2DBrush brush, D2DTextFormat textFormat, D2DRect rect)
 		{
 			D2D.DrawStringWithBrushAndTextFormat(this.Handle, text, brush.Handle, textFormat.Handle, ref rect);
+		}
+
+		/// <summary>Draw <paramref name="textLayout"/> with its top-left at <paramref name="origin"/>.</summary>
+		public void DrawText(D2DTextLayout textLayout, D2DPoint origin, D2DColor color,
+			D2DDrawTextOptions options = D2DDrawTextOptions.None)
+		{
+			D2D.DrawTextLayoutWithColor(this.Handle, textLayout.Handle, origin, color, options);
 		}
 
 		public void DrawText(D2DSolidColorBrush brush, D2DTextLayout textLayout, D2DPoint origin)

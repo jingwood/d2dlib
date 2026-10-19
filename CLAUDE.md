@@ -18,6 +18,8 @@ msbuild D2DLib.sln /p:Configuration=Release /p:Platform=x64
 msbuild D2DLib.sln /p:Configuration=Debug   /p:Platform=x86
 ```
 
+With only Visual Studio 2026 installed, add `/p:PlatformToolset=v145` (the project names v143).
+
 The native `d2dlib` C++ project must build first; the .NET projects depend on it and copy the resulting DLL into their output via [src/NativeLibraries.props](src/NativeLibraries.props). DLL naming the managed code expects (see [src/D2DLibExport/D2DLib.cs](src/D2DLibExport/D2DLib.cs)):
 
 | Config        | x86              | x64              |
@@ -36,6 +38,7 @@ Three layers, each in its own project:
 1. **`src/d2dlib/`** — Native C++ wrapper (`D2DLib.vcxproj`, output `d2dlib*.dll`).
    Wraps Direct2D 1.1 / DirectWrite / WIC into a flat C ABI (`extern "C"`, `__cdecl`) so it can be P/Invoked from .NET. Central type is `D2DContext` in [src/d2dlib/Context.h](src/d2dlib/Context.h), which holds the `ID2D1Factory1`, the D3D11/DXGI device chain, the swap chain, the `ID2D1DeviceContext` (for the effects pipeline), the active `ID2D1RenderTarget`, the matrix stack, and VSync state. The same `D2DContext` is used for both HWND-backed contexts and off-screen `BitmapRenderTarget` contexts — the `isBitmapRenderTarget` flag and the `renderTarget` vs `deviceContext` split exist so the same drawing primitives work for both.
    Files are organized by Direct2D concept: `Context`, `Brush`, `Bitmap`, `Geometry`, `Pen`, `Text`, `Transform`, `Effect`, `Style`, `Simple` (one-off draw helpers).
+   `TextLayout` holds the device-independent DirectWrite API (formats/layouts on the process-wide shared factory, usable without a context). Color-taking draw calls go through `GetSolidBrush` (one cached brush per context) — don't create a brush per call. `CreateContextEx` adds flags (blt-model `GDI_COMPATIBLE`, `OPAQUE`, `VSYNC`, `FORCE_WARP`) and device sharing; `CreateWicBitmapContext` renders off-screen with pixel read-back.
 
 2. **`src/D2DLibExport/`** — Managed wrapper (`d2dlibexport.dll`, namespace `unvell.D2DLib`, multi-targets `net462;netstandard2.0`).
    [D2DLib.cs](src/D2DLibExport/D2DLib.cs) is the `internal static class D2D` containing every `[DllImport]` into the native DLL. Everything else in this project (`D2DDevice`, `D2DGraphics`, `D2DBitmap`, `D2DBrush`, `D2DPen`, `D2DGeometry` and subclasses, `D2DEffect`, `D2DLayer`, …) is an object-oriented facade over those P/Invokes. `D2DStructs.cs` defines the blittable structs (e.g. `D2DRect`, `D2DPoint`, `D2DColor`, `D2DEllipse`) that cross the boundary — keep them blittable and matching the C++ side. `D2DObject` is the common base for handle-owning wrappers; new wrapper types should inherit from it for consistent disposal.

@@ -493,4 +493,22 @@ namespace unvell.D2DLib
 	}
 	#endregion // Matrix5x4
 
+	/// <summary>Metrics of a <see cref="D2DTextLayout"/>; <see cref="Baseline"/> and
+	/// <see cref="LineHeight"/> are those of its first line.</summary>
+	[Serializable]
+	[StructLayout(LayoutKind.Sequential)]
+	public struct D2DTextLayoutMetrics
+	{
+		public FLOAT Left;
+		public FLOAT Top;
+		public FLOAT Width;
+		public FLOAT WidthIncludingTrailingWhitespace;
+		public FLOAT Height;
+		public FLOAT LayoutWidth;
+		public FLOAT LayoutHeight;
+		public UINT LineCount;
+		public FLOAT Baseline;
+		public FLOAT LineHeight;
+	}
+
 }

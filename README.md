@@ -147,6 +147,49 @@ g.DrawBitmap(mybmp, rect);
 g.PopTransform();
 ```
 
+## Hosting in an existing control
+
+`D2DControl` owns its paint loop. A control that has its own (and child windows such as scroll bars or text boxes) can create the device itself:
+
+```csharp
+// Blt-model swap chain: GDI child windows stay visible. Opaque: ClearType text.
+var device = D2DDevice.FromHwnd(this.Handle, D2DContextOptions.GdiCompatible | D2DContextOptions.Opaque);
+
+// A second window sharing the same GPU device (and its bitmaps):
+var editorDevice = D2DDevice.FromHwnd(editor.Handle, D2DContextOptions.GdiCompatible, shareDevicesWith: device);
+
+var g = new D2DGraphics(device);
+g.BeginRender(D2DColor.White);
+// ...
+if (!g.TryEndRender(out int hr)) { /* device lost: dispose and recreate */ }
+```
+
+Color-taking draw calls reuse one brush per device; pass a `D2DStrokeStyle` to `DrawLine` for dashes without a per-call stroke style.
+
+## Device-independent text layouts
+
+`D2DTextFormat.Create` / `D2DTextLayout.Create` need no device: lay text out once, measure it (`Metrics` gives the width and the first line's baseline), and draw it on any device. Laying out is what text costs, so keep layouts of text you redraw.
+
+```csharp
+var format = D2DTextFormat.Create("Arial", 13.3f);
+var layout = D2DTextLayout.Create("Total 合計", format, 120, 1000,
+  options: D2DTextLayoutOptions.NoWrap | D2DTextLayoutOptions.TrimEllipsis);
+layout.SetFontFamily(6, 2, "MS Gothic");   // per-range font
+g.DrawText(layout, new D2DPoint(10, 10), D2DColor.Black);
+```
+
+## Off-screen rendering with pixel read-back
+
+```csharp
+using var device = D2DDevice.CreateOffscreen(800, 600);
+var g = new D2DGraphics(device);
+g.BeginRender(D2DColor.White);
+// ...
+g.EndRender();
+var pixels = new byte[800 * 4 * 600];          // 32bpp premultiplied BGRA
+device.CopyPixels(pixels, 800 * 4);
+```
+
 # Examples
 
 Fast images rendering

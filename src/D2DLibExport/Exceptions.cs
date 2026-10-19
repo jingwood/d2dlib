@@ -31,6 +31,18 @@ namespace unvell.D2DLib
 		}
 	}
 
+	public class D2DContextCreationFailedException : Exception
+	{
+		public int HResult32 { get; }
+
+		public D2DContextCreationFailedException(int hresult) :
+			base($"Creating the Direct2D context failed (HRESULT 0x{hresult:X8}).")
+		{
+			this.HResult32 = hresult;
+			this.HResult = hresult;
+		}
+	}
+
 	public class CreatePathGeometryFailedException : Exception
 	{
 		public CreatePathGeometryFailedException()

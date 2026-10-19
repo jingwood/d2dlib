@@ -41,9 +41,46 @@ namespace unvell.D2DLib
 			return new D2DDevice(contextHandle);
 		}
 
+		/// <summary>Create a device for <paramref name="hwnd"/> with <paramref name="options"/>. With
+		/// <paramref name="shareDevicesWith"/> the new device reuses that device's factory and GPU device, so
+		/// device resources such as bitmaps work on both and a second window costs no second GPU device.</summary>
+		/// <exception cref="D2DContextCreationFailedException">The device could not be created.</exception>
+		public static D2DDevice FromHwnd(HWND hwnd, D2DContextOptions options, D2DDevice? shareDevicesWith = null)
+		{
+			HANDLE contextHandle = D2D.CreateContextEx(hwnd, options, shareDevicesWith?.Handle ?? HANDLE.Zero);
+			if (contextHandle == HANDLE.Zero) throw new D2DContextCreationFailedException(D2D.GetLastCreateError());
+			return new D2DDevice(contextHandle);
+		}
+
+		/// <summary>Create an off-screen device drawing into a CPU-side 32bpp premultiplied BGRA bitmap of
+		/// <paramref name="width"/>×<paramref name="height"/> pixels. Draw through a <see cref="D2DGraphics"/>
+		/// and read the result with <see cref="CopyPixels"/> after <see cref="D2DGraphics.EndRender"/>.</summary>
+		/// <exception cref="D2DContextCreationFailedException">The device could not be created.</exception>
+		public static D2DDevice CreateOffscreen(int width, int height, float dpi = 96f, D2DContextOptions options = D2DContextOptions.None)
+		{
+			HANDLE contextHandle = D2D.CreateWicBitmapContext((uint)width, (uint)height, dpi, dpi, options);
+			if (contextHandle == HANDLE.Zero) throw new D2DContextCreationFailedException(D2D.GetLastCreateError());
+			return new D2DDevice(contextHandle);
+		}
+
+		/// <summary>Copy the pixels of an off-screen device (see <see cref="CreateOffscreen"/>) into
+		/// <paramref name="buffer"/>, rows <paramref name="stride"/> bytes apart. Returns the HRESULT.</summary>
+		public int CopyPixels(byte[] buffer, int stride)
+		{
+			return D2D.CopyContextPixels(this.Handle, buffer, (uint)stride, (uint)buffer.Length);
+		}
+
 		public void Resize()
 		{
 			if (Handle != HANDLE.Zero) D2D.ResizeContext(this.Handle);
+		}
+
+		/// <summary><see cref="Resize"/> that reports failure: false (with the HRESULT) means the device
+		/// was lost and must be recreated.</summary>
+		public bool TryResize(out int hresult)
+		{
+			hresult = Handle != HANDLE.Zero ? D2D.ResizeContextEx(this.Handle) : 0;
+			return hresult >= 0;
 		}
 
 		public D2DStrokeStyle? CreateStrokeStyle(float[]? dashes = null, float dashOffset = 0.0f,

@@ -274,6 +274,48 @@ namespace unvell.D2DLib
 		Immediately = 0x00000002,
 	}
 
+	/// <summary>Options for <see cref="D2DDevice.FromHwnd(HWND, D2DContextOptions, D2DDevice?)"/> and
+	/// <see cref="D2DDevice.CreateOffscreen"/>.</summary>
+	[Flags]
+	public enum D2DContextOptions
+	{
+		None = 0,
+		/// <summary>Present synchronized to the vertical blank.</summary>
+		VSync = 0x1,
+		/// <summary>A bit-block-transfer swap chain instead of the flip model: GDI drawing in the same
+		/// window — child controls such as scroll bars and text boxes — stays visible.</summary>
+		GdiCompatible = 0x2,
+		/// <summary>An opaque target (no alpha channel), which lets ClearType text render on it.</summary>
+		Opaque = 0x4,
+		/// <summary>Use the WARP software rasterizer even when a GPU is available.</summary>
+		ForceWarp = 0x8,
+	}
+
+	/// <summary>Options for <see cref="D2DTextLayout.Create"/>.</summary>
+	[Flags]
+	public enum D2DTextLayoutOptions
+	{
+		None = 0,
+		/// <summary>Keep the text on one line however long it is.</summary>
+		NoWrap = 0x1,
+		/// <summary>Cut text that does not fit the maximum width at a character and end it with an ellipsis.</summary>
+		TrimEllipsis = 0x2,
+		Underline = 0x4,
+		Strikethrough = 0x8,
+	}
+
+	[Flags]
+	public enum D2DDrawTextOptions
+	{
+		None = 0,
+		/// <summary>Do not snap the text to pixel boundaries vertically.</summary>
+		NoSnap = 0x1,
+		/// <summary>Clip the text to the layout box.</summary>
+		Clip = 0x2,
+		/// <summary>Draw color font glyphs (emoji) in color.</summary>
+		EnableColorFont = 0x4,
+	}
+
 	public enum D2DDashStyle
 	{
 		Solid = 0,

@@ -258,6 +258,76 @@ namespace unvell.D2DLib
 
 		#endregion // Text
 
+		#region Context (extended)
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateContextEx([In] HANDLE hwnd, D2DContextOptions options, HANDLE shareDevicesWith);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateWicBitmapContext(UINT width, UINT height, FLOAT dpiX, FLOAT dpiY, D2DContextOptions options);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int CopyContextPixels(HANDLE context, [Out] byte[] buffer, UINT stride, UINT bufferSize);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int GetLastCreateError();
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int ResizeContextEx([In] HANDLE context);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int EndRenderEx([In] HANDLE context);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawLineWithStrokeStyle(HANDLE context, D2DPoint start, D2DPoint end, D2DColor color,
+			FLOAT width, HANDLE strokeStyle);
+
+		#endregion // Context (extended)
+
+		#region Text layout
+
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateTextFormatEx([In] string fontFamily, FLOAT fontSize,
+			D2DFontWeight fontWeight, D2DFontStyle fontStyle, D2DFontStretch fontStretch, [In] string? locale);
+
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern HANDLE CreateTextLayoutEx([In] string text, UINT length, HANDLE textFormat,
+			FLOAT maxWidth, FLOAT maxHeight, DWriteTextAlignment halign, DWriteParagraphAlignment valign,
+			D2DTextLayoutOptions options);
+
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SetTextLayoutFontFamily(HANDLE textLayout, UINT start, UINT length, [In] string fontFamily);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SetTextLayoutFontSize(HANDLE textLayout, UINT start, UINT length, FLOAT fontSize);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SetTextLayoutFontWeight(HANDLE textLayout, UINT start, UINT length, D2DFontWeight fontWeight);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SetTextLayoutFontStyle(HANDLE textLayout, UINT start, UINT length, D2DFontStyle fontStyle);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SetTextLayoutUnderline(HANDLE textLayout, UINT start, UINT length, BOOL underline);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SetTextLayoutStrikethrough(HANDLE textLayout, UINT start, UINT length, BOOL strikethrough);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int SetTextLayoutMaxSize(HANDLE textLayout, FLOAT maxWidth, FLOAT maxHeight);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int GetTextLayoutMetrics(HANDLE textLayout, out D2DTextLayoutMetrics metrics);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void DrawTextLayoutWithColor(HANDLE context, HANDLE textLayout, D2DPoint origin,
+			D2DColor color, D2DDrawTextOptions options);
+
+		[DllImport(DLL_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int FontFamilyHasCharacters([In] string fontFamily, [In] string chars, UINT length);
+
+		#endregion // Text layout
+
 		#region Geometry
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
